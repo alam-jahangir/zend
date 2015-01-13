@@ -1,6 +1,6 @@
 # zend
 Dealer Management Website. Demo Link: http://jakatoo.com/ and http://jakatoo.com/admin/login
-Functional Description:
+<br />Functional Description:
 <br />Paypal recurring Subscription (For membership management)
 <br /> Paypal Standard Payment
 <br />Attribute/Attribute Set/ Cateory Management from admin
