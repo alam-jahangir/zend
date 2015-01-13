@@ -1,0 +1,26 @@
+<div class="main">
+
+	<div class="page_title">
+		<h3>Settings</h3>
+	</div>
+
+
+	<div class="content">  
+	    <form class="form-horizontal" id="model_form" method="post" action="" enctype="multipart/form-data">
+            	<?php foreach ($this->settings as $key => $value): ?>
+                <div class="row">
+                     <label class="form-label span5" for="name" style="text-align: left;">
+						<?php echo $value['label']; ?>
+					</label>
+                    <input class="inputArea" id="<?php echo $value['code']; ?>" name="<?php echo $value['code']; ?>" type="text" value="<?php echo $value['value']; ?>"  />
+                </div>
+                <?php endforeach; ?>
+	    
+                <div class="row">
+                    <button id="successR" type="submit" class="btn marginR10 btn-success pull-right">Save</button>
+                </div>
+	           
+	    </form>
+	   
+	</div>  
+</div>

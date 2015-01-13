@@ -1,0 +1,106 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<?php $noImage = $url.$this->basePath('assets/design/frontend/default/images/no-image.png'); ?>
+<script type="text/javascript">
+//<!--
+/*
+$(document).ready(function() {
+	$('.itme_grid .list__item').bind('touchstart touchenter mouseover', function(e){
+		e.preventDefault();
+        $(this).addClass("hover");;
+    });
+    
+    $('.itme_grid .list__item').bind('touchend touchleave mouseout', function(e){
+		e.preventDefault();
+        $(this).removeClass("hover");
+    });
+});
+*/
+    //-->
+</script>
+<div class="gallery">
+	<?php echo $this->render('include/navigation.phtml'); ?>
+	<div class="fright gallery_middle">
+		
+		<?php echo $this->render('include/add.phtml'); ?>
+		
+		<div class="list_of_gallery fleft">
+		
+			<div class="page_title">
+				<h3><?php echo $this->title; ?></h3>
+			</div>
+			
+			<div class="grid_panel my_uploads">
+				<?php if (count($this->paginator)): ?>
+				<ul class="itme_grid">
+					<?php $i = 1; foreach ($this->paginator as $item): ?>
+					<li class="list__item <?php echo $i==3 ? 'last': ($i == 1 ? 'first': ''); ?>">
+						<div class="product_name">
+							<a href="<?php echo $this->url('details', array('id' => $item['id'])) ?>">
+								<h3><?php echo substr($item['name'], 0, 42).(strlen($item['name']) > 42 ? '...' : ''); ?></h3>
+							</a>
+						</div>
+						<?php
+						$image = '';
+						if ($item['image']) { 
+							$image = $item['image']; 
+						}
+						?>
+						<div class="product_image">
+							<a href="<?php echo $this->url('details', array('id' => $item['id'])) ?>">
+								<img src="<?php echo $image != '' ? $url.$this->basePath('media/product/'.$image) : $noImage; ?>" />
+							</a>
+						</div>
+						<?php 
+						$currency = '';
+						if ($item['currency'] == 'euro') { 
+							$currency = '&euro; '; 
+						} elseif ($item['currency'] == 'dollar') { 
+							$currency = '$ '; 
+						}  elseif ($item['currency'] == 'fr') { 
+							$currency = 'fr. '; 
+						}
+						if ($i == 3)
+							$i = 1;
+						else
+							$i++;
+						?>
+						<div class="product_price">
+							<?php echo $currency; ?> 
+							<?php echo number_format($item['recommanded_price'], 2); ?>
+						</div>
+						
+						<div class="details_region" style="display:block;text-align:center">
+							<div class="details_content">
+								<div class="product_price">
+									Dealer Price:&nbsp;
+									<?php echo $currency; ?> 
+									<?php if ($this->uid): ?>
+										<?php echo number_format($item['dealer_price'], 2); ?>
+									<?php endif; ?>
+								</div>
+							</div>
+						</div>
+						
+					</li>
+					<?php endforeach; ?>
+				</ul>
+				
+				<div class="pagination">
+					<?php echo $this->paginationControl(
+                                    $this->paginator,
+                                    'Sliding',
+                                    'include/pagination_control.phtml',
+                                    array('route' => 'my_favourites', 'action' => 'myFavourites')
+                            ); 
+                    ?>
+                </div>
+				<?php else: ?>
+	                <div>
+	                    <p>--No data found--</p>
+	                </div>
+				<?php endif; ?>
+			</div>
+			
+		</div>
+	</div>
+</div>

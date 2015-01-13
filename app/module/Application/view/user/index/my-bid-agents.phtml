@@ -1,0 +1,84 @@
+<div class="wrapper articlewrapper mybid agent">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="span9 left">
+                    <div class="row-fluid">
+                        <div class="span12 top">
+                            <div class="span12">
+                                <div class="row-fluid">
+                                    <div class="span12 title">
+                                        My bid Agents
+                                    </div>
+                                    <div class="span12 desc">
+                                        Here you can lorem ipsum dolor sit amet velit sit amet est. Curabitur tempor posuere libero, eget adipiscing lacus.
+                                        Nunc sit amet urna ut leo sollicitudin interdum. In nibh quam, gravida in rhoncus non, placerat a lorem.  
+                                    </div>
+                                    <div class="span12 bidtable">
+                                        
+                                        <div class="title">Current Bid Agents</div>
+                                        
+                                        <div class="table-wrapper">
+                                        <div class="scrollable">
+                                            <table class="responsive table">
+                                                <thead>
+                                                  <tr>
+                                                    <th>Auction product</th>
+                                                    <th><center>Min. Price</center></th>
+                                                    <th><center>Max. Price</center></th>
+                                                    <th><center>Bids left</center></th>
+                                                    <th>Date</th>
+                                                    <th class="last">Options</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                
+                                                   <?php foreach ($this->paginator as $agent): ?>
+                                                  <tr>
+                                                    <td class="first colortitle">
+                                                        <?php  
+                                                        if ($agent->image_name): 
+                                                            $filename = 'media/auction/'.$agent->product_id.'/79x77/'.$agent->image_name;
+                                                        ?>
+                                                            <img alt="<?php echo $agent->name; ?>" src="<?php echo $this->basePath($filename); ?>" />
+                                                        <?php else: ?>
+                                                            <img width="79" height="77" alt="<?php echo $agent->name; ?>" src="<?php echo $this->basePath('assets/design/frontend/images/boximage.jpg'); ?>" />
+                                                        <?php endif; ?>
+                                                        <a href="<?php echo $this->url('application', array('action' => 'auctions-view', 'id' => $agent->product_id)); ?>">
+                                                            <?php echo $agent->name; ?>
+                                                        </a>
+                                                    </td>
+                                                    <td><center><?php echo number_format($agent->min_price, 2, ',', ' '); ?></center></td>
+                                                    <td class="first"><center><?php echo number_format($agent->max_price, 2, ',', ' '); ?></center></td>
+                                                    <td><center><?php echo $agent->number_autobid; ?></center></td>
+                                                    <td class="first"><?php echo date('d/m/Y h:i:s', strtotime($agent->created_date)); ?></td>
+                                                    <td class="last">
+                                                          <center><button class="btn btn-primary" type="submit" onclick="window.location='<?php echo $this->url('application', array('action' => 'auctions-view', 'id' => $agent->product_id, 'aid' => $agent->bid_agent_id)); ?>'">Edit</button><br />
+                                                          <button class="btn" onclick="window.location='<?php echo $this->url('user', array('action' => 'delete-agent','id' => $agent->bid_agent_id)); ?>'">Delete</button></center>
+                                                    </td>
+                                                  </tr>
+                                                  <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                            
+                                            <?php echo $this->paginationControl(
+                                                        $this->paginator,
+                                                        'Sliding',
+                                                        'include_main/pagination_control.phtml',
+                                                        array('route' => 'my_bid_agents')
+                                                ); 
+                                            ?>
+                                        </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            
+            <?php echo $this->render("include_main/right_sidebar_home.phtml"); ?>
+            
+        </div>
+    </div>   
+</div>

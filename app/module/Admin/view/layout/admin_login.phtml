@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+    <?php echo $this->partial("admin_include/head.phtml"); ?>
+   
+    <body>
+    
+        <div class="container">
+        
+			<header>
+			
+				<div class="header">
+					<div class="header_container">
+						 <div class="fleft logo">
+							<h2>jakato</h2>
+						 </div>
+						 <div class="fright menu">
+							<nav></nav>
+					 	</div>
+					</div>
+				 </div>
+				 
+				 <div class="header_container">
+					 <div class="fleft" style="width:40%;">
+					 </div>
+					 <div class="fright login"></div>
+				</div>
+			</header>
+            
+			
+			<div class="main">
+				<div class="back_office">
+					<div class="content" style="margin-top: 75px;">  
+				     	<?php echo $this->partial("admin_include/global_message.phtml"); ?>
+				        <!-- Main Container -->
+				        <?php echo $this->content; ?>
+				        <!-- End Main Container -->
+     				</div>
+     			</div>
+     		</div>
+     		
+     		<footer>
+				<div class="disclaimer"></div>
+			</footer>
+			
+     	</div>
+        
+    </body>
+    
+</html>

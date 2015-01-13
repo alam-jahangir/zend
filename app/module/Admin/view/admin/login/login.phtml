@@ -1,0 +1,56 @@
+<script type="text/javascript">
+//<!--
+    $(document).ready(function() {
+    
+        $("#loginForm").validate({
+            rules: {
+                username: {
+                    required: true,
+                    minlength: 4
+                },
+                password: {
+                    required: true,
+                    minlength: 6
+                }  
+            },
+            messages: {
+                username: {
+                    required: "Fill me please",
+                    minlength: "My name is bigger"
+                },
+                password: {
+                    required: "Please provide a password",
+                    minlength: "My password is more that 6 chars"
+                }
+            }   
+        });
+    });
+    //-->
+</script>
+
+<div class="main">
+	<div class="log_in">
+		<div class="page_title">
+			
+		</div>
+		<div class="content">
+			<form class="form-horizontal" method="post" action="" id="loginForm">
+			
+				<div>
+					<input tabindex="1" class="span12" id="username" type="text" name="username" value="Administrator" onfocus="if (this.value=='Administrator') this.value='';" onblur="if (this.value=='') this.value='Administrator';" />
+				</div>
+			
+				<div>
+					<input class="span12" tabindex="2" id="password" type="text" name="password" value="Password" onfocus="if (this.type=='text'){ this.type='password';this.value='';}" onblur="if (this.value==''){ this.type='text'; this.value='Password';}" />
+				</div>
+			
+				<div style="margin-right:50px">
+					<button type="submit" tabindex="4" class="btn btn-info fright" id="loginBtn" style="display: inline;">Login</button>
+				</div>
+            
+			</form>
+			
+		</div>
+	</div>
+</div>
+    

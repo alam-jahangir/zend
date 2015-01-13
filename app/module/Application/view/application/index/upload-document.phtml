@@ -1,0 +1,191 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/plugins/validate/jquery.validate.min.js'); ?>"></script>
+<script type="text/javascript">
+//<!--
+    $(document).ready(function() {
+    	
+    	$(".passport_image_btn").click(function(e) {
+    		e.preventDefault();
+		    $("input[id='passport_image']").click();
+		    return false;
+		});
+		
+		$(".mobile_invoice_image_btn").click(function(e) {
+			e.preventDefault();
+		    $("input[id='mobile_invoice_image']").click();
+		    return false;
+		});
+		
+		$(".tax_document_btn").click(function(e) {
+			e.preventDefault();
+		    $("input[id='tax_document']").click();
+		    return false;
+		});
+		
+		$(".passport_image1_btn").bind('touchstart click', function(){
+			e.preventDefault();
+		    $("input[id='passport_image1']").click();
+		    return false;
+		});
+		
+		$(".mobile_invoice_image1_btn").bind('touchstart click', function(){
+			e.preventDefault();
+		    $("input[id='mobile_invoice_image1']").click();
+		    return false;
+		});
+		
+		$(".tax_document1_btn").bind('touchstart click', function(){
+			e.preventDefault();
+		    $("input[id='tax_document1']").click();
+		    return false;
+		});
+		
+		$('#passport_image').change(function (e) {
+		    $('#passport_image_filename').html($(this).val());
+		});
+		
+		$('#mobile_invoice_image').change(function (e) {
+		    $('#mobile_invoice_image_filename').html($(this).val());
+		});
+		
+		$('#tax_document').change(function (e) {
+		    $('#tax_document_filename').html($(this).val());
+		});
+		
+    });
+    //-->
+</script>
+<div class="create_account">
+	<div class="page_title">
+		<h3></h3>
+	</div>
+	<div class="content">
+		<form class="submitForm" action="" method="post" id="create_account" enctype="multipart/form-data">
+			
+			<table width="100%" class="table_dispay">
+				<tr>
+					<td  valign="top" align="center">
+						<div class="doc_header">
+						Take a Picture<br />or scan <br />
+						your documents
+						</div>
+						<img width="70" height="70" src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/PastedGraphic-3.png'); ?>" alt="Jakato" />
+						<br />
+						<img width="70" height="70" src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/PastedGraphic-2.png'); ?>" alt="Jakato" />
+						<br />
+						<img width="70" height="70" src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/PastedGraphic-1.png'); ?>" alt="Jakato" />	
+					</td>
+					<td>
+						<table width="100%">
+							<tr>
+								<td valign="top" align="center">
+									<img src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/uspportlinsidecover2010.jpg'); ?>" alt="Jakato" />
+									<br /><br />
+									<span>Safe and Upload</span>
+								</td>
+								<td valign="top" align="center">
+									<img src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/attachment.jpeg'); ?>" alt="Jakato" />
+									<br /><br />
+									<span>Safe and Upload</span>
+								</td>
+								<td valign="top" align="center">
+									<img src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/gewerbeanmeldung.jpg'); ?>" alt="Jakato" />
+									<br /><br />
+									<span>Safe and Upload</span>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="backgroundblue" valign="top" width="10%" class="" style="padding: 0px;">
+	                    <img src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/two.png'); ?>" alt="Jakato" />
+	                    <div style="font-size:10px;padding:0px 5px">( PDF, JPEG, TIFF, PNG, GIF )</div>
+	                </td>
+					<td valign="top" class="backgroundblue" style="padding:20px 20px 0 33px;">
+	                    <div class="createaccount_form">
+	                          <table width="100%">
+	    
+	                             <tr>
+	                                <td valign="top" class="backgroundblue" align="left">
+	                                  <div style="width:100px;height:130px;float:left">
+									   <input type="image" class="passport_image_btn" src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/1407433089_image_add.png'); ?>" style="width:80px;height:80px" />
+									   <div id="passport_image_filename" style="font-size:14px">
+									   		<?php echo isset($this->data['passport_image']) ? $this->data['passport_image'] : ''; ?>
+									   </div>
+									   </div>
+									   <font style="font-size:14px">Click on + <br/>to upload a copy <br/>of your <br/>passport or ID card</font>
+	                                   <input type="file" id="passport_image" name="passport_image" style="display: none;" />
+	                                </td>
+	                                
+	                                <td valign="top" class="backgroundblue" align="left">
+	                                	<div style="width:100px;height:130px;float:left">
+	                                   		<input type="image" class="mobile_invoice_image_btn" src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/1407433089_image_add.png'); ?>" style="width:80px;height:80px" />
+		                                   	<div id="mobile_invoice_image_filename" style="font-size:14px">
+											    <?php echo isset($this->data['mobile_invoice_image']) ? $this->data['mobile_invoice_image'] : ''; ?>
+											</div>
+	                                   	</div>
+	                                   <font style="font-size:14px">Click on + <br/>to upload a copy <br/>of your <br/>last mobile invoice</font>
+	                                   <input type="file" id="mobile_invoice_image" name="mobile_invoice_image" style="display: none;" />
+	                                </td>
+	                                
+	                                <td valign="top" class="backgroundblue" align="left">
+	                                	<div style="width:100px;height:130px;float:left">
+	                                   		<input type="image" class="tax_document_btn" src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/1407433089_image_add.png'); ?>" style="width:80px;height:80px" />
+	                                   		<div id="tax_document_filename" style="font-size:14px">
+												<?php echo isset($this->data['tax_document']) ? $this->data['tax_document'] : ''; ?>   
+											</div>
+	                                   	</div>
+	                                   <font style="font-size:14px">Click on + <br/>to upload a copy <br/>of your <br/>business registration</font>
+	                                   <input type="file" id="tax_document" name="tax_document" style="display: none;" />
+	                                </td>
+	                             </tr>
+	                          </table>
+	                    </div>
+					</td>
+				</tr>
+			</table>
+				
+			<table width="100%" class="table_hide">
+				<tr>
+					<td class="backgroundblue" valign="top" width="10%" class="" style="padding: 0px;">
+	                      <img src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/two.png'); ?>" alt="Jakato" />
+	                </td>
+					<td valign="top" class="backgroundblue" style="padding:20px 20px 0 33px;">
+	                    <div class="createaccount_form">
+	                          <table width="100%">
+	                             <tr>
+	                                <td valign="top" class="backgroundblue" align="left">
+	                                  <input type="image" class="passport_image1_btn" src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/upload_file_button.png'); ?>" style="width: 39% !important;margin-right: 65px;" />
+									   <input type="file" id="passport_image1" name="passport_image1" style="display: none;" />
+	                                </td>
+								</tr>
+								<tr>
+	                                <td valign="top" class="backgroundblue" align="left">
+	                                   <input type="image" class="mobile_invoice_image1_btn" src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/upload_file_button.png'); ?>" style="width: 39% !important;margin-right: 65px;" />
+									   <input type="file" id="mobile_invoice_image1" name="mobile_invoice_image1" style="display: none;" />
+	                                </td>
+								</tr>
+								<tr>
+	                                <td valign="top" class="backgroundblue" align="left">
+	                                   <input type="image" class="tax_document1_btn" src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/upload_file_button.png'); ?>" style="width: 39% !important;margin-right: 65px;" />
+									   <input type="file" id="tax_document1" name="tax_document1" style="display: none;" />
+	                                </td>
+	                             </tr>
+	                            
+	                          </table>
+	                       
+	                    </div>
+					</td>
+				</tr>
+			</table>
+	        
+			<div class="details">
+				<h3 style="color: #B4B4B4;text-align: right;margin-left:5px;">Please check all your details again before sending 
+					<input type="image" src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/send_button.png'); ?>" style="width: 20%;float:right;margin-top: -8px;margin-left: 10px;" />
+				</h3>
+			</div>
+			
+		</form>
+	</div>
+</div>

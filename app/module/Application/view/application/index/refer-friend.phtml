@@ -1,0 +1,73 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/plugins/validate/jquery.validate.min.js'); ?>"></script>
+<script type="text/javascript">
+//<!--
+    $(document).ready(function() {
+    
+        $("#contact_support").validate({
+            rules: {
+                email: {
+                   required: true,
+                   email:true
+                },
+                friend_email: {
+                   required: true,
+                   email:true 
+                },
+                message: {
+                   required: true,
+                    minlength: 1,
+                    maxlength: 1000 
+                }
+            }
+        });
+    });
+    //-->
+</script>
+
+
+<?php
+$theme = $this->getSettings('theme');
+?>
+
+<div class="span12 gallery-single">
+
+    <div class="row stacks_content">
+        <div class="span12">
+            <h2>Share with Email</h2>
+            <form class="form-signup" action="" method="post" id="contact_support">  
+                <div class="form_content">
+                    <div class="itemWrap clearfix">
+                        <label style="text-align: left;" class="form-label" for="email">Your Email<em>*</em></label>
+                        <div class="inputboxWrap">
+                            <input class="span6 inputbox" id="email" name="email" type="text" />
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="itemWrap clearfix">
+                        <label style="text-align: left;" class="form-label" for="friend_email">Your Friend's Email<em>*</em></label>                                        <div class="inputboxWrap">
+                            <input class="span6 inputbox" id="friend_email" value="" name="friend_email" type="text" />
+                        </div>
+                    </div>
+                    
+                    <div class="itemWrap clearfix">
+                        <label style="text-align: left;" class="form-label" for="message">Message <em>*</em></label>
+                        <div class="inputboxWrap">
+                            <textarea class="span6 inputbox" id="message" name="message" rows="4"></textarea>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+
+                <div class="span12">
+                    <label class="none">&nbsp;</label>
+                    <button type="submit" class="btn btn-primary">Send Email</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div><!-- End gallery-single-->
+              

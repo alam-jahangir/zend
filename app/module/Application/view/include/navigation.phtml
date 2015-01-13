@@ -1,0 +1,59 @@
+<?php
+$currentNavIdName = '';
+$sm = $this->getHelperPluginManager()->getServiceLocator();
+$router = $sm->get('router');
+$request = $sm->get('request');
+$routeMatch = $router->match($request);
+if ($routeMatch) {
+    $routerName = $routeMatch->getMatchedRouteName();
+    $currentNavIdName = 'navigation_'.$routerName;
+}
+?>
+<script type="text/javascript">
+//<!--
+jQuery(document).ready(function($) {
+    $('.navigation ul li').removeClass('active');
+    $('#<?php echo $currentNavIdName; ?>').addClass('active');
+});
+//-->
+</script>
+<?php 
+$userinfo = $this->authenticate(); 
+$userActivation = 0;
+if ($userinfo)
+	$userActivation = $this->getUserActivation($userinfo->id); 
+?>	
+<div class="navigation fleft">
+	<ul>
+		<li id="navigation_search">
+			<a href="<?php echo $this->url('search'); ?>">SEARCH</a>
+		</li>
+		<li id="navigation_upload">
+			<a href="<?php echo $userActivation ? $this->url('upload') : $this->url('activation'); ?>">UPLOAD</a>
+		</li>
+		<li id="navigation_my_uploads">
+			<a href="<?php echo $userActivation ? $this->url('my_uploads') : $this->url('activation'); ?>">MY UPLOADS</a>
+		</li>
+		<li id="navigation_my_favourites">
+			<a href="<?php echo $userActivation ? $this->url('my_favourites') : $this->url('activation'); ?>">FAVOURITES</a>
+		</li>
+		<li id="navigation_item_settins">
+			<a href="<?php echo $userActivation ? $this->url('item_settins') : $this->url('activation'); ?>">ITEM SETTINGS</a>
+		</li>
+		<li id="navigation_item_rating">
+			<a href="<?php echo $userActivation ? $this->url('item_rating') : $this->url('activation'); ?>">RATING</a>
+		</li>
+		<li>
+			<a href="#">MY TOOLS</a>
+		</li>
+		<li>
+			<a href="#">MY WEBSITE</a>
+		</li>
+		<li>
+			<a href="#">BLOG</a>
+		</li>
+		<li id="navigation_account">
+			<a href="<?php echo $this->url('account'); ?>">MY ACCOUNT</a>
+		</li>
+	</ul>
+</div>

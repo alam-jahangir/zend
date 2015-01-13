@@ -1,0 +1,188 @@
+<script type="text/javascript">
+//<!--
+    $(document).ready(function() {
+    
+        $("input, textarea, select").not('.nostyle').uniform();
+        $("#user_form").validate({
+            rules: {
+                first_name: {
+                   required: true,
+                    minlength: 2,
+                    maxlength: 255 
+                },
+                last_name: {
+                   required: true,
+                    minlength: 2,
+                    maxlength: 255 
+                },
+                email_address: {
+                   required: true,
+                   minlength: 5,
+                   email:true,
+                   maxlength: 255 
+                },
+                username: {
+                    required: true,
+                    minlength: 4,
+                    maxlength:255
+                },
+                password: {
+                    required: true,
+                    minlength: 4,
+                    maxlength:255
+                },
+                confirm_password: {
+                    required: true,
+                    minlength: 4,
+                    maxlength:255,
+                    equalTo: '#password'
+                }   
+            },
+            messages: {
+                first_name: {
+                    required: "First Name is required",
+                    minlength: "Please enter First Name between 2 to 255 character!",
+                    minlength: "Please enter First Name between 2 to 255 character!"
+                },
+                last_name: {
+                    required: "Last Name is required",
+                    minlength: "Please enter Last Name between 2 to 255 character!",
+                    minlength: "Please enter Last Name between 2 to 255 character!"
+                },
+                email_address: {
+                    required: "Email Address is required",
+                    email: "Email address format is invalid",
+                    minlength: "Please enter Email Address between 5 to 255 character!",
+                    minlength: "Please enter Email Address between 5 to 255 character!"
+                },
+                username: {
+                    required: "Username is required",
+                    minlength: "Please enter Username between 4 to 255 character!",
+                    minlength: "Please enter Username between 4 to 255 character!"
+                },
+                password: {
+                    required: "Password is required",
+                    minlength: "Please enter Password between 4 to 255 character!",
+                    minlength: "Please enter Password between 4 to 255 character!"
+                },
+                confirm_password: {
+                    required: "Confirm Password is required",
+                    minlength: "Please enter Confirm Password between 4 to 255 character!",
+                    minlength: "Please enter Confirm Password between 4 to 255 character!",
+                    equalTo: 'Confirm Password and Password is not same'
+                }
+            }   
+        });
+    });
+    //-->
+</script>
+
+<style type="text/css">
+.wrapper.articlewrapper .row-fluid .span12.updateInfoBox .row-fluid .span12 .span6 .itemWrap label {
+    width: 28%;
+}
+.wrapper.articlewrapper .row-fluid .span12.updateInfoBox .row-fluid .span12 .span6 {
+    width: 72% !important;
+}
+</style>
+
+<div class="wrapper articlewrapper">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="span9 left">
+                    <div class="row-fluid">
+                        <div class="span12 top">
+                            <div class="span12">
+                                <div class="row-fluid">
+                                    <div class="span12 title">
+                                        Sign Up
+                                    </div>
+                                    <div class="span12 desc borderNone">
+                                        Here you can lorem ipsum dolor sit amet velit sit amet est. Curabitur tempor posuere libero, eget adipiscing lacus.
+                                        Nunc sit amet urna ut leo sollicitudin interdum. In nibh quam, gravida in rhoncus non, placerat a lorem.
+                                    </div>
+                                                                        
+                                    <div class="span12 updateInfoBox">
+                                        <h3 class="border">Sign up Form</h3>
+                                        <div class="row-fluid">
+                                            <div class="span12">
+                                            <form class="form-signup" action="" method="post" id="user_form">  
+                                                <div class="span6">
+                                                    <div class="itemWrap clearfix">
+                                                        <label style="text-align: left;" class="form-label" for="first_name">First name <em>*</em></label>
+                                                        <div class="inputboxWrap">
+                                                            <input class="span6 inputbox" id="first_name" name="first_name" value="<?php echo isset($_POST['first_name']) ? $_POST['first_name'] : ''; ?>" type="text" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="itemWrap clearfix">
+                                                        <label style="text-align: left;" class="form-label" for="last_name">Last name <em>*</em></label>
+                                                        <div class="inputboxWrap">
+                                                            <input class="span6 inputbox" id="last_name" name="last_name" value="<?php echo isset($_POST['last_name']) ? $_POST['last_name'] : ''; ?>" type="text" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="itemWrap clearfix">
+                                                        <label style="text-align: left;" class="form-label" for="email_address">Email Address <em>*</em></label>                                                            
+                                                        <div class="inputboxWrap">
+                                                            <input class="span6 inputbox" id="email_address" value="<?php echo isset($_GET['email']) ? trim($_GET['email']) : ''; ?>" name="email_address" type="text" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="itemWrap clearfix">
+                                                        <label style="text-align: left;" class="form-label" for="username">User name <em>*</em></label>                                                            
+                                                        <div class="inputboxWrap">
+                                                            <input class="span6 inputbox" id="username" name="username" value="<?php echo isset($_POST['username']) ? $_POST['username'] : ''; ?>" type="text" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="itemWrap clearfix">
+                                                        <label style="text-align: left;" class="form-label" for="password">Password <em>*</em></label>                                                            
+                                                        <div class="inputboxWrap">
+                                                            <input class="span6 inputbox" id="password" name="password" type="password" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="itemWrap clearfix">
+                                                        <label style="text-align: left;" class="form-label" for="confirm_password">Confirm Password <em>*</em></label>                                                            
+                                                        <div class="inputboxWrap">
+                                                            <input class="span6 inputbox" id="confirm_password" name="confirm_password" type="password" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!--div class="span6">
+                                                    <div class="itemWrap right clearfix">
+                                                        <label>Phone Number:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="text" class="inputbox" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="itemWrap right clearfix">
+                                                        <label>Options:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="text" class="inputbox" />
+                                                        </div>
+                                                    </div>
+                                                </div-->
+                                                <div class="span12">
+                                                    <!--<button class="btn btn-primary pull-right marginL10 btn-danger" onclick="window.location = '<?php //echo $this->url('home'); ?>';">Cancel</button>-->
+                                                    <input name="passkey" type="hidden" value="<?php echo isset($_GET['r']) ? $_GET['r'] : '' ?>" />
+                                                    <button type="submit" class="btn btn-primary pull-right marginR10">Sign up</button>
+                                                </div>
+                                            </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            
+            
+            <?php echo $this->render("include_main/right_sidebar_home.phtml"); ?>
+            
+            
+            
+        </div>
+    </div>   
+</div>                

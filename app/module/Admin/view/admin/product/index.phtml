@@ -1,0 +1,657 @@
+
+               
+<div class="row-fluid">
+
+    <div class="span10">
+        <div class="centerContent">
+  
+            <ul class="bigBtnIcon">
+                <li>
+                    <a href="#myModal" data-toggle="modal" title="New Item">
+                        <div class="new-item-icon"><img src="<?php echo $this->basePath('assets/design/admin/admin/images/new_item_icon.png'); ?>" alt="" /></div>
+                        <div class="txt">New Item</div>
+                        <span class="notification green">+</span>
+                    </a>
+                    
+                    <!-- Boostrap modal dialog -->
+                    <div id="myModal" class="modal hide fade" style="display: none;text-align: left;">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal"><span class="icon12 minia-icon-close"></span></button>
+                          <h3>New Item</h3>
+                        </div>
+                        <div class="modal-body">
+                            
+                            <form action="#" class="form-horizontal">
+                        
+								<div class="form-row row-fluid">
+									<div class="span12">
+										<div class="row-fluid">
+											<label for="itemname" class="form-label" style="text-align: left;">Item Name</label>
+											<input name="itemname" type="text" id="normalInput" class="span6" />
+										</div>
+									</div>
+								</div> 
+								<div class="form-row row-fluid">
+                                    <div class="span12">
+                                        <div class="row-fluid">
+                                            <label class="form-label" for="fileinput" style="text-align: left;">Upload Image</label>
+                                            <input type="file" name="fileinput" id="file" />
+                                        </div>
+                                    </div>  
+                                </div>  
+                                <div class="form-row row-fluid">
+									<div class="span12">
+										<div class="row-fluid">
+											<label for="prize" class="form-label" style="text-align: left;">Prize</label>
+											<input name="prize" type="text" id="normalInput" class="span6" />
+										</div>
+									</div>
+								</div>                                                                            
+
+							</form>
+                    
+                        </div>
+                        <div class="modal-footer">
+                        
+                            <div class="form-row row-fluid">  
+								<div class="span12">
+									<div class="row-fluid">
+										<button id="successS" data-dismiss="modal" class="btn marginR5" type="submit">Add Item</button>
+										or
+										<button data-dismiss="modal" class="btn btn-danger">Close</button>
+									</div>
+								</div>  
+							</div> 
+                         
+                        </div>
+                      </div>
+                      <!-- Boostrap modal dialog -->
+                    
+                </li>
+                <li>
+                    <a href="#myModal1" data-toggle="modal" title="New Auction">
+                        <div class=""><img src="<?php echo $this->basePath('assets/design/admin/admin/images/new_auction_icon.png'); ?>" alt="" /></div>
+                        <div class="txt">New Auction</div>
+                        <span class="notification green">+</span>
+                    </a>
+                    
+                    <!-- Boostrap modal dialog -->
+                    <div id="myModal1" class="modal hide fade" style="display: none;text-align: left;">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal"><span class="icon12 minia-icon-close"></span></button>
+                          <h3>New Auction</h3>
+                        </div>
+                        <div class="modal-body">
+                            
+                            <form action="#" class="form-horizontal">
+                        
+								<div class="form-row row-fluid">
+									<div class="span12">
+										<div class="row-fluid">
+											<label for="auctionname" class="form-label" style="text-align: left;">Auction Name</label>
+											<input name="auctionname" type="text" id="normalInput" class="span6" />
+										</div>
+									</div>
+								</div> 
+								<div class="form-row row-fluid">
+                                    <div class="span12">
+                                        <div class="row-fluid">
+                                            <label class="form-label" for="fileinput" style="text-align: left;">Upload Image</label>
+                                            <input type="file" name="fileinput" id="file" />
+                                        </div>
+                                    </div>  
+                                </div>  
+                                <div class="form-row row-fluid">
+									<div class="span12">
+										<div class="row-fluid">
+											<label for="prize" class="form-label" style="text-align: left;">Prize</label>
+											<input name="prize" type="text" id="normalInput" class="span6" />
+										</div>
+									</div>
+								</div>                                                                            
+
+							</form>
+                    
+                        </div>
+                        <div class="modal-footer">
+                        
+                            <div class="form-row row-fluid">  
+								<div class="span12">
+									<div class="row-fluid">
+										<button id="successR" data-dismiss="modal" class="btn marginR5" type="submit">Add Auction</button>
+										or
+										<button id="noticeR" data-dismiss="modal" class="btn btn-danger">Close</button>
+									</div>
+								</div>  
+							</div> 
+                         
+                        </div>
+                      </div>
+                      <!-- Boostrap modal dialog -->
+                    
+                </li>
+                <li>
+                    <a href="#" title="Support Tickets">
+                        <div class=""><img src="<?php echo $this->basePath('assets/design/admin/admin/images/support_tickets_icon.png'); ?>" alt="" /></div>
+                        <div class="txt">Support Tickets</div>
+                        <span class="notificationNumber">11</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div><!-- End .row-fluid -->
+
+<div class="row-fluid">
+
+    <div class="span10">
+    
+        <div class="heading">
+
+            <h3>Auctions</h3>                    
+
+        </div><!-- End .heading-->
+
+    </div>
+
+</div>
+
+<div class="row-fluid">
+
+    <div class="span10 tableBox">
+        
+        <div class="row-fluid">
+
+            <div class="span8">
+                
+                <div class="row-fluid">
+                    
+                    <div class="span6">
+
+                        <div class="box">
+
+                            <div class="title">
+
+                                <h4>
+                                    <span class="titleIcon"><img src="<?php echo $this->basePath('assets/design/admin/admin/images/box_title_icon_bg.jpg'); ?>" alt="" /></span>
+                                    <span>Newest Auctions</span>
+                                </h4>
+                                <a class="minimize" href="#" style="display: none;">Minimize</a>
+                            </div>
+                            <div class="content">
+                                
+                                <ul>
+                                    <li class="clearfix">
+                                        <div class="txt">
+                                            <img src="images/ipadmini.png" />
+                                            <span class="by label">iPad Mini</span>
+                                            <span class="date badge badge-important">235,426</span>
+                                            <a href="#" title="Edit task" class="tip"><span class=""><img src="<?php echo $this->basePath('assets/design/admin/admin/images/brocco_icon_eye_bg.png'); ?>" alt="" /></span></a>                                                            
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <div class="txt">
+                                            <img src="images/ipadmini.png" />
+                                            <span class="by label">iPad Mini</span>
+                                            <span class="date badge badge-important">235,426</span>
+                                            <a href="#" title="Edit task" class="tip"><span class=""><img src="<?php echo $this->basePath('assets/design/admin/admin/images/brocco_icon_eye_bg.png'); ?>" alt="" /></span></a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <div class="txt">
+                                            <img src="images/ipadmini.png" />
+                                            <span class="by label">iPad Mini</span>
+                                            <span class="date badge badge-important">235,426</span>
+                                            <a href="#" title="Edit task" class="tip"><span class=""><img src="<?php echo $this->basePath('assets/design/admin/admin/images/brocco_icon_eye_bg.png'); ?>" alt="" /></span></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                                
+                                <center><button href="#" class="btn btn-success">Browse Auctions</button></center>
+                                
+                            </div>
+
+                        </div><!-- End .box -->
+
+                    </div>
+                    
+                    <div class="span6">
+                       
+                        <div class="box">
+
+                            <div class="title">
+
+                                <h4>
+                                    <span class=""><img src="<?php echo $this->basePath('assets/design/admin/admin/images/box_title_icon_bg.jpg'); ?>" alt="" /></span>
+                                    <span>Closing Auctions</span>
+                                </h4>
+                                <a class="minimize" href="#" style="display: none;">Minimize</a>
+                            </div>
+                            <div class="content">
+                                
+                                <ul>
+                                    <li class="clearfix">
+                                        <div class="txt">
+                                            <img src="images/ipadmini.png" />
+                                            <span class="by label">iPad Mini</span>
+                                            <span class="date badge badge-important">235,426</span>
+                                            <a href="#" title="Edit task" class="tip"><span class=""><img src="<?php echo $this->basePath('assets/design/admin/admin/images/brocco_icon_eye_bg.png'); ?>" alt="" /></span></a>                                                            
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <div class="txt">
+                                            <img src="images/ipadmini.png" />
+                                            <span class="by label">iPad Mini</span>
+                                            <span class="date badge badge-important">235,426</span>
+                                            <a href="#" title="Edit task" class="tip"><span class=""><img src="<?php echo $this->basePath('assets/design/admin/admin/images/brocco_icon_eye_bg.png'); ?>" alt="" /></span></a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <div class="txt">
+                                            <img src="images/ipadmini.png" />
+                                            <span class="by label">iPad Mini</span>
+                                            <span class="date badge badge-important">235,426</span>
+                                            <a href="#" title="Edit task" class="tip"><span class=""><img src="<?php echo $this->basePath('assets/design/admin/admin/images/brocco_icon_eye_bg.png'); ?>" alt="" /></span></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                                
+                                <center><button href="#" class="btn btn-success">Browse Auctions</button></center>
+                                
+                            </div>
+
+                        </div><!-- End .box -->
+                       
+                    </div>
+                    
+                </div>
+                
+                 <div class="row-fluid">
+                 
+                    <div class="box">
+
+                        <div class="title">
+
+                            <h4>
+                                <span class=""><img src="images/box_title_icon2_bg.png" alt="" /></span>
+                                <span>Profit tracker</span>
+                            </h4>
+                            <a class="minimize" href="#" style="display: none;">Minimize</a>
+                        </div>
+                        <div class="content">
+                                                                                                        
+                            <div class="row-fluid">
+
+                                <div class="btn-group" data-toggle="buttons-radio">
+                                    <button class="btn btn-primary">24 hours</button>
+                                    <button class="btn btn-primary">7 days</button>
+                                    <button class="btn btn-primary">14 days</button>
+                                    <button class="btn btn-primary active">1 month</button>
+                                </div>
+
+                            </div>
+                            
+                            <div class="row-fluid">
+                                <div class="lines-chart" style="height: 230px;width:100%;"></div>
+                            </div>
+                            
+                            <div class="row-fluid">
+                                
+                                <div class="span6">
+
+                                    <div class="box profit">
+        
+                                        <div class="title">
+        
+                                            <h4>
+                                                <span class=""><img src="<?php echo $this->basePath('assets/design/admin/admin/images/highest_profit_title_arrow.png'); ?>" alt="" /></span>
+                                                <span>Highest Profit</span>
+                                            </h4>
+                                            <a class="minimize" href="#" style="display: none;">Minimize</a>
+                                        </div>
+                                        <div class="content">
+                                            
+                                            <ul>
+                                                <li class="clearfix">
+                                                    <div class="txt">
+                                                        <div class="productImg">
+                                                            <img src="<?php echo $this->basePath('assets/design/admin/admin/images/profit_product_img.jpg'); ?>" alt="" />
+                                                        </div>
+                                                        <div class="productInfo">
+                                                            <h3>iPad Mini</h3>
+                                                            <div class="parcentages">850 %</div>
+                                                            <div class="closed_date">Closed: 03/01/2013</div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="clearfix">
+                                                    <div class="txt">
+                                                        <span class="by label">iPad Mini</span>
+                                                        <span class="date badge badge-important">15/12/2012</span>
+                                                        <span class="by label last">478%</span>                                                            
+                                                    </div>
+                                                </li>
+                                                <li class="clearfix">
+                                                    <div class="txt">
+                                                        <span class="by label">iPad Mini</span>
+                                                        <span class="date badge badge-important">15/12/2012</span>
+                                                        <span class="by label last">478%</span>                                                            
+                                                    </div>
+                                                </li>
+                                                <li class="clearfix">
+                                                    <div class="txt">
+                                                        <span class="by label">iPad Mini</span>
+                                                        <span class="date badge badge-important">15/12/2012</span>
+                                                        <span class="by label last">478%</span>                                                            
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            
+                                        </div>
+        
+                                    </div><!-- End .box -->
+        
+                                </div>
+                                
+                                <div class="span6 right">
+                                   
+                                    <div class="box profit">
+        
+                                        <div class="title">
+        
+                                            <h4>
+                                                <span class=""><img src="<?php echo $this->basePath('assets/design/admin/admin/images/lowest_profit_title_arrow.png'); ?>" alt="" /></span>
+                                                <span>Lowest Profit</span>
+                                            </h4>
+                                            <a class="minimize" href="#" style="display: none;">Minimize</a>
+                                        </div>
+                                        <div class="content">
+                                            
+                                            <ul>
+                                                <li class="clearfix">
+                                                    <div class="txt">
+                                                        <div class="productImg">
+                                                            <img src="<?php echo $this->basePath('assets/design/admin/admin/images/profit_product_img.jpg'); ?>" alt="" />
+                                                        </div>
+                                                        <div class="productInfo">
+                                                            <h3>iPad Mini</h3>
+                                                            <div class="parcentages">850 %</div>
+                                                            <div class="closed_date">Closed: 03/01/2013</div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="clearfix">
+                                                    <div class="txt">
+                                                        <span class="by label">iPad Mini</span>
+                                                        <span class="date badge badge-important">15/12/2012</span>
+                                                        <span class="by label last">478%</span>                                                            
+                                                    </div>
+                                                </li>
+                                                <li class="clearfix">
+                                                    <div class="txt">
+                                                        <span class="by label">iPad Mini</span>
+                                                        <span class="date badge badge-important">15/12/2012</span>
+                                                        <span class="by label last">478%</span>                                                            
+                                                    </div>
+                                                </li>
+                                                <li class="clearfix">
+                                                    <div class="txt">
+                                                        <span class="by label">iPad Mini</span>
+                                                        <span class="date badge badge-important">15/12/2012</span>
+                                                        <span class="by label last">478%</span>                                                            
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            
+                                        </div>
+        
+                                    </div><!-- End .box -->
+                                   
+                                </div>
+                                
+                            </div>
+                                                                                                                    
+                        </div>
+
+                    </div><!-- End .box -->
+                 
+                 </div>                            
+                
+            </div>
+            
+            <div class="span4">
+                
+                <div class="box">
+
+                    <div class="title">
+
+                        <h4>
+                            <span class=""><img src="<?php echo $this->basePath('assets/design/admin/admin/images/box_title_icon_bg.jpg'); ?>" alt="" /></span>
+                            <span>Most Visited</span>
+                        </h4>
+                        <a class="minimize" href="#" style="display: none;">Minimize</a>
+                    </div>
+                    <div class="content">
+                       
+                       <ul class="unstyled">
+                            <li>
+                                iPad Mini <span class="number">235,426</span>
+                            </li>
+                            <li>
+                                iPad Mini <span class="number">153,758</span>
+                            </li>
+                            <li> 
+                                iPad Mini <span class="number">3,698,278</span>
+                            </li>
+                        </ul>
+                       
+                    </div>
+
+                </div><!-- End .box -->
+                
+                <div class="box">
+
+                    <div class="title">
+
+                        <h4>
+                            <span class=""><img src="<?php echo $this->basePath('assets/design/admin/admin/images/box_title_icon_bg.jpg'); ?>" alt="" /></span>
+                            <span>Most Bidded</span>
+                        </h4>
+                        <a class="minimize" href="#" style="display: none;">Minimize</a>
+                    </div>
+                    <div class="content">
+                        
+                        <ul class="unstyled">
+                            <li>
+                                iPad Mini <span class="number">235,426</span>
+                            </li>
+                            <li>
+                                iPad Mini <span class="number">153,758</span>
+                            </li>
+                            <li> 
+                                iPad Mini <span class="number">3,698,278</span>
+                            </li>
+                        </ul>
+                        
+                    </div>
+
+                </div><!-- End .box -->
+                
+                <div class="box">
+
+                    <div class="title">
+
+                        <h4>
+                            <span class=""><img src="<?php echo $this->basePath('assets/design/admin/admin/images/box_title_icon_bg.jpg'); ?>" alt="" /></span>
+                            <span>Newsest Users</span>
+                        </h4>
+                        <a class="minimize" href="#" style="display: none;">Minimize</a>
+                    </div>
+                    <div class="content">
+                        
+                        <ul class="unstyled">
+                            <li>
+                                iPad Mini <span class="number">235,426</span>
+                            </li>
+                            <li>
+                                iPad Mini <span class="number">153,758</span>
+                            </li>
+                            <li> 
+                                iPad Mini <span class="number">3,698,278</span>
+                            </li>
+                        </ul>
+                        
+                        <center><button href="#" class="btn btn-success">Browse User List</button></center>
+                        
+                    </div>
+
+                </div><!-- End .box -->
+                
+            </div>
+            
+        </div>
+        
+    </div>
+    
+</div>
+
+
+
+<div class="row-fluid">
+
+    <div class="span10">
+    
+        <div class="heading">
+
+            <h3>Traffic</h3>                    
+
+        </div><!-- End .heading-->
+
+    </div>
+
+</div>
+
+<div class="row-fluid">
+
+    <div class="span10 tableBox">
+        
+        <div class="row-fluid">
+
+            <div class="span8">
+            
+                <div class="row-fluid">
+                 
+                    <div class="box">
+
+                        <div class="title">
+
+                            <h4>
+                                <span class=""><img src="<?php echo $this->basePath('assets/design/admin/admin/images/box_title_icon2_bg.png'); ?>" alt="" /></span>
+                                <span>Profit tracker</span>
+                            </h4>
+                            <a class="minimize" href="#" style="display: none;">Minimize</a>
+                        </div>
+                        <div class="content">
+                                                                                                        
+                            <div class="row-fluid">
+
+                                <div class="btn-group" data-toggle="buttons-radio">
+                                    <button class="btn btn-primary">24 hours</button>
+                                    <button class="btn btn-primary">7 days</button>
+                                    <button class="btn btn-primary">14 days</button>
+                                    <button class="btn btn-primary active">1 month</button>
+                                </div>
+
+                            </div>
+                            
+                            <div class="row-fluid">
+                                <div class="auto-update-chart" style="height: 230px;width:100%;"></div>
+                            </div>
+                                                                                                                    
+                        </div>
+
+                    </div><!-- End .box -->
+                 
+                 </div>  
+            
+            </div>
+            
+            <div class="span4">
+                
+                <div class="box">
+        
+                    <div class="title">
+
+                        <h4>
+                            <span class=""><img alt="" src="<?php echo $this->basePath('assets/design/admin/admin/images/box_title_icon_bg.jpg'); ?>" /></span>
+                            <span>Traffic overview</span>
+                        </h4>
+                        <a class="minimize" href="#" style="display: none;">Minimize</a>
+                    </div>
+                    <div class="content">
+                        
+                        <ul class="unstyled">
+                            <li>
+                                Visits: <span class="number">509</span>
+                            </li>
+                            <li>
+                                Visitors: <span class="number">389</span>
+                            </li>
+                            <li> 
+                                Pageviews: <span class="number">731</span>
+                            </li>
+                        </ul>
+                        
+                    </div>
+
+                </div><!-- End .box -->
+                
+                <div class="box">
+                    
+                    <div class="content reminderWrap">
+                        
+                        <div class="reminder">
+                            <ul>
+                                <li class="clearfix">
+                                    <div class="icon">
+                                        <span class=""><img alt="" src="<?php echo $this->basePath('assets/design/admin/admin/images/entypo_icon_users_bg.jpg'); ?>" /></span>
+                                    </div>
+                                    <span class="txt">Total users</span>
+                                    <span class="number">235,426</span>
+                                </li>
+                                <li class="clearfix">
+                                    <div class="icon">
+                                        <span class=""><img alt="" src="<?php echo $this->basePath('assets/design/admin/admin/images/entypo_icon_contact_bg.jpg'); ?>" /></span>
+                                    </div>
+                                    <span class="txt">New users</span>
+                                    <span class="number">153,758</span>
+                                </li>
+                                <li class="clearfix">
+                                    <div class="icon">
+                                        <span class=""><img alt="" src="<?php echo $this->basePath('assets/design/admin/admin/images/minia_icon_flag_bg.jpg'); ?>" /></span>
+                                    </div>
+                                    <span class="txt">Active auctions</span>
+                                    <span class="number">3,698,278</span>
+                                </li>
+                                <li class="clearfix">
+                                    <div class="icon">
+                                        <span class=""><img alt="" src="<?php echo $this->basePath('assets/design/admin/admin/images/silk_icon_frame_bg.jpg'); ?>" /></span>
+                                    </div>
+                                    <span class="txt">Total bids</span> 
+                                    <span class="number">1,578,963</span>
+                                </li>                                  
+                            </ul>
+                        </div><!-- End .reminder -->
+                        
+                    </div>
+
+                </div><!-- End .box -->
+                
+            </div>
+            
+        </div>
+        
+    </div>
+
+</div>

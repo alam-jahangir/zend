@@ -1,0 +1,103 @@
+<script type="text/javascript">
+//<!--
+    $(document).ready(function() {
+    
+        $("input, textarea, select").not('.nostyle').uniform();
+        $("#user_form").validate({
+            rules: {
+                email_address: {
+                    required: true,
+                    minlength: 4,
+                    maxlength:255,
+                    email:true
+                },
+                password: {
+                    required: true,
+                    minlength: 4,
+                    maxlength:255
+                }
+            },
+            messages: {
+                email_address: {
+                    required: "Email address is required",
+                    minlength: "Please enter email address",
+                    minlength: "Please enter email address",
+                    email: "Please enter email address"
+                },
+                password: {
+                    required: "Password is required",
+                    minlength: "Please enter Password between 4 to 255 character!",
+                    minlength: "Please enter Password between 4 to 255 character!"
+                }
+            }   
+        });
+    });
+    //-->
+</script>
+
+
+<style type="text/css">
+.wrapper.articlewrapper .row-fluid .span12.updateInfoBox .row-fluid .span12 .span6 .itemWrap label {
+    width: 23%;
+}
+.wrapper.articlewrapper .row-fluid .span12.updateInfoBox .row-fluid .span12 .span6 {
+    width: 95% !important;
+}
+</style>
+
+<div class="wrapper articlewrapper">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="span9 left">
+                    <div class="row-fluid">
+                        <div class="span12 top">
+                            <div class="span12">
+                                <div class="row-fluid">
+                                    <div class="span12 title">
+                                        Login
+                                    </div>
+                                    <div class="span12 desc borderNone">
+                                        Here you can lorem ipsum dolor sit amet velit sit amet est. Curabitur tempor posuere libero, eget adipiscing lacus.
+                                        Nunc sit amet urna ut leo sollicitudin interdum. In nibh quam,Curabitur tempor posuere libero, eget adipiscing lacus.
+                                        Nunc sit amet urna ut leo sollicitudin interdum. In nibh quam,Curabitur tempor posuere libero, eget adipiscing lacus.
+                                        Nunc sit amet urna ut leo sollicitudin interdum. In nibh quam, gravida in rhoncus non, placerat a lorem.
+                                    </div>
+                                                                        
+                                    <div class="span12 updateInfoBox">
+                                        <h3 class="border">Login Form</h3>
+                                        <div class="row-fluid">
+                                            <div class="span12">
+                                            <form class="form-signup" action="" method="post" id="user_form">  
+                                                <div class="span12">
+                                                    <div class="itemWrap clearfix">
+                                                        <label style="text-align: left;" class="form-label" for="email_address">Email Address <em>*</em></label>                                                            
+                                                        <div class="inputboxWrap">
+                                                            <input class="inputbox" id="email_address" value="<?php echo isset($_POST['email_address']) ? $_POST['email_address'] : ''; ?>" name="email_address" type="text" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="itemWrap clearfix">
+                                                        <label style="text-align: left;" class="form-label" for="password">Password <em>*</em></label>                                                            
+                                                        <div class="inputboxWrap">
+                                                            <input class="inputbox" id="password" name="password" type="password" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span12">
+                                                    <button type="submit" class="btn btn-primary marginR10">Login</button>
+                                                </div>
+                                            </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <?php echo $this->render("include_main/right_sidebar_home.phtml"); ?>
+        </div>
+    </div>   
+</div>                

@@ -1,0 +1,152 @@
+<script type="text/javascript">
+    //<!--
+    var blockids = [];
+    
+	$(document).ready(function() {
+       $('.categoryid_checkbox').click(function() {
+            if (this.checked) {
+                 blockids.push(this.value);
+            } else {
+                var index = blockids.indexOf(this.value); 
+                if (index != -1)
+                    blockids.splice(index,1);
+            }
+            $('input[name=attributeids]').val(blockids);
+       }); 
+    });
+    
+    function showStatus(value) {
+        if (value == 'status')
+            $('#status').css('display', 'inline-block');
+        else
+            $('#status').hide();
+    }
+    
+    function checkBlockIds() {
+        if ($('input[name=attributeids]').val() != '') {
+            return true;
+        }
+        alert('Please select group');
+        return false;
+    }
+    
+    function toggleChecked(status) {
+        $(".categoryid_checkbox").each(function() {
+            $(this).attr("checked",status);
+            if(status){
+              $(this).parent().addClass('checked');  
+              blockids.push(this.value);
+            } else {
+              $(this).parent().removeClass('checked');
+              var index = blockids.indexOf(this.value); 
+                if (index != -1)
+                    blockids.splice(index,1);
+            }
+        })
+        $('input[name=attributeids]').val(blockids);
+        //onclick="toggleChecked(this.checked)"
+    }
+    //-->
+</script>
+
+<div class="row-fluid">
+   <div class="span10">
+        <div class="heading">
+          <h3>Attribute Group List</h3>                    
+       </div><!-- End .heading-->
+   </div>
+</div>
+
+<div class="row-fluid">
+
+    <div class="span10 tableBox">
+        
+        <div class="row-fluid">
+                 
+            <div class="box gradient admin">
+
+                <div class="title">
+                    <div class="selectbox">   
+                        <form method="post" action="<?php echo $this->url('category', array('action' => 'mass-attribute-group-modification')); ?>">
+                            <select name="action" onchange="showStatus(this.value)">
+                                <option selected="selected">Choose action</option>
+                                <option value="delete">Delete</option>
+                                <option value="status">Change Status</option>
+                            </select>
+                            <select name="status" id="status" style="display:none">
+                                <option selected="selected">Change Status</option>
+                                <option value="1">Active</option>
+                                <option value="0">In Active</option>
+                            </select>
+                            <input type="hidden" name="attributeids" />
+                            <button type="submit" onclick="return checkPageIds();" class="btn btn-inverse">Submit</button>
+                            <a href="<?php echo $this->url('category', array('action' => 'new-attribute-group')); ?>" class="btn btn-success">Add New Group</a>
+                        </form>
+                    </div>
+                    
+                            
+                </div>
+                <div class="content noPad clearfix">
+                    <div class="scrollable">
+                       <table cellpadding="0" cellspacing="0" border="0" class="responsive display table table-bordered" width="100%">
+                         <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" name="optionsCheckboxList1" value="option1" class="styled" onclick="toggleChecked(this.checked)" />
+                                </th>
+                                <th>Group Name</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                                <th>Created Date</th>
+                                <th>Updated Date</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php 
+                            if (count($this->paginator)): 
+                                $iterator = 1;
+                                foreach ($this->paginator as $item): 
+                        ?>
+                            <tr class="<?php if ($iterator++%2 == 0) echo 'even'; else echo 'odd'; ?>">
+                                <td>
+                                    <input type="checkbox" class="categoryid_checkbox" name="categoryid[]" value="<?php echo $item['id']; ?>" class="styled" />
+                                </td>
+                                <td><?php echo $item['name']; ?></td>
+                                <td><?php echo $item['c_name']; ?></td>
+                                <td><?php echo $item['is_active'] == 1? 'Active':'In Active'; ?></td>
+                                <td><?php echo date('d/m/Y', strtotime($item['created_date'])); ?></td>
+                                <td><?php echo date('d/m/Y', strtotime($item['updated_date'])); ?></td>
+                                
+                                <td>
+                                    <a href="<?php echo $this->url('category', array('action' => 'edit-attribute-group', 'id' => $item['id'])); ?>" class="btn btn-success">Edit</a>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="5"> -- No data found -- </td>
+                            </tr>
+                        <?php endif; ?>
+                    
+                        </tbody>
+                    </table>
+                    
+                    <?php echo $this->paginationControl(
+                                                        $this->paginator,
+                                                        'Sliding',
+                                                        'include/pagination_control.phtml',
+                                                        array('route' => 'category', 'action' => 'index')
+                            ); 
+                    ?>
+                    
+                    </div>
+                </div>
+
+            </div><!-- End .box -->                           
+            
+        </div>
+        
+    </div>
+    
+</div>  

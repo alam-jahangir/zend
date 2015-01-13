@@ -1,0 +1,300 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/plugins/validate/jquery.validate.min.js'); ?>"></script>
+<script type="text/javascript">
+    //<!--
+    
+    $.validator.addMethod("password_r", function(value, element) {
+    		
+    		if ($('#change_passowrd').is(':checked')) {
+				if (value != '') {
+					return true
+				} else {
+					return false;
+				}	
+			}
+			
+		    return true;
+		}, "Password is required");
+		
+    $(document).ready(function() {
+         $("#user_form").validate({
+            rules: {
+				username: {
+                   required: true
+                },
+                email: {
+                   required: true,
+                   email:true
+                },
+                <?php if ($this->id): ?>
+                password: {
+                    password_r: true
+                },
+                <?php else: ?>
+                password: {
+                    required: true
+                },
+                <?php endif; ?>
+                is_active: {
+                    required: true,
+                    digits:true
+                },
+                private_name: {
+					required: true
+				},
+				private_surname: {
+					required: true
+				},
+				private_street: {
+					required: true
+				},
+				private_city: {
+					required: true
+				},
+				private_state: {
+					required: true
+				},
+				private_zipcode: {
+					required: true
+				},
+				private_phone: {
+					required: true
+				},
+				private_email: {
+					required: true,
+					email:true
+				},
+				business_name: {
+					required: true
+				},
+				business_surname: {
+					required: true
+				},
+				business_street: {
+					required: true
+				},
+				business_city: {
+					required: true
+				},   
+				business_state: {
+					required: true
+				},
+				business_zipcode: {
+					required: true
+				},
+				business_phone: {
+					required: true
+				},
+				business_email: {
+					required: true,
+					email:true
+				},
+            } 
+        });
+    });
+    
+    function showPassword()
+    {
+		$('#change_password_region').toggle();
+	}
+    //-->
+</script>
+
+<div class="main">
+
+	<div class="page_title">
+        <h3><?php echo $this->title; ?></h3>
+    </div>
+    
+    <div class="backlink">
+        <a href="<?php echo $this->url('account'); ?>">Back to My Account</a>
+    </div>
+   
+               
+	<div class="content"> 
+        
+         
+                    
+            <form class="form-horizontal" id="user_form" method="post" action="" enctype="multipart/form-data">
+            	<div class="content_region">
+	           		<div class="left_col">
+		           		<div class="title">
+				            <span>Personal Information</span>
+				        </div>
+				        
+				        <div class="content_area">
+							<div class="row">
+			                    <label class="form-label span5" for="username" style="text-align: left;">Username:*</em></label>
+			                    <input class="inputArea" id="username" name="username" type="text" value="<?php echo isset($this->userDetails[0]['username']) ? $this->userDetails[0]['username'] : ''; ?>" />
+			                </div>
+			
+			                <div class="row">
+			                    <label class="form-label span5" for="email" style="text-align: left;">Email:*</label>
+			                    <input class="inputArea" id="email" name="email" type="text" value="<?php echo isset($this->userDetails[0]['email']) ? $this->userDetails[0]['email'] : ''; ?>"  />
+			                </div>
+			                
+			                
+			                <div class="row" style="margin:5px 0px">
+			                    <label class="form-label span5" for="change_passowrd">Change Password: <input id="change_passowrd" name="change_passowrd" value="1" type="checkbox" onclick="showPassword()" /></label>
+			                </div>
+			            
+			            	<div id="change_password_region" style="display:none">
+				                <div class="row">
+				                    <label class="form-label span5" for="password">New Password:*</label>
+				                    <input class="inputArea" id="password" name="password" value="" type="password" />
+				                </div>
+				            </div>
+							
+							
+			                <div class="row">
+			                    <label class="form-label span5" for="passport_no">Passport/ID No:</label>
+			                    <input class="inputArea" id="passport_no" name="passport_no" type="text" value="<?php echo isset($this->userDetails[0]['passport_no']) ? $this->userDetails[0]['passport_no'] : ''; ?>" />
+			                    <?php if (isset($this->userDetails[0]['passport_image']) && $this->userDetails[0]['passport_image'] != ''): ?>
+			                    	<a href="<?php echo $this->basePath('media/passport_image/'.$this->userDetails[0]['passport_image']); ?>" target="_blank">Passport Image</a>
+			                    <?php endif; ?>
+			                </div>
+			                
+			                <div class="row">
+			                    <label class="form-label span5" for="mobile_no">Mobile No:</label>
+			                    <input class="inputArea" id="mobile_no" name="mobile_no" type="text" value="<?php echo isset($this->userDetails[0]['mobile_no']) ? $this->userDetails[0]['mobile_no'] : ''; ?>" />
+			                    <?php if (isset($this->userDetails[0]['mobile_invoice_image']) && $this->userDetails[0]['mobile_invoice_image'] != ''): ?>
+			                    	<a href="<?php echo $this->basePath('media/mobile_invoice_image/'.$this->userDetails[0]['mobile_invoice_image']); ?>" target="_blank">Mobile Invoice Image</a>
+			                    <?php endif; ?>
+			                </div>
+			                
+			                <div class="row">
+			                    <label class="form-label span5" for="tax_number">Tax No:</label>
+			                    <input class="inputArea" id="tax_number" name="tax_number" type="text" value="<?php echo isset($this->userDetails[0]['tax_number']) ? $this->userDetails[0]['tax_number'] : ''; ?>" />
+			                    <?php if (isset($this->userDetails[0]['tax_document']) && $this->userDetails[0]['tax_document'] != ''): ?>
+			                    	<a href="<?php echo $this->basePath('media/tax_document/'.$this->userDetails[0]['tax_document']); ?>" target="_blank">Tax Paper</a>
+			                    <?php endif; ?>
+			                </div>
+						</div>
+				    </div>
+			        
+			        <div class="right_col">
+			        	<div class="title">
+				            <span>Private Address</span>
+				        </div>
+				        
+				        <div class="content_area">
+			        		<div class="row"> 
+			        			<input class="inputArea" id="private_id" name="private_id" type="hidden" value="<?php echo isset($this->address[0]['address_id']) ? $this->address[0]['address_id'] : ''; ?>" />
+			                    <label class="form-label span5" for="private_name" style="text-align: left;">Name:*</em></label>
+			                    <input class="inputArea" id="private_name" name="private_name" type="text" value="<?php echo isset($this->address[0]['name']) ? $this->address[0]['name'] : ''; ?>" />
+			                </div>
+			                
+			                <div class="row">
+			                    <label class="form-label span5" for="private_surname" style="text-align: left;">Surname:*</em></label>
+			                    <input class="inputArea" id="private_surname" name="private_surname" type="text" value="<?php echo isset($this->address[0]['surname']) ? $this->address[0]['surname'] : ''; ?>" />
+			                </div>
+			                
+			                <div class="row">
+			                    <label class="form-label span5" for="private_street" style="text-align: left;">Street:*</em></label>
+			                    <input class="inputArea" id="private_street" name="private_street" type="text" value="<?php echo isset($this->address[0]['street']) ? $this->address[0]['street'] : ''; ?>" />
+			                </div>
+			                
+			                <div class="row">
+			                    <label class="form-label span5" for="private_city" style="text-align: left;">City:*</em></label>
+			                    <input class="inputArea" id="private_city" name="private_city" type="text" value="<?php echo isset($this->address[0]['city']) ? $this->address[0]['city'] : ''; ?>" />
+			                </div>
+			                
+			                <div class="row">
+			                    <label class="form-label span5" for="private_state" style="text-align: left;">State:*</em></label>
+			                    <input class="inputArea" id="private_state" name="private_state" type="text" value="<?php echo isset($this->address[0]['state']) ? $this->address[0]['state'] : ''; ?>" />
+			                </div>
+			                
+			                <div class="row">
+			                    <label class="form-label span5" for="private_zipcode" style="text-align: left;">Zipcode:*</em></label>
+			                    <input class="inputArea" id="private_zipcode" name="private_zipcode" type="text" value="<?php echo isset($this->address[0]['zipcode']) ? $this->address[0]['zipcode'] : ''; ?>" />
+			                </div>
+			                
+			                <div class="row">
+			                    <label class="form-label span5" for="private_phone" style="text-align: left;">Phone:*</em></label>
+			                    <input class="inputArea" id="private_phone" name="private_phone" type="text" value="<?php echo isset($this->address[0]['phone']) ? $this->address[0]['phone'] : ''; ?>" />
+			                </div>
+			                
+			                
+			                <div class="row">
+			                    <label class="form-label span5" for="private_email" style="text-align: left;">Email:*</em></label>
+			                    <input class="inputArea" id="private_email" name="private_email" type="text" value="<?php echo isset($this->address[0]['email']) ? $this->address[0]['email'] : ''; ?>" />
+			                </div>
+			        		
+			        		
+				        </div>
+				        
+					</div>
+				</div>
+				
+				
+				
+				<div class="content_region">
+					<div class="left_col">
+			        	<div class="title">
+				            <span>Business Address</span>
+				        </div>
+				        
+				        <div class="content_area">
+			        		<div class="row"> 
+			        			<input class="inputArea" id="business_id" name="business_id" type="hidden" value="<?php echo isset($this->address[0]['business_id']) ? $this->address[0]['business_id'] : ''; ?>" />
+			                    <label class="form-label span5" for="business_name" style="text-align: left;">Name:*</em></label>
+			                    <input class="inputArea" id="business_name" name="business_name" type="text" value="<?php echo isset($this->address[0]['business_name']) ? $this->address[0]['business_name'] : ''; ?>" />
+			                </div>
+			                
+			                <div class="row">
+			                    <label class="form-label span5" for="business_surname" style="text-align: left;">Surname:*</em></label>
+			                    <input class="inputArea" id="business_surname" name="business_surname" type="text" value="<?php echo isset($this->address[0]['business_surname']) ? $this->address[0]['business_surname'] : ''; ?>" />
+			                </div>
+			                
+			                <div class="row">
+			                    <label class="form-label span5" for="business_street" style="text-align: left;">Street:*</em></label>
+			                    <input class="inputArea" id="business_street" name="business_street" type="text" value="<?php echo isset($this->address[0]['business_street']) ? $this->address[0]['business_street'] : ''; ?>" />
+			                </div>
+			                
+			                <div class="row">
+			                    <label class="form-label span5" for="business_city" style="text-align: left;">City:*</em></label>
+			                    <input class="inputArea" id="business_city" name="business_city" type="text" value="<?php echo isset($this->address[0]['business_city']) ? $this->address[0]['business_city'] : ''; ?>" />
+			                </div>
+			                
+			                <div class="row">
+			                    <label class="form-label span5" for="business_state" style="text-align: left;">State:*</em></label>
+			                    <input class="inputArea" id="business_state" name="business_state" type="text" value="<?php echo isset($this->address[0]['business_state']) ? $this->address[0]['business_state'] : ''; ?>" />
+			                </div> 
+			                
+			                <div class="row">
+			                    <label class="form-label span5" for="business_zipcode" style="text-align: left;">Zipcode:*</em></label>
+			                    <input class="inputArea" id="business_zipcode" name="business_zipcode" type="text" value="<?php echo isset($this->address[0]['business_zipcode']) ? $this->address[0]['business_zipcode'] : ''; ?>" />
+			                </div>
+			                
+			                <div class="row">
+			                    <label class="form-label span5" for="business_phone" style="text-align: left;">Phone:*</em></label>
+			                    <input class="inputArea" id="business_phone" name="business_phone" type="text" value="<?php echo isset($this->address[0]['business_phone']) ? $this->address[0]['business_phone'] : ''; ?>" />
+			                </div>
+			                
+			                
+			                <div class="row">
+			                    <label class="form-label span5" for="business_email" style="text-align: left;">Email:*</em></label>
+			                    <input class="inputArea" id="business_email" name="business_email" type="text" value="<?php echo isset($this->address[0]['business_email']) ? $this->address[0]['business_email'] : ''; ?>" />
+			                </div>
+			        		
+			        		
+				        </div>
+				        
+					</div>
+				
+				</div>
+                
+                <div class="row">
+                    <div class="form-actions">
+                        <div class="controls">
+                            <button id="successR" type="submit" class="btn marginR10 btn-success pull-right">Save</button>
+                        </div>
+                    </div>
+                </div>
+           
+                        
+            </form>
+
+	</div>
+
+</div>

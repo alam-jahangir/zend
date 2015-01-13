@@ -1,0 +1,384 @@
+<?php 
+$date_of_birth = isset($this->editUserInfo[0]['date_of_birth']) ? $this->editUserInfo[0]['date_of_birth']: array();;
+if(!empty($date_of_birth)){
+    $date_array = explode('-', $date_of_birth);
+}
+else
+{
+    $date_array[0] = '';
+    $date_array[1] = '';
+    $date_array[2] = ''; 
+}
+?>
+
+<script type="text/javascript">
+//<!--
+var xhr = null;
+
+$(document).ready(function() {
+    $("select[name='country_id']").val(<?php echo isset($this->editUserInfo[0]['country_id']) ? $this->editUserInfo[0]['country_id']:'0'; ?>).attr('selected', 'selected');
+    
+    $("select[name='dob_year']").val('<?php echo $date_array[0]; ?>').attr('selected', 'selected');
+    $("select[name='dob_month']").val('<?php echo $date_array[1]; ?>').attr('selected', 'selected');
+    $("select[name='dob_date']").val('<?php echo $date_array[2]; ?>').attr('selected', 'selected');
+    
+});
+    
+function saveAccountInfo(obj, click_type){
+                  
+    var parent = jQuery(obj).parent().parent().parent().parent();
+                  
+    var passingData = jQuery(parent).find('input, select').serialize();
+    //alert(passingData);
+	// if there is a previous ajax search, then we abort it and then set xhr to null
+	if( xhr != null ) {
+		xhr.abort();
+		xhr = null;
+	}
+	
+	xhr = jQuery.ajax({
+		type: "POST"
+		, url: "<?php echo $this->url('user', array('action'=>'update')); ?>"
+		, data: passingData
+		, dataType: 'json'
+		, beforeSend: function(){
+            var ajaxloadimage    =    jQuery('#ajaxload').html();
+		     jQuery(parent).find("#loadingImg").html(ajaxloadimage).show();
+		}
+		, success: function(response)
+        {
+		     jQuery(parent).find("#loadingImg").html('').hide();
+             
+            if(response.error==0 )
+            {
+                jQuery(parent).find("#msgDiv").html(response.msg).css('color', 'green').show();
+                if(click_type == 'shipping_address'){
+                    jQuery(parent).find("input[name='address_id']").val(response.address_id);
+                }
+                if(click_type == 'profile_info'){
+                    window.location="<?php echo $this->url('user', array('action'=>'account')); ?>";
+                    return false;
+                }                
+            } else {
+                if(response.msg=='session_expired')
+                {
+                    window.location="<?php echo $this->url('login', array('action'=>'login')); ?>";
+                    return false;
+                }
+                else{
+                    //alert(response.msg);
+                    jQuery(parent).find("#msgDiv").html(response.msg).css('color', 'red').show();
+                    return false;
+                }
+            } 
+		}
+	});
+    
+    if(jQuery(parent).find("span#msgDiv").length > 0){
+        setTimeout(function(){ jQuery(parent).find("span#msgDiv").html('').hide()}, 5000);  
+    }            
+}
+
+    
+//-->
+</script>
+
+
+<div class="wrapper articlewrapper">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="span9 left">
+                    <div class="row-fluid">
+                        <div class="span12 top">
+                            <div class="span12">
+                                <div class="row-fluid">
+                                    <div class="span12 title">
+                                        My Account
+                                    </div>
+                                    <div class="span12 desc borderNone" style="padding-bottom: 0px;">
+                                        Here you can lorem ipsum dolor sit amet velit sit amet est. Curabitur tempor posuere libero, eget adipiscing lacus.
+                                        Nunc sit amet urna ut leo sollicitudin interdum. In nibh quam, gravida in rhoncus non, placerat a lorem.
+                                    </div>
+                                    <div style="padding-bottom: 40px;text-align: left;">Referral Link : <a href="<?php echo $this->serverUrl().$this->url('user', array('action'=>'signup')).'?r='.$this->editUserInfo[0]['user_id']; ?>"><?php echo $this->serverUrl().$this->url('user', array('action'=>'signup')).'?r='.base64_encode($this->editUserInfo[0]['user_id']); ?></a></div>
+                                    <div class="span12 updateInfoBox">
+                                        <h3>Pending Actions</h3>
+                                        <ul>
+                                            <li><a href="#">Make it personal and choose your favorite display name!</a></li>
+                                            <li class="active"><a href="#">Update your password, so you will remember it.</a></li>
+                                            <li><a href="#">Link your social profiles.</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="span12 updateInfoBox" id="updateBox1">
+                                        <h3 class="border">Choose your display name (user name)</h3>
+                                        <div class="row-fluid">
+                                            <div class="span12">
+                                                <div class="span6">
+                                                    <div class="itemWrap clearfix">
+                                                        <label>Display name:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="text" class="inputbox" name="username" value="<?php echo isset($this->editUserInfo[0]['username']) ? $this->editUserInfo[0]['username']:''; ?>" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span6">
+                                                    <div class="itemWrap right clearfix">
+                                                        <button type="submit" class="btn btn-primary pull-right" onclick="saveAccountInfo(this, 'username')">Update</button>
+                                                        <span id="loadingImg" style="display: none;"></span>
+                                                        <span id="msgDiv" style="display: none;margin-top: 6px;"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="span12 updateInfoBox" id="updateBox2">
+                                        <h3 class="border">Change Password</h3>
+                                        <div class="row-fluid">
+                                            <div class="span12">
+                                                <div class="span6">
+                                                    <div class="itemWrap clearfix">
+                                                        <label>New Password:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="password" class="inputbox" name="password" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span6">
+                                                    <div class="itemWrap right clearfix">
+                                                        <label>Retype Password:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="password" class="inputbox" name="confirm_password" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span12">
+                                                    <button type="submit" class="btn btn-primary pull-right" onclick="saveAccountInfo(this, 'password')">Update</button>
+                                                    <span id="loadingImg" style="display: none;"></span>
+                                                    <span id="msgDiv" style="display: none;"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="span12 updateInfoBox" id="updateBox3">
+                                        <h3 class="border">Profile Details</h3>
+                                        <div class="row-fluid">
+                                            <div class="span12">
+                                                <div class="span6">
+                                                    <div class="itemWrap clearfix">
+                                                        <label>First Name:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="text" class="inputbox" name="first_name" value="<?php echo isset($this->editUserInfo[0]['first_name']) ? $this->editUserInfo[0]['first_name']:''; ?>" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="itemWrap clearfix">
+                                                        <label>Last Name:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="text" class="inputbox" name="last_name" value="<?php echo isset($this->editUserInfo[0]['last_name']) ? $this->editUserInfo[0]['last_name']:''; ?>" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="itemWrap clearfix">
+                                                        <label>Email:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="text" class="inputbox" name="email_address" value="<?php echo isset($this->editUserInfo[0]['email_address']) ? $this->editUserInfo[0]['email_address']:''; ?>" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span6">
+                                                    <div class="itemWrap right selectBox clearfix">
+                                                        
+                                                        <label>Date of Birth:</label>
+                                                        <div class="inputboxWrap">
+                                                            <div class="month">
+                                                            <select name="dob_month">
+                                                                <option value="01">January</option>
+                                                                <option value="02">February</option>
+                                                                <option value="03">March</option>
+                                                                <option value="04">April</option>
+                                                                <option value="05">May</option>
+                                                                <option value="06">June</option>
+                                                                <option value="07">July</option>
+                                                                <option value="08">August</option>
+                                                                <option value="09">September</option>
+                                                                <option value="10">October</option>
+                                                                <option value="11">November</option>
+                                                                <option value="12">December</option>
+                                                            </select>
+                                                            </div>
+                                                            <div class="day">
+                                                            <select name="dob_date">
+                                                                <?php 
+                                                                for($i = 1; $i <= 31; $i++){
+                                                                    echo '<option value="'.((strlen($i) == 1) ? '0'.$i : $i).'">'.$i.'</option>';
+                                                                } ?>
+                                                            </select>
+                                                            </div>
+                                                            <div class="year">
+                                                            <select name="dob_year">
+                                                                <?php 
+                                                                $year = date('Y');
+                                                                for($i = $year; $i >= ($year-40); $i--){                                                                        
+                                                                    echo '<option value="'.$i.'">'.$i.'</option>';
+                                                                } ?>
+                                                            </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="itemWrap right selectBox clearfix">
+                                                        <label>Gender:</label>
+                                                        <div class="inputboxWrap">
+                                                            <div class="gender">
+                                                            <select name="gender" id="gender">
+                                                                <option<?php echo ( $this->editUserInfo[0]['gender'] == 1 ) ? ' selected="selected"':''; ?> value="1">Male</option>
+                                                                <option<?php echo ( $this->editUserInfo[0]['gender'] == 2 ) ? ' selected="selected"':''; ?> value="2">Female</option>
+                                                            </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span12">
+                                                    <button type="submit" class="btn btn-primary pull-right" onclick="saveAccountInfo(this, 'profile_info')">Update</button>
+                                                    <span id="loadingImg" style="display: none;"></span>
+                                                    <span id="msgDiv" style="display: none;"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="span12 updateInfoBox" id="updateBox4">
+                                        <h3 class="border">Shipping Address</h3>
+                                        <div class="row-fluid">
+                                            <div class="span12">
+                                                <div class="span6">
+                                                    <div class="itemWrap clearfix">
+                                                        <label>Name:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="text" class="inputbox" name="name" value="<?php echo isset($this->editUserInfo[0]['name']) ? $this->editUserInfo[0]['name']:''; ?>" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="itemWrap clearfix">
+                                                        <label>Address:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="text" class="inputbox" name="street_address" value="<?php echo isset($this->editUserInfo[0]['street_address']) ? $this->editUserInfo[0]['street_address']:''; ?>" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="itemWrap clearfix">
+                                                        <label>Suburb/Town:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="text" class="inputbox" name="town" value="<?php echo isset($this->editUserInfo[0]['town']) ? $this->editUserInfo[0]['town']:''; ?>" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="itemWrap clearfix">
+                                                        <label>Country:</label>
+                                                        <div class="inputboxWrap">
+                                                            <?php echo $this->countries('country_id', 'inputbox'); ?>
+                                                        </div>
+                                                    </div>
+                                                    <div class="itemWrap clearfix">
+                                                        <label>Postcode:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="text" class="inputbox" name="postcode" value="<?php echo isset($this->editUserInfo[0]['postcode']) ? $this->editUserInfo[0]['postcode']:''; ?>" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span6">
+                                                    <div class="itemWrap right clearfix">
+                                                        <label>Phone Number:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="text" class="inputbox" name="phone_number" value="<?php echo isset($this->editUserInfo[0]['phone_number']) ? $this->editUserInfo[0]['phone_number']:''; ?>" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="itemWrap right clearfix">
+                                                        <label>Options:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="text" class="inputbox" name="options" value="<?php echo isset($this->editUserInfo[0]['options']) ? $this->editUserInfo[0]['options']:''; ?>" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span12 clearfix">
+                                                    <button type="submit" class="btn btn-primary pull-right" onclick="saveAccountInfo(this, 'shipping_address')">Update</button>
+                                                    <span id="loadingImg" style="display: none;"></span>
+                                                    <span id="msgDiv" style="display: none;"></span>
+                                                    <input type="hidden" name="address_id" value="<?php echo isset($this->editUserInfo[0]['address_id']) ? $this->editUserInfo[0]['address_id']:''; ?>" />
+                                                    <input type="hidden" name="address_type" value="1" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="span12 updateInfoBox" id="updateBox5">
+                                        <h3 class="border">Your social profiles</h3>
+                                        <div class="row-fluid">
+                                            <div class="span12">
+                                                <div class="span6">
+                                                    <div class="itemBox clearfix">
+                                                        <label>Facebook Profile URL:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="text" class="inputbox facebook" name="facebook_url" value="<?php echo isset($this->editUserInfo[0]['facebook_url']) ? $this->editUserInfo[0]['facebook_url']:''; ?>" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="itemBox clearfix">
+                                                        <label>Instagram Profile URL:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="text" class="inputbox instagram" name="instagram_url" value="<?php echo isset($this->editUserInfo[0]['instagram_url']) ? $this->editUserInfo[0]['instagram_url']:''; ?>" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="itemBox clearfix">
+                                                        <label>LinkedIn Profile URL:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="text" class="inputbox linkedin" name="linkdin_url" value="<?php echo isset($this->editUserInfo[0]['linkdin_url']) ? $this->editUserInfo[0]['linkdin_url']:''; ?>" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span6">
+                                                    <div class="itemBox right clearfix">
+                                                        <label>Twitter Profile URL:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="text" class="inputbox twitter" name="twitter_url" value="<?php echo isset($this->editUserInfo[0]['twitter_url']) ? $this->editUserInfo[0]['twitter_url']:''; ?>" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="itemBox right clearfix">
+                                                        <label>YouTube Profile URL:</label>
+                                                        <div class="inputboxWrap">
+                                                            <input type="text" class="inputbox youtube" name="youtube_url" value="<?php echo isset($this->editUserInfo[0]['youtube_url']) ? $this->editUserInfo[0]['youtube_url']:''; ?>" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span12">
+                                                    <button type="submit" class="btn btn-primary pull-right" onclick="saveAccountInfo(this, 'social_profiles')">Update</button>
+                                                    <span id="loadingImg" style="display: none;"></span>
+                                                    <span id="msgDiv" style="display: none;"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="span12 updateInfoBox" id="updateBox6">
+                                        <h3 class="border">Newsletter Signup</h3>
+                                        <div class="row-fluid">
+                                            <div class="span12">
+                                                <div class="span6">
+                                                    <div class="itemWrap clearfix">
+                                                        <div class="inputboxWrap">
+                                                            <input type="radio" name="is_subscribe" value="1" <?php echo (isset($this->editUserInfo[0]['is_subscribe']) && $this->editUserInfo[0]['is_subscribe'] == 1) ? 'checked=checked':''; ?>> Yes
+                                                            <input type="radio" name="is_subscribe" value="2" <?php echo (isset($this->editUserInfo[0]['is_subscribe']) && $this->editUserInfo[0]['is_subscribe'] == 2) ? 'checked=checked':''; ?>> No
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span6">
+                                                    <div class="itemWrap right clearfix">
+                                                        <button type="submit" class="btn btn-primary pull-right" onclick="saveAccountInfo(this, 'newsletter')">Update</button>
+                                                        <span id="loadingImg" style="display: none;"></span>
+                                                        <span id="msgDiv" style="display: none;margin-top: 6px;"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            
+            <?php echo $this->render("include_main/right_sidebar_home.phtml"); ?>
+            
+        </div>
+    </div>   
+</div>

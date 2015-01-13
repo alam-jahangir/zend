@@ -1,0 +1,107 @@
+<div class="wrapper articlewrapper mybid agent">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="span9 left">
+                    <div class="row-fluid">
+                        <div class="span12 top">
+                            <div class="span12">
+                                <div class="row-fluid">
+                                    <div class="span12 title">
+                                        My Won Auctions
+                                    </div>
+                                    <div class="span12 desc">
+                                        Here you can lorem ipsum dolor sit amet velit sit amet est. Curabitur tempor posuere libero, eget adipiscing lacus.
+                                        Nunc sit amet urna ut leo sollicitudin interdum. In nibh quam, gravida in rhoncus non, placerat a lorem.  
+                                    </div>
+                                    <div class="span12 bidtable">
+                                        
+                                        <div class="title">Won Auctions</div>
+                                        
+                                        <div class="table-wrapper">
+                                        <div class="scrollable">
+                                            <table class="responsive table">
+                                                <thead>
+                                                  <tr>
+                                                    <th>Auction product</th>
+                                                    <th><center>Actual Price</center></th>
+                                                    <th><center>Bid. Price</center></th>
+                                                    <th><center>Options</center></th>
+                                                    <th>Win Date</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                
+                                                   <?php foreach ($this->paginator as $product): ?>
+                                                  <tr>
+                                                    <td class="first colortitle">
+                                                        <?php  
+                                                        if ($product->image_name): 
+                                                            $filename = 'media/auction/'.$product->product_id.'/79x77/'.$product->image_name;
+                                                        ?>
+                                                            <img alt="<?php echo $product->name; ?>" src="<?php echo $this->basePath($filename); ?>" />
+                                                        <?php else: ?>
+                                                            <img width="79" height="77" alt="<?php echo $product->name; ?>" src="<?php echo $this->basePath('assets/design/frontend/images/boximage.jpg'); ?>" />
+                                                        <?php endif; ?>
+                                                        <a href="<?php echo $this->url('application', array('action' => 'auctions-view', 'id' => $product->product_id)); ?>">
+                                                            <?php echo $product->name; ?>
+                                                        </a>
+                                                    </td>
+                                                    <td style="vertical-align: middle;"><center><?php echo number_format($product->actual_price, 2, ',', ' '); ?></center></td>
+                                                    <td class="first" style="vertical-align: middle;">
+                                                        <center>
+                                                            <?php $price = $this->pricePerBid(intval($product->total_bid), $product->actual_price); ?>
+                                                            <?php echo number_format($price['total_price'], 2, ',', ' '); ?>
+                                                        </center>
+                                                    </td>
+                                                    <td style="vertical-align: middle;">
+                                                        <center>
+                                                            <?php 
+                                                                $attrValus = unserialize($product->custom_options);
+                                                            ?>
+                                                            <?php 
+                                                            if(!empty($attrValus)):
+                                                                foreach($attrValus as $key => $value) :
+                                                            ?>
+                                                                    <span><?php echo $key; ?>: <?php echo $value; ?></span>
+                                                                    <br />
+                                                            <?php 
+                                                                endforeach;
+                                                            endif; 
+                                                            ?>
+                                                        </center>
+                                                    </td>
+                                                    <td class="first" style="text-align: center;vertical-align: middle;">
+                                                        <?php echo date('d/m/Y h:i:s', strtotime($product->bid_date)); ?><br>
+                                                        <?php if(isset($product->transaction_id) && $product->transaction_id > 0){ ?>
+                                                        <button id="loginBtn" class="btn btn-primary login" type="submit" style="margin-top: 10px;">Paid</button>
+                                                        <?php } else { ?>
+                                                        <button id="loginBtn" class="btn btn-primary login" type="submit" style="margin-top: 10px;" onclick="window.location='<?php echo $this->url('buy_won_auction', array('action' => 'buy-won-auction', 'id' => $product->product_id)); ?>'">Buy It</button>
+                                                        <?php } ?>
+                                                    </td>
+                                                  </tr>
+                                                  <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                            
+                                            <?php echo $this->paginationControl(
+                                                        $this->paginator,
+                                                        'Sliding',
+                                                        'include_main/pagination_control.phtml',
+                                                        array('route' => 'my_bid_agents')
+                                                ); 
+                                            ?>
+                                        </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            
+            <?php echo $this->render("include_main/right_sidebar_home.phtml"); ?>
+            
+        </div>
+    </div>   
+</div>

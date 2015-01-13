@@ -1,0 +1,136 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/ckeditor/ckeditor.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/ckeditor/plugins/ckfinder/ckfinder.js'); ?>"></script>
+<script type="text/javascript">
+    //<!--
+    $(document).ready(function() {
+        $("#page").validate({
+            rules: {
+                page_title: {
+                   required: true,
+                   maxlength: 255
+                },
+                page_content: {
+                   required: true
+                },
+                page_identifier: {
+                   required: true,
+                    maxlength: 255
+                },
+                is_active: {
+                    required: true,
+                    digits:true
+                }
+            },
+            messages: {
+                page_title: {
+                    required: "Page title is required",
+                    maxlength: "Page title is bigger"
+                },
+                page_identifier: {
+                    required: "Page identifier is required",
+                    maxlength: "Page identifier is bigger"
+                },
+                page_content: {
+                    required: "Page content is required"
+                },
+                is_active: {
+                    required: "Fill me please",
+                    digits: "Please slect only digit"
+                },
+            }   
+        });
+    });
+    //-->
+</script>
+
+
+<div class="main">
+
+	<div class="page_title">
+        <h3><?php echo $this->title; ?></h3>
+    </div>
+        
+    <div class="backlink">
+        <a href="<?php echo $this->url('cms', array('action' => 'page')); ?>">Back to Cms Page List</a>
+    </div>
+
+               
+	<div class="content">
+                    
+        <form class="form-horizontal" id="page" method="post" action="" enctype="multipart/form-data">
+
+            <div class="row">
+                <label class="form-label span5" for="page_title" style="text-align: left;">Title:*</em></label>
+                <input class="inputArea" id="page_title" name="page_title" type="text" value="<?php echo isset($this->editPageInfo[0]['page_title']) ? $this->editPageInfo[0]['page_title']:''; ?>" />
+            </div>
+	       
+            <div class="row">
+                <label class="form-label span5" for="page_identifier" style="text-align: left;">Identifier:*</em></label>
+                <input class="inputArea" id="page_identifier" name="page_identifier" type="text" value="<?php echo isset($this->editPageInfo[0]['page_identifier']) ? $this->editPageInfo[0]['page_identifier']:''; ?>" />
+            </div>
+
+            <div class="row">
+                <label class="form-label span5" for="status">Status:*</label>
+                <div class="role">
+                    <select name="is_active" id="is_active">
+                        <option value="1" <?php echo (isset($this->editPageInfo[0]['is_active'])&& $this->editPageInfo[0]['is_active']==1) ? 'selected':''; ?>>Active</option>
+                        <option value="0" <?php echo (isset($this->editPageInfo[0]['is_active'])&& $this->editPageInfo[0]['is_active']==0) ? 'selected':''; ?>>In Active</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <label class="form-label span5" for="page_content" style="text-align: left;margin:0;">Content:*</label>
+                <br />
+                <br />
+                <textarea class="inputArea" id="page_content" name="page_content" rows="10" cols="40"><?php echo isset($this->editPageInfo[0]['page_content']) ? $this->editPageInfo[0]['page_content']:''; ?></textarea>
+                <script type="text/javascript">
+        			//<![CDATA[
+        				var editor = CKEDITOR.replace( 'page_content',
+        					{
+        						fullPage : false,
+        						extraPlugins : 'docprops',
+                                toolbar: [
+                                	{ name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+                                	{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+                                	{ name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ] },
+                                	{ name: 'tools', items: [ 'Maximize' ] },
+                                	{ name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source' ] },
+                                	{ name: 'others', items: [ '-' ] },
+                                	'/',
+                                	{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
+                                	{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] },
+                                	{ name: 'styles', items: [ 'Styles', 'Format' ] },
+                                	{ name: 'about', items: [ 'About' ] }
+                                ],
+                                filebrowserBrowseUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/ckfinder.html'); ?>',
+                             	filebrowserImageBrowseUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/ckfinder.html?type=Images'); ?>',
+                             	filebrowserFlashBrowseUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/ckfinder.html?type=Flash'); ?>',
+                             	filebrowserUploadUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'); ?>',
+                             	filebrowserImageUploadUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'); ?>',
+                             	filebrowserFlashUploadUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'); ?>',
+                             	filebrowserWindowWidth : '700',
+                             	filebrowserWindowHeight : '500'
+        					});
+                        CKFinder.setupCKEditor( editor, '<?php echo $this->basePath('media'); ?>' ) ;
+        
+        			//]]>
+     			</script>
+            </div>
+	                                
+
+            <div class="row">
+                <div class="form-actions">
+                    <div class="controls">
+                        <button class="btn btn-primary pull-right marginL10 btn-danger" style="margin-left:20px" type="button" onclick="window.location = '<?php echo $this->url('cms', array('action' => 'page')); ?>';">Cancel</button>
+                        <button id="successR" type="submit" class="btn marginR10 btn-success pull-right">Save</button>
+                        <!--button id="errorR" type="submit" class="btn marginR10">Save</button-->
+                    </div>
+                </div>
+            </div>
+       </form>
+          
+    </div>
+    
+</div>

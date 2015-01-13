@@ -1,0 +1,244 @@
+
+<script type="text/javascript" src="<?php echo $this->basePath('assets/plugins/validate/jquery.validate.creditcard2-1.0.1.js'); ?>"></script>
+
+<script type="text/javascript" charset="utf-8">
+//<![CDATA[
+jQuery.validator.setDefaults({success: "valid"});
+jQuery.validator.messages.creditcard2 = "invalid";
+jQuery(document).ready(function($) {
+    $('#paymentForm').validate({
+        rules: {
+            field2: {creditcard2: function(){ 
+                return $('#cardType').val(); 
+            }},
+            cvc_number: {
+               required: true,
+                minlength: 3,
+                maxlength: 4,
+                digits: true
+            },
+            card_holder_name: {
+               required: true,
+                minlength: 2,
+                maxlength: 255 
+            },
+            agree: {
+               required: true
+            }            
+        },
+        messages: {
+            agree: {
+                required: "Required"
+            }
+        }
+    });
+    $('#cardType').change(function(){
+        $('#paymentForm').validate().element('#field2');
+    });
+    
+    
+    $('.ccv_number').toggle(function() {
+        $('#payment-tool-tip').show();
+    }, function() {
+        $('#payment-tool-tip').hide();
+    });
+    
+    $("#payment-tool-tip-close").click(function() {
+        $('#payment-tool-tip').hide();
+    });
+    
+});
+
+//]]>
+</script>
+
+
+
+<div class="wrapper product">
+    <div class="row-fluid">
+        <div class="span12 productwrap">
+            <div class="span9">
+                <div class="span12 title">
+                    Buy Credits
+                </div>
+                <div class="span12 link">
+                    <a href="<?php echo $this->url('packages', array('action'=>'index')); ?>">Back to Bid Package listing</a>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12 product">
+                        <div class="title purchase">Purchase</div>
+                        <div class="row-fluid">
+                            <div class="span12 detailswrap">
+                                <div class="span8">
+                                    <div class="span12 bid_package module">
+                                        <img class="product_big_img" src="<?php echo $this->basePath('assets/design/frontend/images/product_details_image.jpg'); ?>" alt="" />
+                                        <div class="bid_package_counter">
+                                            <?php 
+                                            $font_size = '';
+                                            if(strlen($packageInfo[0]['available_bid']) > 2 ){
+                                                $font_size = ' style="font-size: 124px;"';
+                                            }?>
+                                            <div class="number"<?php echo $font_size; ?>><?php echo $packageInfo[0]['available_bid']; ?></div>
+                                            <div class="text"><?php echo $packageInfo[0]['package_name']; ?></div>
+                                        </div>
+                                        <table class="prize_table">
+                                        <tbody>
+                                            <tr>
+                                                <td>Price per Bid</td>
+                                                <td class="prize_last"><?php echo number_format($packageInfo[0]['price_per_bid'], 2, ',', ' '); ?></td>
+                                            </tr>
+                                            <tr class="mid">
+                                                <td>Item Cost</td>
+                                                <td class="prize_last"><?php echo number_format(($packageInfo[0]['price_per_bid']*$packageInfo[0]['available_bid']), 2, ',', ' '); ?></td>
+                                            </tr>
+               
+                                            <tr class="mid">
+                                                <td>Amount you saved</td>
+                                                <td class="prize_last"><?php echo number_format($packageInfo[0]['saved_price'], 2, ',', ' '); ?></td>
+                                            </tr>
+                                            <tr class="mid last">
+                                                <td>Your Price</td>
+                                                <td class="prize_own"><?php echo number_format(($packageInfo[0]['price_per_bid']*$packageInfo[0]['available_bid']), 2, ',', ' '); ?></td>
+                                            </tr>
+                                        </tbody>
+                                        </table>
+                                        
+                                    </div>
+                                    <?php if(trim($packageInfo[0]['package_benefits']) != '') { ?>
+                                    <div class="span12 benefits">
+                                        <div class="title">Package Benefits</div>
+                                        <?php echo trim($packageInfo[0]['package_benefits']); ?>
+                                    </div>
+                                    <?php } ?>
+                                </div>
+                                <div class="span4">
+                                    <div class="span12 payment">
+                                        <form id="paymentForm" action="" method="post">
+                                            <h3>Payment details:</h3>
+                                            <ul class="card clearfix">
+                                                <li><img src="<?php echo $this->basePath('assets/design/frontend/images/visa.png'); ?>" /></li>
+                                                <li><img src="<?php echo $this->basePath('assets/design/frontend/images/solo.png'); ?>" /></li>
+                                                <li><img src="<?php echo $this->basePath('assets/design/frontend/images/mastercard.png'); ?>" /></li>
+                                                <li><img src="<?php echo $this->basePath('assets/design/frontend/images/maxtro.png'); ?>" /></li>
+                                            </ul>
+                                            <label>Card Type</label>
+                                            <select name="cardType" id="cardType">
+                                                <option value="Visa"<?php echo (isset($_POST['cardType']) && $_POST['cardType'] == 'Visa') ? ' selected="selected"' : ''; ?>>Visa</option>
+                                                <option value="Solo"<?php echo (isset($_POST['cardType']) && $_POST['cardType'] == 'Solo') ? ' selected="selected"' : ''; ?>>Solo</option>
+                                                <option value="MasterCard"<?php echo (isset($_POST['cardType']) && $_POST['cardType'] == 'MasterCard') ? ' selected="selected"' : ''; ?>>MasterCard</option>
+                                                <option value="Maestro"<?php echo (isset($_POST['cardType']) && $_POST['cardType'] == 'Maestro') ? ' selected="selected"' : ''; ?>>Maestro</option>
+                                            </select>
+                                            <label style="margin-top: 5px;">Creditcard Number</label>
+                                            <div class="clearfix ccNumberDiv">
+                                                <input type="text" id="field2" value="<?php echo isset($_POST['field2']) ? $_POST['field2'] : ''; ?>" name="field2" style="float: left;" />
+                                            </div>
+                                            <div class="inputWrap clearfix">
+                                                <label>Expiration Date</label>
+                                                <div class="day">
+                                                <select name="month">
+                                                    <option value="01"<?php echo (isset($_POST['month']) && $_POST['month'] == 01) ? ' selected="selected"' : ''; ?>>01</option>
+                                                    <option value="02"<?php echo (isset($_POST['month']) && $_POST['month'] == 02) ? ' selected="selected"' : ''; ?>>02</option>
+                                                    <option value="03"<?php echo (isset($_POST['month']) && $_POST['month'] == 03) ? ' selected="selected"' : ''; ?>>03</option>
+                                                    <option value="04"<?php echo (isset($_POST['month']) && $_POST['month'] == 04) ? ' selected="selected"' : ''; ?>>04</option>
+                                                    <option value="05"<?php echo (isset($_POST['month']) && $_POST['month'] == 05) ? ' selected="selected"' : ''; ?>>05</option>
+                                                    <option value="06"<?php echo (isset($_POST['month']) && $_POST['month'] == 06) ? ' selected="selected"' : ''; ?>>06</option>
+                                                    <option value="07"<?php echo (isset($_POST['month']) && $_POST['month'] == 07) ? ' selected="selected"' : ''; ?>>07</option>
+                                                    <option value="08"<?php echo (isset($_POST['month']) && $_POST['month'] == 08) ? ' selected="selected"' : ''; ?>>08</option>
+                                                    <option value="09"<?php echo (isset($_POST['month']) && $_POST['month'] == 09) ? ' selected="selected"' : ''; ?>>09</option>
+                                                    <option value="10"<?php echo (isset($_POST['month']) && $_POST['month'] == 10) ? ' selected="selected"' : ''; ?>>10</option>
+                                                    <option value="11"<?php echo (isset($_POST['month']) && $_POST['month'] == 11) ? ' selected="selected"' : ''; ?>>11</option>
+                                                    <option value="12"<?php echo (isset($_POST['month']) && $_POST['month'] == 12) ? ' selected="selected"' : ''; ?>>12</option>
+                                                </select>
+                                                </div>
+                                                -
+                                                <div class="year">
+                                                <select name="year">
+                                                    <?php 
+                                                    $year = date('Y');
+                                                    for($i = $year; $i <= ($year+4); $i++){
+                                                        $selected = (isset($_POST['year']) && $_POST['year'] == $i) ? ' selected="selected"' : '';
+                                                        echo '<option value="'.$i.'"'.$selected.'>'.$i.'</option>';
+                                                    } ?>
+                                                </select>
+                                                </div>
+                                            </div>
+                                            <div class="inputWrap clearfix cvcNumberDiv" style="position: relative;">
+                                                <label>Control Number</label>
+                                                <input type="text" class="small" value="<?php echo isset($_POST['cvc_number']) ? $_POST['cvc_number'] : ''; ?>" name="cvc_number" id="cvc_number" />
+                                                <a href="#" style="position: absolute;cursor: help;" class="ccv_number">Control Number</a>
+                                                
+                                                <div style="display:none;right: -45px;top: 35px;" id="payment-tool-tip" class="tool-tip">
+                                                    <div class="btn-close"><a title="Close" id="payment-tool-tip-close" href="javascript:void();" style="float: right;">Close</a></div>
+                                                    <div class="tool-tip-content"><img title="Card Verification Number Visual Reference" alt="Card Verification Number Visual Reference" src="<?php echo $this->basePath('assets/design/frontend/images/cvv.gif'); ?>"></div>
+                                                </div>
+                                                                                                
+                                            </div>
+                                            <label>Cardholder Name</label>
+                                            <input type="text" class="inputbox" value="<?php echo isset($_POST['card_holder_name']) ? $_POST['card_holder_name'] : ''; ?>" name="card_holder_name" id="card_holder_name" />
+                                            <div class="termsBox">
+                                                <input type="checkbox" name="agree" id="agree" />
+                                                I accept PennyBid's <a href="#myModal2" data-toggle="modal">Terms and Conditions</a>
+                                                and allow PennyBid to send me email.
+                                            </div>
+                                            <button class="btn btn-primary submit">Submit</button>
+                                            <div class="clearfix"></div>
+                                            <img src="<?php echo $this->basePath('assets/design/frontend/images/logo_list.jpg'); ?>" alt="" />
+                                            
+                                        </form>
+                                        
+                                    </div>
+                                    <div class="span12 purchasing">
+                                        <div class="title">Purchasing in PennyBid is safe & secure:</div>
+                                        <ul>
+                                            <li>Verified by VISA</li>
+                                            <li>Secured by SSL</li>
+                                            <li>128 bit encryption</li>
+                                            <li>High standard of authentication</li>
+                                            <li>Verified by a certificate authority</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="span3 right">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <a href="javascript:void(0)" onclick="window.open('<?php echo $this->url('livechat'); ?>', 'Live Chat :: Penny Bid', 'width=470,menubar=no,location=yes,resizable=yes,scrollbars=no,status=yes');">
+                            <img src="<?php echo $this->basePath('assets/design/frontend/images/live_chat.png'); ?>" alt="" />
+                        </a>
+                    </div>
+                </div>
+                <?php echo $this->render("include_main/additional_info_headline.phtml"); ?>
+            </div>
+            
+            <!-- modal box ---->
+            <div id="myModal2" class="modal hide fade" style="display: none;text-align: left;">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span class="icon12 minia-icon-close"></span></button>
+                  <h3><?php echo $tearmsAndConditionPage[0]['page_title']; ?></h3>
+                </div>
+                <div class="modal-body">
+                    <?php echo $tearmsAndConditionPage[0]['page_content']; ?>
+                </div>
+                <div class="modal-footer">
+                
+                    <div class="form-row row-fluid">  
+						<div class="span12">
+							<div class="row-fluid">
+								<button data-dismiss="modal" class="btn btn-danger">Close</button>
+							</div>
+						</div>  
+					</div> 
+                 
+                </div>
+            </div>
+            <!-- Boostrap modal dialog -->
+            
+            
+        </div>
+    </div>   
+</div>

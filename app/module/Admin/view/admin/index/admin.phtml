@@ -1,0 +1,145 @@
+<script type="text/javascript">
+    //<!--
+    var userid = [];
+    
+    $(document).ready(function() {
+       $('.userid_checkbox').click(function() {
+            if (this.checked) {
+                 userid.push(this.value);
+            } else {
+                var index = userid.indexOf(this.value); 
+                if (index != -1)
+                    userid.splice(index,1);
+            }
+            $('input[name=userids]').val(userid);
+       }); 
+    });
+    
+    function showStatus(value) {
+        if (value == 'status')
+            $('#status').css('display', 'inline-block');
+        else
+            $('#status').hide();
+    }
+    
+    function checkUserIds() {
+        if ($('input[name=userids]').val() != '') {
+            return true;
+        }
+        alert('Please select user');
+        return false;
+    }
+    
+    function toggleChecked(status) {
+        $(".userid_checkbox").each( function() {
+            $(this).attr("checked",status);
+            if(status){
+              $(this).parent().addClass('checked');  
+              userid.push(this.value);
+            } else {
+              $(this).parent().removeClass('checked');
+              var index = userid.indexOf(this.value); 
+                if (index != -1)
+                    userid.splice(index,1);
+            }
+        })
+        $('input[name=userids]').val(userid);
+        //onclick="toggleChecked(this.checked)"
+    }
+    //-->
+</script>
+
+<style type="text/css">
+#uniform-status {
+    display: none;
+}
+</style>
+
+<div class="main">
+
+	<div class="page_title">
+		<h3>Admin Panel Users</h3> 
+	</div>
+	
+	<div class="content"> 
+                    
+	    <div class="selectbox">   
+            <form method="post" action="<?php echo $this->url('admin', array('action' => 'mass-admin-modification')); ?>">
+                <select name="action" onchange="showStatus(this.value)">
+                    <option selected="selected">Choose action</option>
+                    <option value="delete">Delete</option>
+                    <option value="status">Change Status</option>
+                </select>
+                <select name="status" id="status" style="display: none;">
+                    <option selected="selected">Change Status</option>
+                    <option value="1">Active</option>
+                    <option value="0">In Active</option>
+                </select>
+                <input type="hidden" name="userids" />
+                <button type="submit" onclick="return checkUserIds();" class="btn btn-inverse">Submit</button>
+                <a href="<?php echo $this->url('admin', array('action' => 'new-admin')); ?>" class="btn btn-success">Add user</a>
+            </form>
+	    </div>
+                    
+                            
+                
+        <div class="noPad clearfix">
+           <div class="scrollable">
+              <table cellpadding="0" cellspacing="0" border="0" class="responsive display table table-bordered" width="100%">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" name="optionsCheckboxList1" value="option1" class="styled" onclick="toggleChecked(this.checked)" />
+                        </th>
+                        <th>Profile</th>
+                        <th>Name</th>
+                        <th>Email address</th>
+                        <th>Status</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php 
+                    if (count($this->paginator)): 
+                        $iterator = 1;
+                        foreach ($this->paginator as $item): 
+                ?>
+                    <tr class="<?php if ($iterator++%2 == 0) echo 'even'; else echo 'odd'; ?>">
+                        <td>
+                            <input type="checkbox" class="userid_checkbox" name="userid[]" value="<?php echo $item['user_id']; ?>" class="styled" />
+                        </td>
+                        <td class="sorting2">
+                            <label><?php echo $item['username']; ?></label>
+                        </td>
+                        <td><?php echo $item['first_name']; ?> <?php echo $item['last_name']; ?></td>
+                        <td><?php echo $item['email_address']; ?></td>
+                        <td><?php echo $item['is_active'] == 1 ? 'Active' : 'In Active'; ?></td>
+                        <td>
+                            <a href="<?php echo $this->url('admin', array('action' => 'edit-admin', 'id' => $item['user_id'])); ?>" class="btn btn-success">Edit user</a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="6">--No data found--</td>
+                    </tr>
+                <?php endif; ?>
+            
+                </tbody>
+            </table>
+            
+            <?php echo $this->paginationControl(
+                                                $this->paginator,
+                                                'Sliding',
+                                                'include/pagination_control.phtml',
+                                                array('route' => 'admin', 'action' => 'admin')
+                    ); 
+            ?>
+            
+            </div>
+        </div>
+                   
+            
+    </div>
+        
+</div> 

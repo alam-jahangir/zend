@@ -1,0 +1,205 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<!--div class="search_categories">
+	<form method="post" action="">
+		<span>KATEGORIES</span>
+		<input type="text" name="search" id="search" />
+		<button type="submit" class="search_btn"><span>SEARCH</span></button>
+	</form>
+</div -->
+
+<div class="gallery">
+	<?php echo $this->render('include/navigation.phtml'); ?>
+	<div class="fright gallery_middle">
+		<?php echo $this->render('include/add.phtml'); ?>
+		
+		<div class="list_of_gallery fleft">
+			<div class="page_title">
+				<h3><?php echo $this->title; ?></h3>
+			</div>
+			<div>
+				
+				<table width="100%" style="text-align:left" class="table">
+					<tr>
+						<th colspan="4"  class="title_header" style="background-color:#29ff06">
+							<label>UPGRADE NOW</label>
+						</th>
+					</tr>
+					<tr>
+						<td>BLACKLIST</td>
+						<td>monthly</td>
+						<td>29.-&euro;</td>
+						<td>
+							<a class="btn_lightblue" href="<?php echo $this->url('product_list'); ?>">buy</a>
+						</td>
+					</tr>
+					<tr>
+						<td>WEBSITE</td>
+						<td>monthly</td>
+						<td>39.-&euro;</td>
+						<td>
+							<a class="btn_lightblue" href="<?php echo $this->url('product_list'); ?>">buy</a>
+						</td>
+					</tr>
+					<tr>
+						<td>PROFESSIONAL</td>
+						<td>monthly</td>
+						<td>99.-&euro;</td>
+						<td>
+							<a class="btn_lightblue" href="<?php echo $this->url('product_list'); ?>">buy</a>
+						</td>
+					</tr>
+					<tr>
+						<td>EXCLUSIVE</td>
+						<td>monthly</td>
+						<td>199.-&euro;</td>
+						<td>
+							<a class="btn_lightblue" href="<?php echo $this->url('product_list'); ?>#section4">buy</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div>
+			<table width="100%" style="text-align:left" class="table">
+				<tr>
+					<th colspan="2"  class="title_header">
+						<label>Personal Information</label>
+						<a href="<?php echo $this->url('account_edit'); ?>" class="link_btn fright">EDIT</a>
+					</th>
+				</tr>
+				<tr>
+					<td>Username</td>
+					<td><?php echo $this->user[0]['username']; ?></td>
+				</tr>
+			
+				<tr>
+					<td>Email Address</td>
+					<td><?php echo $this->user[0]['email']; ?></td>
+				</tr>
+				
+				<tr>
+					<td>Passport/ID</td>
+					<td>
+						<?php echo $this->user[0]['passport_no']; ?>
+						<?php if (isset($this->user[0]['passport_image']) && $this->user[0]['passport_image'] != ''): ?>
+		                    <a href="<?php echo $url.$this->basePath('media/passport_image/'.$this->user[0]['passport_image']); ?>" target="_blank">Passport Image</a>
+		                <?php endif; ?>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>Mobile Number</td>
+					<td>
+						<?php echo $this->user[0]['mobile_no']; ?>
+						<?php if (isset($this->user[0]['mobile_invoice_image']) && $this->user[0]['mobile_invoice_image'] != ''): ?>
+		                    	<a href="<?php echo $url.$this->basePath('media/mobile_invoice_image/'.$this->user[0]['mobile_invoice_image']); ?>" target="_blank">Mobile Invoice Image</a>
+		                <?php endif; ?>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>Tax Number</td>
+					<td>
+						<?php echo $this->user[0]['tax_number']; ?>
+						<?php if (isset($this->user[0]['tax_document']) && $this->user[0]['tax_document'] != ''): ?>
+		                    	<a href="<?php echo $url.$this->basePath('media/tax_document/'.$this->user[0]['tax_document']); ?>" target="_blank">Business Registration</a>
+		                    <?php endif; ?>
+		      		</td>
+				</tr>
+				
+				<tr>
+					<th colspan="2" class="title_header">
+						Private Address
+					</th>
+				</tr>
+				
+				<tr>
+					<td>Name</td>
+					<td><?php echo $this->address[0]['name']; ?></td>
+				</tr>
+				
+				<tr class="even">
+					<td>Surname</td>
+					<td><?php echo $this->address[0]['surname']; ?></td>
+				</tr>
+				
+				<tr>
+					<td>Street</td>
+					<td><?php echo $this->address[0]['street']; ?></td>
+				</tr>
+				
+				<tr>
+					<td>City</td>
+					<td><?php echo $this->address[0]['city']; ?></td>
+				</tr>
+				
+				<tr>
+					<td>State</td>
+					<td><?php echo $this->address[0]['state']; ?></td>
+				</tr>
+				
+				<tr>
+					<td>Zipcode</td>
+					<td><?php echo $this->address[0]['zipcode']; ?></td>
+				</tr>
+				
+				<tr>
+					<td>Phone</td>
+					<td><?php echo $this->address[0]['phone']; ?></td>
+				</tr>
+				
+				<tr>
+					<td>Email Address</td>
+					<td><?php echo $this->address[0]['email']; ?></td>
+				</tr>
+				
+				<tr>
+					<th colspan="2" class="title_header">
+						Business Address
+					</th>
+				</tr>
+				
+				<tr>
+					<td>Name</td>
+					<td><?php echo $this->address[0]['business_name']; ?></td>
+				</tr>
+				
+				<tr>
+					<td>Surname</td>
+					<td><?php echo $this->address[0]['business_surname']; ?></td>
+				</tr>
+				
+				<tr>
+					<td>Street</td>
+					<td><?php echo $this->address[0]['business_street']; ?></td>
+				</tr>
+				
+				<tr>
+					<td>City</td>
+					<td><?php echo $this->address[0]['business_city']; ?></td>
+				</tr>
+				
+				<tr>
+					<td>State</td>
+					<td><?php echo $this->address[0]['business_state']; ?></td>
+				</tr>
+				
+				<tr>
+					<td>Zipcode</td>
+					<td><?php echo $this->address[0]['business_zipcode']; ?></td>
+				</tr>
+				
+				<tr>
+					<td>Phone</td>
+					<td><?php echo $this->address[0]['business_phone']; ?></td>
+				</tr>
+				
+				<tr>
+					<td>Email Address</td>
+					<td><?php echo $this->address[0]['business_email']; ?></td>
+				</tr>
+				
+			</table>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,118 @@
+<?php
+$currentNavIdName = '';
+$sm = $this->getHelperPluginManager()->getServiceLocator();
+$router = $sm->get('router');
+$request = $sm->get('request');
+$routeMatch = $router->match($request);
+if ($routeMatch) {
+    $routerName = $routeMatch->getMatchedRouteName();
+    $currentNavIdName = 'menu_'.$routerName;
+}
+?>
+<script type="text/javascript">
+//<!--
+jQuery(document).ready(function($) {
+    $('.menu ul li a').removeClass('active');
+    $('#<?php echo $currentNavIdName; ?>').addClass('active');
+    
+    $('#menu_cart').parent(0).bind('touchstart touchenter mouseover', function(e){
+		e.preventDefault();
+		$(this).addClass('hover');
+        $('.cart-top-container').css({display:'block', opacity:1});
+    });
+    
+    $('#menu_cart').parent(0).bind('touchend touchleave mouseout', function(e){
+		e.preventDefault();
+		$(this).removeClass('hover');
+        $('.cart-top-container').css({display:'none', opacity:0});
+    });
+});
+//-->
+</script>
+<header>
+	<?php $userinfo = $this->authenticate(); ?>			
+	<div class="header">
+		<div class="header_container">
+			 <div class="fleft logo">
+			 	<a href="<?php echo $this->url('home'); ?>">
+					<h2>JAKATOO</h2>
+				</a>
+			 </div>
+			 <div class="fright menu">
+				<nav>
+					<ul>
+						<li><a id="menu_home" href="<?php echo $this->url('home'); ?>">home</a></li>
+						<li>
+							<a href="<?php echo $this->url('noRoute', array('identifier' => 'about-us')); ?>">about us</a>
+						</li>
+						<li>
+							<a href="<?php echo $this->url('noRoute', array('identifier' => 'how-it-works')); ?>">How It Works</a>
+						</li>
+						
+						<?php if ($userinfo): ?>
+							<li><a id="menu_product_list" href="<?php echo $this->url('product_list'); ?>">products</a></li>
+						<?php endif; ?>
+						
+						<li><a id="menu_contact_us" href="<?php echo $this->url('contact_us'); ?>">contact</a></li>
+						
+						<?php if ($userinfo): ?>
+							<li><a id="menu_account" href="<?php echo $this->url('account'); ?>">my account</a></li>
+							<li>
+								<a id="menu_cart" href="javascript:void(0)">cart</a>
+								<div class="cart-top-container" style="display: none; opacity: 0;">
+									<div class="details">
+										<?php $cartSummary = $this->getCartSummary($userinfo->id); ?>
+										<?php if ($cartSummary): ?>
+											<ul class="item_list">
+												<li>
+													<div class="litem">
+														CART
+													</div>
+													<div class="ritem">
+														<a href="<?php echo $this->url('checkout'); ?>">VIEW</a>
+													</div>
+												</li>
+												<li>
+													<?php if ($cartSummary['total_item'] == 1): ?>
+														<?php echo $cartSummary['total_item']; ?> item in cart
+													<?php else: ?>
+														<?php echo $cartSummary['total_item']; ?> items in cart
+													<?php endif; ?>
+												</li>
+												<li>
+													<div class="litem">
+														TOTAL
+													</div>
+													<div class="ritem">
+														$<?php echo $cartSummary['cart_price']; ?>
+													</div>
+												</li>
+												<li class="last">
+													<a href="<?php echo $this->url('checkout'); ?>">PAY & CHECK OUT</a>
+												</li>
+											</ul>
+										<?php else: ?>
+											<p class="a-center">No items in your cart</p>
+										<?php endif; ?>
+								    </div>
+								</div>
+							</li>
+						<?php endif; ?>
+					</ul>
+				</nav>
+		 	</div>
+		 </div>
+	 </div>
+	 <div class="header_container">
+			 <div class="fleft" style="width:40%;">
+			 </div>
+			 <div class="fright login">
+			 	<?php if ($userinfo): ?>
+					<a href="<?php echo $this->url('logout'); ?>">LOG OUT</a>
+				<?php else: ?>
+					<a href="<?php echo $this->url('login'); ?>">LOG IN</a>
+					<a href="<?php echo $this->url('create_account'); ?>" style="background:#cacdcd;">CREATE NEW ACCOUNT</a>
+				<?php endif; ?>
+		 	</div>
+	</div>
+</header>

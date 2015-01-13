@@ -1,0 +1,240 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/plugins/validate/jquery.validate.min.js'); ?>"></script>
+<script type="text/javascript">
+//<!--
+    $(document).ready(function() {
+    	
+    	$(".passport_image_btn").click(function(e) {
+    		e.preventDefault();
+		    $("input[id='passport_image']").click();
+		    return false;
+		});
+		
+		$(".mobile_invoice_image_btn").click(function(e) {
+			e.preventDefault();
+		    $("input[id='mobile_invoice_image']").click();
+		    return false;
+		});
+		$(".tax_document_btn").click(function(e) {
+			e.preventDefault();
+		    $("input[id='tax_document']").click();
+		    return false;
+		});
+		
+		$(".passport_image1_btn").click(function(e) {
+			e.preventDefault();
+		    $("input[id='passport_image1']").click();
+		    return false;
+		});
+		$(".mobile_invoice_image1_btn").click(function(e) {
+			e.preventDefault();
+		    $("input[id='mobile_invoice_image1']").click();
+		    return false;
+		});
+		$(".tax_document1_btn").click(function(e) {
+			e.preventDefault();
+		    $("input[id='tax_document1']").click();
+		    return false;
+		});
+		
+        $("#create_account").validate({
+            rules: {
+                private_email: {
+                    required: true,
+                    email: true
+                },
+                private_name: {
+                    required: true
+                },
+				private_surname: {
+                    required: true
+                },
+                private_street: {
+                    required: true
+                },
+                private_city: {
+                    required: true
+                },
+                private_state: {
+                    required: true
+                },
+                private_zipcode: {
+                    required: true
+                },
+                private_phone: {
+                    required: true
+                },
+                
+                business_name: {
+                    required: true
+                },
+                business_surname: {
+                    required: true
+                },
+                business_street: {
+                    required: true
+                },
+                business_city: {
+                    required: true
+                },
+                business_state: {
+                    required: true
+                },
+                business_zipcode: {
+                    required: true
+                },
+                business_phone: {
+                    required: true
+                },
+                business_email: {
+                    required: true,
+                    email: true
+                }
+            }   
+        });
+    });
+    //-->
+</script>
+<div class="create_account">
+	<div class="page_title">
+		<h3></h3>
+	</div>
+	<div class="content">
+		<form class="submitForm" action="" method="post" id="create_account" enctype="multipart/form-data">
+			<table width="100%">
+				<tr>
+					<td valign="top" width="10%" class="" style="padding: 0px;">
+	                   <table width="105%">
+	                      <tr>
+	                         <td style="padding:5px;" class="backgroundblue" align="center" valign="middle">
+							 	<img src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/one.png'); ?>" alt="Jakato">
+							 </td>
+	                         <td></td>
+	                      </tr>
+	                   </table>
+	                </td>
+					<td valign="top" class="backgroundblue pad0" style="padding:20px 20px 0 40px;">
+	                    <div class="createaccount_form">
+	                        <table width="100%" style="margin-top: -20px;">
+	                          <tr>
+	                             <td valign="top" class="backgroundblue">
+	                               <h3 style="color: #fff;">Private Address</h3>
+								   <input type="text" name="private_name" id="private_name" placeholder="Name" />
+	                               <input type="text" name="private_surname" id="private_surname" placeholder="Surname" />
+	                               <input type="text" name="private_street" id="private_street" placeholder="Street" />
+	                               <input type="text" name="private_city" id="private_city" placeholder="City" />
+	                               <input type="text" name="private_zipcode" id="private_zipcode" placeholder="Zip Code" />
+	                               <input type="text" name="private_state" id="private_state" placeholder="State" />
+	                               <input type="text" name="private_phone" id="private_phone" placeholder="Phone Number" />
+	                               <input type="text" name="private_email" id="private_email" placeholder="Email" />
+	                             </td>
+	                             <td valign="top" class="backgroundblue" style="width:30px">
+	                             &nbsp;
+	                             </td>
+	                             <td valign="top" class="backgroundblue">
+	                               <h3 style="color: #fff;">Business Address</h3>
+	                               <input type="text" name="business_name" id="business_name" placeholder="Name of your business" />
+	                               <input type="text" name="business_surname" id="business_surname" placeholder="Name of CEO" />
+	                               <input type="text" name="business_street" id="business_street" placeholder="Street" />
+	                               <input type="text" name="business_city" id="business_city" placeholder="City" />
+	                               <input type="text" name="business_state" id="business_state" placeholder="State" />
+	                               <input type="text" name="business_zipcode" id="business_zipcode" placeholder="Zip Code" />
+	                               <input type="text" name="business_phone" id="business_phone" placeholder="Phone Number" />
+	                               <input type="text" name="business_email" id="business_email" placeholder="Email" />
+	                             </td>
+	                          </tr>
+	                       </table>
+	                    </div>
+					</td>
+				</tr>
+			</table>
+			
+			<br />
+			
+			
+			<table width="100%" class="table_dispay">
+				<tr>
+					<td class="backgroundblue" valign="top" width="10%" class="" style="padding: 0px;">
+	                    <img src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/two.png'); ?>" alt="Jakato" />
+	                </td>
+					<td valign="top" class="backgroundblue" style="padding:20px 20px 0 33px;">
+	                    <div class="createaccount_form">
+	                          <table width="100%">
+	                             <tr>
+	                                <td valign="top" class="backgroundblue" align="left">
+	                                   <input type="text" name="passport_no" id="passport_no" style="width: 75% !important;" placeholder="Passport / ID Card" />
+	                                </td>
+	                                <td valign="top" class="backgroundblue" align="left">
+	                                   <input type="text" name="mobile_no" id="mobile_no" style="width: 75% !important;" placeholder="latest mobile invoice" />
+	                                </td>
+	                                <td valign="top" class="backgroundblue" align="left">
+	                                   <input type="text" name="tax_number" id="tax_number" style="width: 70% !important;" placeholder="Tax number" />
+	                                </td>
+	                             </tr>
+	                             <tr>
+	                                <td valign="top" class="backgroundblue" align="center">
+	                                   <input type="image" class="passport_image_btn" src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/upload_file_button.png'); ?>" style="width: 39% !important;margin-right: 65px;" />
+	                                   <input type="file" id="passport_image" name="passport_image" style="display: none;" />
+	                                </td>
+	                                
+	                                <td valign="top" class="backgroundblue" align="center">
+	                                   <input type="image" class="mobile_invoice_image_btn" src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/upload_file_button.png'); ?>" style="width: 39% !important;margin-right: 69px;" />
+	                                   <input type="file" id="mobile_invoice_image" name="mobile_invoice_image" style="display: none;" />
+	                                </td>
+	                                
+	                                <td valign="top" class="backgroundblue" align="center">
+	                                   <input type="image" class="tax_document_btn" src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/upload_file_button.png'); ?>" style="width: 39% !important;margin-right: 79px;" />
+	                                   <input type="file" id="tax_document" name="tax_document" style="display: none;" />
+	                                </td>
+	                             </tr>
+	                          </table>
+	                    </div>
+					</td>
+				</tr>
+			</table>
+				
+			<table width="100%" class="table_hide">
+				<tr>
+					<td class="backgroundblue" valign="top" width="10%" class="" style="padding: 0px;">
+	                      <img src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/two.png'); ?>" alt="Jakato" />
+	                </td>
+					<td valign="top" class="backgroundblue" style="padding:20px 20px 0 33px;">
+	                    <div class="createaccount_form">
+	                          <table width="100%">
+	                             <tr>
+	                                <td valign="top" class="backgroundblue" align="left">
+	                                   <input type="text" name="passport_no1" id="passport_no1" style="width: 75% !important;" placeholder="Passport / ID Card" /><br />
+									   <input type="image" class="passport_image1_btn" src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/upload_file_button.png'); ?>" style="width: 39% !important;margin-right: 65px;" />
+									   <input type="file" id="passport_image1" name="passport_image1" style="display: none;" />
+	                                </td>
+								</tr>
+								<tr>
+	                                <td valign="top" class="backgroundblue" align="left">
+	                                   <input type="text" name="mobile_no1" id="mobile_no1" style="width: 75% !important;" placeholder="latest mobile invoice" /><br />
+									   <input type="image" class="mobile_invoice_image1_btn" src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/upload_file_button.png'); ?>" style="width: 39% !important;margin-right: 65px;" />
+									   <input type="file" id="mobile_invoice_image1" name="mobile_invoice_image1" style="display: none;" />
+	                                </td>
+								</tr>
+								<tr>
+	                                <td valign="top" class="backgroundblue" align="left">
+	                                   <input type="text" name="tax_number1" id="tax_number1" style="width: 70% !important;" placeholder="Tax number" /><br />
+									   <input type="image" class="tax_document1_btn" src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/upload_file_button.png'); ?>" style="width: 39% !important;margin-right: 65px;" />
+									   <input type="file" id="tax_document1" name="tax_document1" style="display: none;" />
+	                                </td>
+	                             </tr>
+	                            
+	                          </table>
+	                       
+	                    </div>
+					</td>
+				</tr>
+			</table>
+	        
+			<div class="details">
+				<h3 style="color: #B4B4B4;text-align: right;margin-left:5px;">Please check all your details again before sending 
+					<input type="image" src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/send_button.png'); ?>" style="width: 20%;float:right;margin-top: -8px;margin-left: 10px;" />
+				</h3>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,159 @@
+<script type="text/javascript">
+    //<!--
+    $(document).ready(function() {
+         $("#admin_signup").validate({
+            rules: {
+                first_name: {
+                   required: true,
+                   maxlength: 255
+                },
+                last_name: {
+                   required: true,
+                   maxlength: 255
+                },
+                
+                username: {
+                    required: true,
+                    minlength: 4,
+                    maxlength: 255
+                },
+                email_address: {
+                   required: true,
+                   minlength: 5,
+                   email:true,
+                   maxlength: 255 
+                },
+                is_active: {
+                    required: true,
+                    digits:true
+                },
+                <?php if (!isset($this->editUserInfo[0]['is_active'])): ?>
+                password: {
+                    required: true,
+                    minlength: 4,
+                    maxlength:255
+                },
+                confirm_password: {
+                    required: true,
+                    minlength: 4,
+                    maxlength:255,
+                    equalTo: '#password'
+                },  
+                <?php else: ?>
+                confirm_password: {
+                    equalTo: '#password'
+                }, 
+                <?php endif; ?>
+            },
+            messages: {
+                first_name: {
+                    required: "First name is required",
+                    maxlength: "First name is bigger"
+                },
+                last_name: {
+                    required: "Last name is required",
+                    maxlength: "Last name is bigger"
+                },
+                
+                username: {
+                    required: "Username is required",
+                    minlength: "Please enter email address between 4 to 255 character!",
+                    maxlength: "Please enter email address between 4 to 255 character!"
+                },
+                email_address: {
+                    required: "Email Address is required",
+                    email: "Email address format is invalid",
+                    minlength: "Please enter email address between 5 to 255 character!",
+                    maxlength: "Please enter email address between 5 to 255 character!"
+                },
+                is_active: {
+                    required: "Status is required",
+                    digits: "Please enter digits"
+                },
+                password: {
+                    required: "Password is required",
+                    minlength: "Please enter password between 4 to 255 character!",
+                    maxlength: "Please enter password between 4 to 255 character!"
+                },
+                confirm_password: {
+                    required: "Confirm password is required",
+                    minlength: "Please enter confirm password between 4 to 255 character!",
+                    maxlength: "Please enter confirm password between 4 to 255 character!",
+                    equalTo: 'Confirm password and password is not match'
+                }
+            }   
+        });
+    });
+    //-->
+</script>
+
+<div class="main">
+
+	<div class="page_title">
+        <h3><?php echo $this->title; ?></h3>
+        <a href="<?php echo $this->url('admin', array('action' => 'index')); ?>">Back to User List</a>
+    </div>
+   
+               
+	<div class="content"> 
+
+        <form class="form-horizontal" id="admin_signup" method="post" action="" enctype="multipart/form-data">
+
+            <div class="row">
+                <label class="form-label span5" for="username" style="text-align: left;">User Name:*</label>
+                <input class="inputArea" id="username" name="username" type="text" value="<?php echo isset($this->editUserInfo[0]['username']) ? $this->editUserInfo[0]['username'] : ''; ?>"  />
+            </div>
+                           
+      
+            <div class="row">
+                <label class="form-label span5" for="email_address">Email:*</label>
+                <input class="inputArea" id="email_address" name="email_address" type="text" value="<?php echo isset($this->editUserInfo[0]['email_address']) ? $this->editUserInfo[0]['email_address'] : ''; ?>" />
+            </div>
+                            
+
+            <div class="row">
+                <label class="form-label span5" for="password">New Password:*</label>
+                <input class="inputArea" id="password" name="password" value="" type="password" />
+            </div>
+                            
+    
+            <div class="row">
+                <label class="form-label span5" for="confirm_password">Confirm Password:*</label>
+                <input class="inputArea" id="confirm_password" value="" name="confirm_password" type="password" />
+            </div>
+
+            <div class="row">
+                <label class="form-label span5" for="first_name" style="text-align: left;">First Name:*</em></label>
+                <input class="inputArea" id="first_name" name="first_name" type="text" value="<?php echo isset($this->editUserInfo[0]['first_name']) ? $this->editUserInfo[0]['first_name'] : ''; ?>" />
+            </div>
+     
+            <div class="row">
+                <label class="form-label span5" for="last_name" style="text-align: left;">Last Name:*</label>
+                <input class="inputArea" id="last_name" name="last_name" type="text" value="<?php echo isset($this->editUserInfo[0]['last_name']) ? $this->editUserInfo[0]['last_name'] : ''; ?>"  />
+            </div>
+
+            <div class="row">
+                <label class="form-label span5" for="status">Status:*</label>
+                <div class="role">
+                    <select name="is_active" id="is_active" style="width: 170px !important;">
+                        <option value="1" <?php echo (isset($this->editUserInfo[0]['status'])&& $this->editUserInfo[0]['status'] == 1) ? 'selected' : ''; ?>>Active</option>
+                        <option value="0">In Active</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-actions">
+                    <div class="controls">
+                        <button class="btn btn-primary pull-right marginL10 btn-danger" type="button" style="margin-left:20px" onclick="window.location='<?php echo $this->url('admin', array('action' => 'index')); ?>';">Cancel</button>
+                        <button id="successR" type="submit" class="btn marginR10 btn-success pull-right">Save</button>
+                    </div>
+                </div>
+            </div>
+                
+                    
+        </form>
+            
+    </div>                         
+    
+</div>

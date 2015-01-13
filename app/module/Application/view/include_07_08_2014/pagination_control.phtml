@@ -1,0 +1,64 @@
+<?php if ($this->pageCount): ?>
+
+    <div class="dataTables_info" id="DataTables_Table_0_info">
+        Showing <?php echo $this->firstItemNumber; ?> to <?php echo $this->lastItemNumber; ?> of <?php echo $this->totalItemCount; ?> entries
+    </div>
+    
+    <div class="dataTables_paginate paging_full_numbers" id="DataTables_Table_0_paginate">
+    
+    
+        <!-- First page link -->
+        <!--
+        <?php //if (isset($this->previous)): ?>
+          <a class="first paginate_button" href="<?php //echo $this->url($this->route, array('page' => $this->first)); ?>">
+            First
+          </a>
+        <?php //else: ?>
+          <a href="javascript:void(0)" class="first paginate_button paginate_button_disabled">First</a>
+        <?php //endif; ?>
+        -->
+        
+        <!-- Previous page link -->
+        <?php if (isset($this->previous)): ?>
+          <a class="previous paginate_button" href="<?php echo $this->url($this->route, array('page' => $this->previous, 'action' => $this->action)); ?>">
+            Previous
+          </a>
+        <?php else: ?>
+          <a href="javascript:void(0)" class="previous paginate_button paginate_button_disabled">Previous</a>
+        <?php endif; ?>
+        
+        <!-- Numbered page links -->
+        <?php foreach ($this->pagesInRange as $page): ?>
+        <span>
+          <?php if ($page != $this->current): ?>
+            <a class="paginate_button" href="<?php echo $this->url($this->route, array('page' => $page, 'action' => $this->action)); ?>">
+                <?php echo $page; ?>
+            </a>
+          <?php else: ?>
+            <a href="javascript:void(0)" class="paginate_active"><?php echo $page; ?></a>
+          <?php endif; ?>
+        </span>
+        <?php endforeach; ?>
+        <!-- End Numbered page links -->
+        
+        <!-- Next page link -->
+        <?php if (isset($this->next)): ?>
+          <a class="next paginate_button" href="<?php echo $this->url($this->route, array('page' => $this->next, 'action' => $this->action)); ?>">
+            Next
+          </a>
+        <?php else: ?>
+          <a href="javascript:void(0)" class="next paginate_button paginate_button_disabled">Next</a>
+        <?php endif; ?>
+        
+        <!-- Last page link -->
+        <!--
+        <?php //if (isset($this->next)): ?>
+          <a class="last paginate_button" href="<?php //echo $this->url($this->route, array('page' => $this->last,'action' => $this->action)); ?>">
+            Last
+          </a>
+        <?php //else: ?>
+          <a href="javascript:void(0)" class="last paginate_button paginate_button_disabled">Last</a>
+        <?php //endif; ?>
+        -->
+    </div>
+<?php endif; ?>

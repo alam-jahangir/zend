@@ -1,0 +1,20 @@
+<head>
+        <?php 
+      		echo $this->headMeta()->appendHttpEquiv('Content-Type', 'text/html; charset=utf-8')
+                                  ->appendHttpEquiv('X-UA-Compatible', 'IE=edge,chrome=1');
+                                  
+			$title = $this->getSettings('website_name');
+			$theme = $this->getSettings('theme');
+			$url = $this->getSettings('website_url');	                                
+        	$children = $this->viewModel()->getCurrent()->getChildren(); 
+		?>  
+        <title>
+			<?php echo $title = $this->escapeHtml(isset($children[0]->title) ? $children[0]->title : $title); ?>
+		</title>
+        <meta name="description" content="Jakato,<?php echo $title; ?>" />
+        <meta name="keywords" content="Jakato,<?php echo $title; ?>" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="<?php echo $url.$this->basePath('assets/design/frontend/'.$theme.'/css/styles.css'); ?>">
+		<link rel="shortcut icon" href="<?php echo $url.$this->basePath('assets/design/frontend/'.$theme.'/images/favicon.ico'); ?>">
+		<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/js/jquery.min.js'); ?>"></script>		
+</head>

@@ -1,0 +1,11 @@
+<label class="form-label span5" for="group_id">Attribute Option:*</label>
+<div class="role">
+    <select name="option_id" id="option_id" style="width: 170px !important;">
+    	<option value=""> -- Select Option -- </option>
+        <?php foreach($this->option as $option): ?>
+        	<option value="<?php echo $option['option_index']; ?>" <?php echo $option['option_index']== $this->oid ? 'selected="selected"' : ''; ?>>
+				<?php echo $option['option_name']; ?>
+			</option>
+        <?php endforeach; ?>
+	</select>
+</div>

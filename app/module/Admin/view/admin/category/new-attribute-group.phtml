@@ -1,0 +1,196 @@
+<script type="text/javascript">
+    //<!--
+    $(document).ready(function() {
+         $("#category").validate({
+            rules: {
+                name: {
+                   required: true,
+                   maxlength: 255
+                },
+                is_active: {
+                    required: true,
+                    digits:true
+                }
+            },
+            messages: {
+                name: {
+                    required: "Group name is required"
+                },
+                is_active: {
+                    required: "Status is required"
+                }
+            }   
+        });
+        
+        $("#attribute_form").validate({
+            rules: {
+                name: {
+                   required: true,
+                   maxlength: 255
+                },
+                is_active: {
+                    required: true,
+                    digits:true
+                }
+            },
+            messages: {
+                name: {
+                    required: "Attribute name is required"
+                },
+                is_active: {
+                    required: "Status is required"
+                }
+            }   
+        });
+        
+        $('#allow_level').bind('touchstart click', function(){
+            if (this.checked) {
+                 $('#attribute_sublevel').show();
+            } else {
+				$('#attribute_sublevel').hide();
+			}
+       });
+       
+       $('#add_row').bind('touchstart click', function(){
+ 			var table = document.getElementById('dataTable');
+ 			var table1 = document.getElementById('datatable_row_table');
+ 			
+            var rowCount = table.rows.length;
+            var row = table.insertRow(rowCount);
+ 
+            var colCount = table.rows[0].cells.length;
+ 
+            for(var i=0; i<colCount; i++) {
+ 
+                var newcell = row.insertCell(i);
+ 
+                //newcell.innerHTML = table.rows[0].cells[i].innerHTML;
+                newcell.innerHTML = table1.rows[0].cells[i].innerHTML;
+                //alert(newcell.childNodes);
+                switch(newcell.childNodes[0].type) {
+                    case "text":
+                            newcell.childNodes[0].value = "";
+                            break;
+                    case "checkbox":
+                            newcell.childNodes[0].checked = false;
+                            break;
+                    case "select-one":
+                            newcell.childNodes[0].selectedIndex = 0;
+                            break;
+                }
+            }
+       });
+	   
+	   $('#delete_row').bind('touchstart click', function(){
+			try {
+	            var table = document.getElementById('dataTable');
+	            var rowCount = table.rows.length;
+	 
+	            for(var i=0; i<rowCount; i++) {
+	                var row = table.rows[i];
+	                var chkbox = row.cells[0].childNodes[0];
+	                if(null != chkbox && true == chkbox.checked) {
+	                    if(rowCount <= 1) {
+	                        alert("Cannot delete all the rows.");
+	                        break;
+	                    }
+	                    table.deleteRow(i);
+	                    rowCount--;
+	                    i--;
+	                }
+	 
+	 
+	            }
+            }catch(e) {
+                alert(e);
+            }
+       });
+    });
+    //-->
+</script>
+
+<div class="main">
+
+	<div class="page_title">
+        <h3><?php echo $this->title; ?></h3>
+        <a href="<?php echo $this->url('category', array('action' => 'attribute-group')); ?>">Back to Group List</a>
+    </div>
+   
+               
+	<div class="content"> 
+
+        <form class="form-horizontal" id="category" method="post" action="" enctype="multipart/form-data">
+
+            <div class="row">
+                <label class="form-label span5" for="name" style="text-align: left;">Name:*</label>
+                <input class="inputArea" id="name" name="name" type="text" value="<?php echo isset($this->attribute[0]['name']) ? $this->attribute[0]['name'] : ''; ?>"  />
+            </div>
+            
+            <div class="row">
+                <label class="form-label span5" for="category_id" style="text-align: left;">Category:*</label>
+                <select name="category_id" id="category_id" style="width: 170px !important;">
+                	<option value="">--Select Category--</option>
+                    <?php foreach ($this->categoryList as $category): ?>
+                    	<option value="<?php echo $category['id']; ?>" <?php echo (isset($this->attribute[0]['category_id'])&& $this->attribute[0]['category_id']==$category['id']) ? 'selected="selected"' : ''; ?>><?php echo $category['name']; ?></option>
+	            	<?php endforeach; ?>
+				</select>
+            </div>
+           
+		    <div class="row">
+                <label class="form-label span5" for="status">Status:*</label>
+                <div class="role">
+                    <select name="is_active" id="is_active" style="width: 170px !important;">
+                        <option value="1" <?php echo (isset($this->attribute[0]['is_active'])&& $this->attribute[0]['is_active'] == 1) ? 'selected' : ''; ?>>Active</option>
+                        <option value="0">In Active</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row" id="attribute_sublevel">
+            	<label class="form-label span5" style="text-align: left;">Group Option:*</label>
+            	<div class="role">
+	            	<input type="button" id="add_row" value="Add Row"  class="btn marginR10" />
+	    			<input type="button" id="delete_row" value="Delete Row" class="btn marginR10" />
+	 			    <table id="dataTable">
+	 			    	<?php if ($this->groupOptions) : ?>
+		 			    	<?php foreach ($this->groupOptions as $key => $item): ?>
+					        <tr>
+					            <td><input type="checkbox" name="chk" /></td>
+					            <td><input type="text" name="option_name[<?php echo $key-1; ?>]" value="<?php echo $item; ?>" /></td>
+					        </tr>
+					        <?php endforeach; ?>
+					    <?php else: ?>
+					    	<tr>
+					            <td><input type="checkbox" name="chk" /></td>
+					            <td><input type="text" name="option_name[]" /></td>
+					        </tr>
+					    <?php endif; ?>
+				    </table>
+				</div>
+			    
+			</div>
+
+            <div class="row">
+                <div class="form-actions">
+                    <div class="controls">
+                        <button class="btn btn-primary pull-right marginL10 btn-danger" type="button" style="margin-left:20px" onclick="window.location='<?php echo $this->url('category', array('action' => 'attribute-group')); ?>';">Cancel</button>
+                        <button id="successR" type="submit" class="btn marginR10 btn-success pull-right">Save</button>
+                    </div>
+                </div>
+            </div>
+                
+                    
+        </form>
+        
+        <div style="display:none" id="datatable_row">
+        	<table id="datatable_row_table">
+        		<tr>
+		            <td><input type="checkbox" name="chk" /></td>
+		            <td><input type="text" name="option_name[]" /></td>
+		        </tr>
+	        </table>
+		</div>
+            
+    </div>                         
+    
+</div>

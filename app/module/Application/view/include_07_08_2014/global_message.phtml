@@ -1,0 +1,13 @@
+<?php 
+$children = $this->viewModel()->getCurrent()->getChildren(); 
+$ourView  = $children[0];
+if (isset($ourView->flashMessages) && count($ourView->flashMessages)) : 
+?>
+    <ul class="flashMessages">
+    <?php foreach ($ourView->flashMessages as $messages): ?>
+        <?php foreach ($messages as $key => $message) : ?>
+            <li class="<?php echo $key; ?> <?php echo $key; ?>-msg"><?php echo $message; ?></li>
+        <?php endforeach; ?>
+    <?php endforeach; ?>
+    </ul>
+<?php endif; ?>

@@ -1,0 +1,126 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<?php $paypal = $this->getSettings('paypal_business_email_address'); ?>
+<?php $paypalPayment = $this->getSettings('paypal_payment'); ?>
+<?php $paypalUrl = $paypalPayment == 'sandbox' ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr'; ?>
+
+
+<div class="home_search" style="margin-top:0px">	
+	<div class="subscription_form">
+  		<table width="100%">
+  		
+  			<tr>
+				<td width="30%" align="left">
+					&nbsp;
+				</td>
+				<td width="60%" align="left">
+				&nbsp;
+				</td>
+				<td width="10%" align="center">
+					<p>CHARGE</p>
+				</td>
+			</tr>  
+			
+			<tr>
+				<td width="30%" align="left">
+					<span>JAKATOO ACCOUNT</span>
+				</td>
+				<td width="60%" align="left" class="gray_bg">
+					<p>
+						Account Aktivation & yearly subsribtion
+					</p>
+				</td>
+				<td width="10%" align="center" class="gray_bg">
+					<p>99 &euro;</p>
+				</td>
+			</tr>  	
+			
+			<tr>
+				<td width="30%" align="left">
+					&nbsp;<br /><br /><br /><br /><br /><br />
+				</td>
+				<td width="60%" align="left">
+				&nbsp;<br /><br /><br /><br /><br /><br />
+				</td>
+				<td width="10%" align="center">
+					&nbsp;
+					<br /><br /><br /><br /><br /><br />
+				</td>
+			</tr>  
+			
+			
+			<tr>
+				<td width="30%" align="left">
+					&nbsp;
+				</td>
+				<td width="60%" align="right">
+				TOTAL
+				</td>
+				<td width="10%" align="center" class="gray_bg">
+					<p>99 &euro;</p>
+				</td>
+			</tr>  
+			
+			
+			<tr>
+				<td width="30%" align="left">
+					&nbsp;
+				</td>
+				<td width="60%" align="left">
+				SELECT
+				</td>
+				<td width="10%" align="center">
+					&nbsp;
+				</td>
+			</tr>  
+			
+			<tr>
+				<td width="30%" align="left">
+					&nbsp;
+				</td>
+				<td width="60%" align="left">
+					<img src="https://www.paypalobjects.com/webstatic/de_DE/i/de-pp-logo-100px.png" border="0" alt="PayPal Logo" />
+					<img src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/visa_logo_8.gif'); ?>" border="0" alt="Credit Card Logos" />
+					<!--input type="radio" name="payment_method" value="visa" /-->
+				</td>
+				<td width="10%" align="center">
+					<form name="_xclick" action="<?php echo $paypalUrl; ?>" method="post">
+						
+						<!-- Specify a Subscribe button. -->
+						<input type="hidden" name="cmd" value="_xclick-subscriptions" />
+						
+						
+						<!-- Identify your business so that you can collect the payments. -->
+						<input type="hidden" name="business" value="<?php echo $paypal; ?>" />
+						
+						<!-- Identify the subscription. -->
+					    <input type="hidden" name="item_name" value="Account Aktivation & yearly subsribtion" />
+					    <input type="hidden" name="item_number" value="Subsribtion Yearly" />
+					    
+						<!-- Set the terms of the regular subscription. -->
+					    <input type="hidden" name="currency_code" value="EUR" />
+					    <input type="hidden" name="a3" value="99.00" /> <!-- Regular Subscription Price -->
+					    <input type="hidden" name="p3" value="1" /> <!-- Subscription duration -->
+					    <input type="hidden" name="t3" value="Y" /> <!-- D,W,M,Y -->
+					
+					    <!-- Set recurring payments until canceled. -->
+					    <input type="hidden" name="src" value="1" />
+						
+						
+						<input type="hidden" name="return" value="<?php echo $url.$this->url('search'); ?>" />
+						<input type="hidden" name="cancel_return" value="<?php echo $url.$this->url('search'); ?>" />
+						<input type="hidden" name="notify_url" value="<?php echo trim($url, '/').$this->url('paypal_success'); ?>" />
+						
+						<input type='hidden' name="rm" value="2" />
+						<input type="hidden" name="custom" value="type=membership_subscription&uid=<?php echo $this->uid; ?>" /> 
+						
+						<button type="submit" class="btn_lightblue"><span>&nbsp;&nbsp;PAY&nbsp;&nbsp;</span></button>
+						
+					</form>
+					
+				</td>
+			</tr>  
+			
+		</table>
+    </div>  
+</div>
+

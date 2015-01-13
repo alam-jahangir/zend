@@ -1,0 +1,82 @@
+<script type="text/javascript">
+//<!--
+    $(document).ready(function() {
+    
+        $("input, textarea, select").not('.nostyle').uniform();
+        $("#promotion_form").validate({
+            rules: {
+                code: {
+                    required: true
+                }
+            },
+            messages: {
+                code: {
+                    required: "Code is required"
+                }
+            }   
+        });
+    });
+    
+//-->
+</script>
+
+
+<style type="text/css">
+.wrapper.articlewrapper .row-fluid .span12.updateInfoBox .row-fluid .span12 .span6 .itemWrap label {
+    width: 23%;
+}
+.wrapper.articlewrapper .row-fluid .span12.updateInfoBox .row-fluid .span12 .span6 {
+    width: 95% !important;
+}
+</style>
+
+<div class="wrapper articlewrapper">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="span9 left">
+                    <div class="row-fluid">
+                        <div class="span12 top">
+                            <div class="span12">
+                                <div class="row-fluid">
+                                    <div class="span12 title">
+                                        Promotion
+                                    </div>
+                                    <div class="span12 desc borderNone" style="margin-bottom: 0;">
+                                        Here you can lorem ipsum dolor sit amet velit sit amet est. Curabitur tempor posuere libero, eget adipiscing lacus.
+                                        Nunc sit amet urna ut leo sollicitudin interdum. In nibh quam,Curabitur tempor posuere libero, eget adipiscing lacus.
+                                        Nunc sit amet urna ut leo sollicitudin interdum. In nibh quam,Curabitur tempor posuere libero, eget adipiscing lacus.
+                                        Nunc sit amet urna ut leo sollicitudin interdum. In nibh quam, gravida in rhoncus non, placerat a lorem.
+                                    </div>
+                                                                        
+                                    <div class="span12 updateInfoBox">
+                                        <h3 class="border" style="margin-bottom: 30px;">Promotion Submit Form</h3>
+                                        <div class="row-fluid">
+                                            <div class="span12">
+                                            <form class="form-signup" action="" method="post" id="promotion_form">  
+                                                <div class="span12">
+                                                    <div class="itemWrap clearfix">
+                                                        <label style="text-align: left;" class="form-label" for="code">Promotion Code <em>*</em></label>                                                            
+                                                        <div class="inputboxWrap">
+                                                            <input class="inputbox" id="code" value="<?php echo isset($_POST['code']) ? $_POST['code'] : ''; ?>" name="code" type="text" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span12">
+                                                    <button type="submit" class="btn btn-primary marginR10" style="margin-left: 129px;margin-top: 14px;">Submit</button>
+                                                </div>
+                                            </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <?php echo $this->render("include_main/right_sidebar_home.phtml"); ?>
+        </div>
+    </div>   
+</div>                

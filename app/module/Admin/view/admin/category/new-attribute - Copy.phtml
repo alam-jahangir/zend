@@ -1,0 +1,178 @@
+<script type="text/javascript">
+    //<!--
+    $(document).ready(function() {
+         $("#attribute_form").validate({
+            rules: {
+                name: {
+                   required: true,
+                   maxlength: 255
+                },
+                is_active: {
+                    required: true,
+                    digits:true
+                }
+            },
+            messages: {
+                name: {
+                    required: "Attribute name is required"
+                },
+                is_active: {
+                    required: "Status is required"
+                }
+            }   
+        });
+        
+        $('#allow_level').bind('touchstart click', function(){
+            if (this.checked) {
+                 $('#attribute_sublevel').show();
+            } else {
+				$('#attribute_sublevel').hide();
+			}
+       });
+       
+       $('#add_row').bind('touchstart click', function(){
+ 			var table = document.getElementById('dataTable');
+ 
+            var rowCount = table.rows.length;
+            var row = table.insertRow(rowCount);
+ 
+            var colCount = table.rows[0].cells.length;
+ 
+            for(var i=0; i<colCount; i++) {
+ 
+                var newcell = row.insertCell(i);
+ 
+                newcell.innerHTML = table.rows[0].cells[i].innerHTML;
+                //alert(newcell.childNodes);
+                switch(newcell.childNodes[0].type) {
+                    case "text":
+                            newcell.childNodes[0].value = "";
+                            break;
+                    case "checkbox":
+                            newcell.childNodes[0].checked = false;
+                            break;
+                    case "select-one":
+                            newcell.childNodes[0].selectedIndex = 0;
+                            break;
+                }
+            }
+       });
+	   
+	   $('#delete_row').bind('touchstart click', function(){
+			try {
+	            var table = document.getElementById('dataTable');
+	            var rowCount = table.rows.length;
+	 
+	            for(var i=0; i<rowCount; i++) {
+	                var row = table.rows[i];
+	                var chkbox = row.cells[0].childNodes[0];
+	                if(null != chkbox && true == chkbox.checked) {
+	                    if(rowCount <= 1) {
+	                        alert("Cannot delete all the rows.");
+	                        break;
+	                    }
+	                    table.deleteRow(i);
+	                    rowCount--;
+	                    i--;
+	                }
+	 
+	 
+	            }
+            }catch(e) {
+                alert(e);
+            }
+       }); 
+       
+       
+    });
+    //-->
+</script>
+
+<div class="main">
+
+	<div class="page_title">
+        <h3><?php echo $this->title; ?></h3>
+        <a href="<?php echo $this->url('category', array('action' => 'index')); ?>">Back to Attribute List</a>
+    </div>
+   
+               
+	<div class="content"> 
+
+        <form class="form-horizontal" id="attribute_form" method="post" action="" enctype="multipart/form-data">
+
+            <div class="row">
+                <label class="form-label span5" for="name" style="text-align: left;">Name:*</label>
+                <input class="inputArea" id="name" name="name" type="text" value="<?php echo isset($this->attribute[0]['name']) ? $this->attribute[0]['name'] : ''; ?>"  />
+            </div>
+            
+            <div class="row">
+                <label class="form-label span5" for="status">Status:*</label>
+                <div class="role">
+                    <select name="is_active" id="is_active" style="width: 170px !important;">
+                        <option value="1" <?php echo (isset($this->attribute[0]['is_active'])&& $this->attribute[0]['is_active'] == 1) ? 'selected' : ''; ?>>Active</option>
+                        <option value="0">In Active</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row">
+                <label class="form-label span5" for="group_id">Attribute Group:*</label>
+                <div class="role">
+                    <select name="group_id" id="group_id" style="width: 170px !important;">
+                    	<option value="">--Select Group--</option>
+			            <?php foreach($this->groupList as $group): ?>
+			            	<option value="<?php echo $group['id']; ?>" <?php echo (isset($this->attribute[0]['group_id'])&& $this->attribute[0]['group_id']==$group['id']) ? 'selected="selected"' : ''; ?>><?php echo $group['name']; ?></option>
+			            <?php endforeach; ?>
+            		</select>
+                </div>
+            </div>
+            
+            <div class="row">
+                <label class="form-label span5" for="name" style="text-align: left;display:inline">Allow Sub-Level:</label>
+                <input class="" id="allow_level" name="allow_level" type="checkbox" value="1" <?php echo isset($this->attribute[0]['allow_level']) && $this->attribute[0]['allow_level'] == 1 ? ' checked=""checked' : ''; ?>  />
+            </div>
+            
+            <div class="row" id="attribute_sublevel" style="<?php echo isset($this->attribute[0]['allow_level']) && $this->attribute[0]['allow_level']==1 ? 'display:block;' : 'display:none'; ?>">
+            	<?php
+            	$subitems = array();
+            	if (isset($this->attribute[0]['allow_level']))
+            		$subitems = unserialize($this->attribute[0]['subitem']);
+             	?>
+				<input type="button" id="add_row" value="Add Row"  class="btn marginR10" />
+    			<input type="button" id="delete_row" value="Delete Row" class="btn marginR10" />
+ 			    <table id="dataTable">
+ 			    	<?php if ($subitems) : ?>
+	 			    	<?php foreach ($subitems as $item): ?>
+				        <tr>
+				        	<td>Option:</td>
+				            <td><input type="checkbox" name="chk" /></td>
+				            <td><input type="text" name="option_name[]" value="<?php echo $item; ?>" placeholder="Option Name" /></td>
+				            <td><input type="text" name="sub_level[]" value="<?php echo $item; ?>" placeholder="Sub Level(Use Comma for sepearte)" /></td>
+				        </tr>
+				        <?php endforeach; ?>
+				    <?php else: ?>
+				    	<tr>
+				            <td><input type="checkbox" name="chk" /></td>
+				            <td><input type="text" name="option_name[]" placeholder="Option Name" /></td>
+				            <td><input type="text" name="sub_level[]" value="<?php echo $item; ?>" placeholder="Sub Level(Use Comma for sepearte)" /></td>
+				        </tr>
+				    <?php endif; ?>
+			    </table>
+			    
+			</div>
+           
+            <div class="row">
+                <div class="form-actions">
+                    <div class="controls">
+                        <button class="btn btn-primary pull-right marginL10 btn-danger" type="button" style="margin-left:20px" onclick="window.location='<?php echo $this->url('category', array('action' => 'attribute')); ?>';">Cancel</button>
+                        <button id="successR" type="submit" class="btn marginR10 btn-success pull-right">Save</button>
+                    </div>
+                </div>
+            </div>
+                
+                    
+        </form>
+            
+    </div>                         
+    
+</div>

@@ -1,0 +1,39 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<div class="gallery">
+
+	<?php echo $this->render('include/navigation.phtml'); ?>
+
+	<div class="fright gallery_middle">
+		
+		<?php echo $this->render('include/add.phtml'); ?>
+		
+		<div class="list_of_gallery fleft">
+			<div class="search_categories">
+				<form method="get" action="">
+					<span>KATEGORIES</span>
+					<input type="text" name="s" id="search" value="<?php echo isset($_GET['s']) ? trim(strip_tags($_GET['s'])) : ''; ?>" />
+					<button type="submit" class="search_btn"><span>SEARCH</span></button>
+				</form>
+			</div>
+			<?php if(!$this->userDetails[0]['is_subscribe'] || $this->paypalPayment) : ?>
+				<div class="user_activate">
+					<?php if ($this->paypalPayment): ?>
+						<div>
+							YOUR ACCOUNT HAS BEEN APPROVED <br />
+							You CAN SEARCH AND UPLOAD ITEMS NOW. 
+						</div>
+					<?php else : ?>
+						<div>
+							YOUR ACCOUNT HAS BEEN APPROVED <br />
+							PLEASE AKTIVATE YOUR ACCOUNT NOW. <br />
+							<a href="<?php echo $this->url('membership_charge'); ?>" class="activate_link">AKTIVATE</a>
+						</div>
+					<?php endif; ?>
+				</div>
+			<?php else: ?>
+			
+			
+			<?php endif; ?>
+		</div>
+	</div>
+</div>

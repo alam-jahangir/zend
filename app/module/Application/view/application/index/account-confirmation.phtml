@@ -1,0 +1,28 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<div class="create_account">
+	<div class="page_title">
+		<h3></h3>
+	</div>
+	<div class="content">
+		<table width="100%">
+			<tr>
+				<td width="10%" class="backgroundblue" style="padding: 10px 10px 10px 30px;">
+				<img src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/three.png'); ?>" alt="Jakato"></td>
+				<td class="backgroundblue" style="padding:20px 20px 0 40px;">Your account will be verified. This can take up to
+				24 hours. <br />You will receive an email with a confirmation link after your<br /> account is open.<br />
+				</td>
+			</tr>
+			<tr>
+				<td></td>	
+				<td class="backgroundblue" style="padding:0 20px 20px 40px;">You can check the status of your account by logging in with your username and password, and have a look at all products.</td>
+			</tr>
+		</table>
+		<div class="details">
+			<h3 class="colorred">Details of the products will only be shown after your account is verified!</h3>
+			<h3 style="color: #B4B4B4;">You can search Products now!</h3>
+			<p style="margin-top: 50px;">
+				<a class="backgroundblue search" href="<?php echo $this->url('search'); ?>">Search Products</a>
+			</p>
+		</div>
+	</div>
+</div>

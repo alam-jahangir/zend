@@ -1,0 +1,129 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/plugins/validate/jquery.validate.min.js'); ?>"></script>
+<script type="text/javascript">
+//<!--
+    $(document).ready(function() {
+    	$("#create_account").validate({
+            rules: {
+                private_email: {
+                    required: true,
+                    email: true
+                },
+                private_name: {
+                    required: true
+                },
+				private_surname: {
+                    required: true
+                },
+                private_street: {
+                    required: true
+                },
+                private_city: {
+                    required: true
+                },
+                private_state: {
+                    required: true
+                },
+                private_zipcode: {
+                    required: true
+                },
+                private_phone: {
+                    required: true
+                },
+                
+                business_name: {
+                    required: true
+                },
+                business_surname: {
+                    required: true
+                },
+                business_street: {
+                    required: true
+                },
+                business_city: {
+                    required: true
+                },
+                business_state: {
+                    required: true
+                },
+                business_zipcode: {
+                    required: true
+                },
+                business_phone: {
+                    required: true
+                },
+                business_email: {
+                    required: true,
+                    email: true
+                }
+            }   
+        });
+    });
+    //-->
+</script>
+<div class="create_account">
+	<div class="page_title">
+		<h3></h3>
+	</div>
+	<div class="content">
+		<form class="submitForm" action="" method="post" id="create_account" enctype="multipart/form-data">
+			<table width="100%">
+				<tr>
+					<td valign="top" width="10%" class="" style="padding: 0px;">
+	                   <table width="105%">
+	                      <tr>
+	                         <td style="padding:5px;" class="backgroundblue" align="center" valign="middle">
+							 	<img src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/one.png'); ?>" alt="Jakato">
+							 </td>
+	                         <td></td>
+	                      </tr>
+	                   </table>
+	                </td>
+					<td valign="top" class="backgroundblue pad0" style="padding:20px 20px 0 40px;">
+	                    <div class="createaccount_form">
+	                        <table width="100%" style="margin-top: -20px;">
+	                          <tr>
+	                             <td valign="top" class="backgroundblue">
+	                               <h3 style="color: #fff;">Private Address</h3>
+								   <input type="text" name="private_name" id="private_name" placeholder="Name" />
+	                               <input type="text" name="private_surname" id="private_surname" placeholder="Surname" />
+	                               <input type="text" name="private_street" id="private_street" placeholder="Street" />
+	                               <input type="text" name="private_city" id="private_city" placeholder="City" />
+	                               <input type="text" name="private_zipcode" id="private_zipcode" placeholder="Zip Code" />
+	                               <input type="text" name="private_state" id="private_state" placeholder="State" />
+	                               <?php echo $this->getCountries('private_country'); ?>
+	                               <input type="text" name="private_phone" id="private_phone" placeholder="Phone Number" />
+	                               <input type="text" name="private_email" id="private_email" placeholder="Email" />
+	                            </td>
+	                             <td valign="top" class="backgroundblue" style="width:30px">
+	                             &nbsp;
+	                             </td>
+	                             <td valign="top" class="backgroundblue">
+	                               <h3 style="color: #fff;">Business Address</h3>
+	                               <input type="text" name="business_name" id="business_name" placeholder="Name of your business" />
+	                               <input type="text" name="business_surname" id="business_surname" placeholder="Name of CEO" />
+	                               <input type="text" name="business_street" id="business_street" placeholder="Street" />
+	                               <input type="text" name="business_city" id="business_city" placeholder="City" />
+	                               <input type="text" name="business_zipcode" id="business_zipcode" placeholder="Zip Code" />
+	                               <input type="text" name="business_state" id="business_state" placeholder="State" />
+	                               <?php echo $this->getCountries('business_country'); ?>
+	                               <input type="text" name="business_phone" id="business_phone" placeholder="Phone Number" />
+	                               <input type="text" name="business_email" id="business_email" placeholder="Email" />
+	                             </td>
+	                          </tr>
+	                       </table>
+	                    </div>
+					</td>
+				</tr>
+			</table>
+			
+	        
+			<div class="details">
+				<h3 style="color: #B4B4B4;text-align: right;margin-left:5px;">Please check all your details again before sending 
+					<button type="submit" class="btn_lightblue"><span>Next Step</span></button>
+				</h3>
+			</div>
+			
+		</form>
+	</div>
+</div>

@@ -1,0 +1,234 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/plugins/validate/jquery.validate.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/design/frontend/default/js/jquery.flexslider.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/design/frontend/default/js/jquery.rateit.min.js'); ?>"></script>
+<link rel="stylesheet" media="screen" href="<?php echo $url.$this->basePath('assets/design/frontend/default/css/flexslider.css'); ?>" />
+<link rel="stylesheet" media="screen" href="<?php echo $url.$this->basePath('assets/design/frontend/default/css/rateit.css'); ?>" />
+<script type="text/javascript">
+//<!--
+    
+    $(window).load(function(){
+      $('#carousel').flexslider({
+        animation: "slide",
+        controlNav: false,
+        animationLoop: false,
+        slideshow: false,
+        itemWidth: 210,
+        itemMargin: 5,
+        asNavFor: '#slider'
+      });
+
+      $('#slider').flexslider({
+        animation: "slide",
+        controlNav: false,
+        animationLoop: false,
+        slideshow: false,
+        sync: "#carousel",
+        start: function(slider){
+          $('body').removeClass('loading');
+        }
+      });
+      
+    });
+    
+    $(document).ready(function() {
+    	 $('.rateit').bind('rated reset', function (e) {
+         	$('#rating').val($(this).rateit('value'));
+         });
+        $("#review_rating").validate({
+            rules: {
+                rating: {
+                   required: true
+                },
+                comment: {
+                   required: true,
+                   minlength: 1,
+                   maxlength: 1000 
+                }
+            },
+            messages: {
+                rating: {
+                    required: "Rating is required."
+                },
+                comment: {
+                    required: "Comment is required."
+                }
+            }   
+        });
+	});
+//-->
+</script>
+  		
+<div class="gallery">
+
+	<?php if ($this->uid): ?>
+		<?php echo $this->render('include/navigation.phtml'); ?>
+	<?php else: ?>
+		<?php echo $this->render('include/left_add.phtml'); ?>
+	<?php endif; ?>
+
+	<div class="fright gallery_middle">
+		
+		<?php echo $this->render('include/add.phtml'); ?>
+		
+		<div class="list_of_gallery fleft">
+			
+			<div class="item_details">
+				<?php if ($this->productGallery): ?>
+					<div id="slider" class="flexslider">
+				          <ul class="slides">
+				          	<?php 
+							  $thumbnail = '';
+							  foreach($this->productGallery as $gallery):
+								$thumbnail .= '<li><img src="'.$url.$this->basePath('media/product/'.$gallery['file_name']).'" /></li>';
+							?>
+				          		<li>
+				  	    	    	<img src="<?php echo $url.$this->basePath('media/product/'.$gallery['file_name']); ?>" />
+				  	    		</li>
+				  	    	<?php endforeach; ?>
+				  	      </ul>
+			        </div>
+			        <?php if (count($this->productGallery) > 1): ?>
+			        <div id="carousel" class="flexslider">
+			          	<ul class="slides"><?php echo $thumbnail; ?></ul>
+			        </div>
+			        <?php endif; ?>
+        		<?php endif; ?>
+        		
+              	<div class="grid_panel">
+              		<p>Item Description: <span>NO: <?php echo $this->product[0]['id']; ?></span></p>
+	              	<ul class="itme_grid">
+	              		<li>
+	              			<div class="attribute_details">
+		              			<div class="fleft" style="width:64%;">
+			              			<table>
+			              				<?php foreach($this->productAttr as $attr): ?>
+			              				<tr>
+										  	<td align="right"><?php echo $attr->attr_name;?>:</td>
+											<td  align="left"><?php echo $attr->attribute_option_value == '' ? $attr->option_name : $attr->attribute_option_value; ?></td>
+										</tr>
+										<?php endforeach; ?>
+									 </table>
+								 </div>
+								 <div class="fright" style="width:36%">
+								 	<?php 
+									$currency = '';
+									if ($this->product[0]['currency'] == 'euro') { 
+										$currency = '&euro; '; 
+									} elseif ($this->product[0]['currency'] == 'dollar') { 
+										$currency = '$ '; 
+									}  elseif ($this->product[0]['currency'] == 'fr') { 
+										$currency = 'fr. '; 
+									}
+									?>
+									
+								 	<p>
+								 		Recommanded price
+								 		<span class="price">
+									 		<span class="recommanded_price">
+											 	<?php echo $currency; ?> 
+												<?php echo number_format($this->product[0]['recommanded_price'], 2); ?>
+											</span>
+										</span>
+									 </p>
+									 <?php if ($this->uid): ?>
+									 <p>
+								 		Dealer price
+								 		<span class="price">
+								 			<span class="dealer_price">
+										 	<?php echo $currency; ?> 
+											<?php echo number_format($this->product[0]['dealer_price'], 2); ?>
+											</span>
+										</span>
+									 </p>
+									 <?php endif; ?>
+								 </div>
+							 </div>
+						</li>
+						<?php if ($this->uid): ?>
+						<li class="second_row">
+	              			<div class="attribute_details">
+	              			
+	              				<div class="fleft" style="width:50%;">
+			              			<table>
+			              				<tr>
+										  	<td align="right">Name/Person:</td>
+											<td  align="left"><?php echo $this->product[0]['name'];?></td>
+										</tr>
+										<tr>
+										  	<td align="right">Address:</td>
+											<td  align="left"><?php echo $this->product[0]['street'];?></td>
+										</tr>
+										<tr>
+										  	<td align="right">State/City:</td>
+											<td  align="left">
+												<?php echo $this->product[0]['zipcode'];?>, 
+												<?php echo $this->product[0]['state'];?>, <?php echo $this->product[0]['city'];?>
+											</td>
+										</tr>
+									</table>
+								 </div>
+								 
+								 <div class="fright" style="width:50%">
+								 	<table>
+			              				<tr>
+										  	<td align="right">Phone:</td>
+											<td  align="left"><?php echo $this->product[0]['phone'];?></td>
+										</tr>
+										<tr>
+										  	<td align="right">Mobile:</td>
+											<td  align="left"><?php echo $this->product[0]['mobile_no'];?></td>
+										</tr>
+										<tr>
+										  	<td align="right">Email:</td>
+											<td  align="left">
+												<a href="mailto:<?php echo $this->product[0]['email'];?>">
+													<?php echo $this->product[0]['email'];?>
+												</a>
+											</td>
+										</tr>
+									</table>
+								 </div>
+								 
+	              			</div>
+	              		</li>
+	              		<?php endif; ?>
+	              		<li class="second_row">
+	              			<div class="attribute_details">
+	              				<div class="review_summary">
+	              					<?php echo $this->comment['total_comment'] == 1 ? '( 1 ) comment': '( '.intval($this->comment['total_comment']) .' ) comments'; ?>
+									<div class="rating_box">
+		              					<div class="rateit" data-rateit-value="<?php echo intval($this->comment['rating']); ?>" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+		              				</div>
+								</div>
+								<?php if ($this->uid): ?>
+								<div class="review_box">
+									<form class="form-signup" action="" method="post" id="review_rating">  
+		    							<div class="row">
+								            <label style="text-align: left;" class="form-label" for="rating">Rating for this dealer: <em>*</em></label>
+								            <input type="hidden" value="2" name="rating" id="rating">
+			              					<div class="rateit bigstars" data-rateit-starwidth="32" data-rateit-starheight="32" data-rateit-resetable="false"  data-rateit-ispreset="true"></div>
+								        </div>
+								       
+								       <div class="row">
+								            <label style="text-align: left;" class="form-label" for="comment">Comment: <em>*</em></label>
+								            <textarea style="width:50%" class="inputArea inputbox" id="comment" name="comment" rows="4"></textarea>
+								       </div>
+								
+								
+								        <div class="row">
+								            <label class="none">&nbsp;</label>
+								            <button type="submit" class="btn btn-primary">Send</button>
+								        </div>
+								    </form>
+		              			</div>
+		              			<?php endif; ?>
+	              			</div>
+	              		</li>
+					</ul>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>

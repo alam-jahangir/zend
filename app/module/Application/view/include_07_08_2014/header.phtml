@@ -1,0 +1,36 @@
+<header>
+	<?php $userinfo = $this->authenticate(); ?>			
+	<div class="header">
+		<div class="header_container">
+			 <div class="fleft logo">
+			 	<a href="<?php echo $this->url('home'); ?>">
+					<h2>jakato</h2>
+				</a>
+			 </div>
+			 <div class="fright menu">
+				<nav>
+					<ul>
+						<li><a class="active" href="<?php echo $this->url('home'); ?>">main  page</a></li>
+						<li><a href="<?php echo $this->url('noRoute', array('identifier' => 'about-us')); ?>">about us</a></li>
+						<li><a href="<?php echo $this->url('product_list'); ?>">products</a></li>
+						<li><a href="<?php echo $this->url('contact_us'); ?>">contact</a></li>
+						<?php if ($userinfo): ?>
+							<li><a href="<?php echo $this->url('account'); ?>">my account</a></li>
+						<?php endif; ?>
+					</ul>
+				</nav>
+		 	</div>
+		 </div>
+	 </div>
+	 <div class="header_container">
+			 <div class="fleft" style="width:40%;">
+			 </div>
+			 <div class="fright login">
+			 	<?php if ($userinfo): ?>
+					<a href="<?php echo $this->url('logout'); ?>">LOG OUT</a>
+				<?php else: ?>
+					<a href="<?php echo $this->url('login'); ?>">LOG IN</a>
+				<?php endif; ?>
+		 	</div>
+	</div>
+</header>

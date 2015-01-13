@@ -1,0 +1,56 @@
+<?php 
+$children = $this->viewModel()->getCurrent()->getChildren(); 
+$user = isset($children[0]->userinfo) ? $children[0]->userinfo : array();
+?> 
+<header>
+				
+	<div class="header">
+		<div class="header_container">
+			<div class="fleft logo">
+				<h2>jakato</h2>
+			</div>
+			 
+			<div class="fright menu">
+				<nav>
+					<ul>
+					
+						<li>
+                            <a href="<?php echo $this->url('admin', array('action' => 'admin')); ?>">
+                                <span class="icon16 icomoon-icon-user"></span>Admin Users
+                            </a>
+                        </li>
+                        
+                        <li>
+                            <a href="<?php echo $this->url('admin', array('action' => 'users')); ?>">
+                                <span class="icon16 icomoon-icon-user"></span>Users
+                            </a>
+                        </li>
+                        
+						<li>
+                            <a href="<?php echo $this->url('cms', array('action' => 'page')); ?>">
+                                <span class="icon16 entypo-icon-list"></span>CMS Page
+                            </a>
+                        </li>
+                        
+						<li>
+                            <a href="<?php echo $this->url('admin', array('action' => 'settings')); ?>">
+                                <span class="icon16 icomoon-icon-paper"></span>Setting
+                            </a>
+                        </li>
+                        
+					</ul>
+				</nav>
+		 	</div>
+		 	
+		 </div>
+	 </div>
+	 
+	 <div class="header_container">
+		<div class="fleft" style="width:40%;">
+		</div>
+		<div class="fright login">
+			<a href="<?php echo $this->url('admin_logout'); ?>">LOG OUT</a>
+		 </div>
+	 </div>
+	 
+</header>

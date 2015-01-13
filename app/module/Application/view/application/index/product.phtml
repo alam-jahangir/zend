@@ -1,0 +1,201 @@
+<?php $theme = $this->getSettings('theme'); ?>
+<?php //echo '<pre />'; print_r($this->product); exit; ?>
+<script>
+
+$(document).ready(function() {
+	
+	$(".product_condition_list li").click(function(e){
+		
+		$('.offer_presentation .offer_inner_content').empty();
+		$('.offer_presentation').hide();
+		
+		e.preventDefault();
+		$(".product_condition_list li").removeClass('current');
+		$(".product_condition_list li").removeClass('selected');
+		var conditionName = $(this).attr("id");
+		$(".product_condition_list li#"+conditionName).addClass('current');
+		$(".product_condition_list li#"+conditionName).addClass('selected');
+		var href = $(this).find('a').attr('href');
+		$('#condition .checklist').show();
+		$('#condition .checklist .shapedesc').hide()
+		$(href).show();
+		
+		$('#condition').val($(this).attr('data-option'));
+		
+		if ($('#additional_spec').length>0 ) {
+			//$('.additional_option').checked(false);
+			$('.additional_option').prop('checked', false);
+			$('.shape_option').hide();
+			$('.'+conditionName+'_option').show();
+		}
+		
+		if ($('.additional_spec').length > 0) {
+			$('.additional_spec').show();
+		} else {
+			$('.offer_presentation').show();
+			showPrice();
+		}
+		
+	});
+	
+});
+
+function showPrice()
+{
+	var url = '<?php echo $this->url('product_price'); ?>';
+	var shapeid = $('#condition').val();
+	
+	var optionVal = [];
+	if ($('#additional_spec').length>0 ) {
+		var inputBox = $('#additional_spec input.additional_option');
+		for (var i = 0; i<=inputBox.length; i++) {
+			if ($(inputBox[i]).is(':checked')) {
+				optionVal[i] = $(inputBox[i]).val();
+			}
+		}
+	}
+	
+	$.ajax({
+		  type: 'POST',
+		  url: url,
+		  data: { 
+		  		ajax: '1', 
+				productid:<?php echo $this->product[0]['id']; ?>,
+				shapeid:shapeid,
+				ses:'<?php echo $this->product[0]['type'] == 2 ? $this->sessionkey : ''; ?>',
+				option:optionVal 
+		  },
+		  
+		  beforeSend:function() {
+		    $('.offer_presentation').show();
+		    $('.offer_presentation .offer_inner_content').html($('#offer_inner_content_tmp').html());
+		  },
+		  
+		  success:function(data) {
+		     $('.offer_presentation .offer_inner_content').empty();
+			 $('.offer_presentation .offer_inner_content').html(data);
+		  },
+		  
+		  error:function(){
+		    $('.offer_presentation .activity_indicator').html('<p class="error"><strong>Oops!</strong> Try that again in a few moments.</p>');
+		  }
+		  
+		});
+}
+
+</script>
+
+
+<div class="span12 gallery">
+    <div class="row stacks_content">
+    
+    	<div class="span12">
+		
+			<div class="tall_product_image_container">
+				<?php if ($this->product[0]['image']): ?>
+                    <img width="120" height="120" alt="<?php echo $this->product[0]['name']; ?>" src="<?php echo $this->basePath('media/product/'.$this->product[0]['image']); ?>" />
+                <?php else: ?>
+                    <img width="120" height="120" alt="<?php echo $this->product[0]['name']; ?>" src="<?php echo $this->basePath('assets/design/admin/images/avatar.png'); ?>" />
+                <?php endif; ?>
+			</div>
+			
+			<div class="core_calculator">
+
+			  <div class="product_info">
+			    	<h2>
+						<?php echo $this->product[0]['name']; ?> <?php echo $this->product[0]['brand_name']!='' ? '( '.($this->product[0]['brand_name']).' )': ''; ?>
+					</h2>
+			    	<a class="change_model_link" href="<?php echo $this->url('category', array('action' => 'category', 'identifier' => $this->product[0]['identifier'], 'catid' => $this->product[0]['category_id'], 'id' => $this->product[0]['model_id'])); ?>?bid=<?php echo $this->product[0]['brand_id']; ?>">Change model</a>
+			  </div>
+  
+			  <form method="post" id="g5_calculation_form" action="" accept-charset="UTF-8">
+			  
+			     <input type="hidden" value="<?php echo $this->product[0]['id']; ?>" name="product_id" id="product_id">
+			     	
+				 <?php if ($this->shapeList): ?>	
+			     <div id="condition">
+			     
+				  	<div class="open_form condition_open_form">
+				  	
+				    	<h3 class="question">
+							<span class="number">1.</span> What shape is it in?
+						</h3>
+				    	
+						<input type="hidden" value="0" name="condition" id="condition">
+				    	
+				    	<ul class="horizontal_selection product_condition_list clearfix trio active">
+				    		<?php foreach ($this->shapeList as $shape): ?>
+						    <li data-option="<?php echo $shape['id']; ?>" id="shape_<?php echo $shape['id']; ?>" data-price="$<?php echo number_format($shape['price'], 2); ?>">
+							    <a href="#shapedesc_<?php echo $shape['id']; ?>"><?php echo $shape['name']; ?></a>
+						    	<p><?php echo $shape['subtitle']; ?></p>
+						    </li>
+						    <?php endforeach; ?>
+						</ul>
+				
+				
+					    <div class="checklist" style="display: none;">
+					          <?php foreach ($this->shapeList as $shape): ?>
+							  	<div id="shapedesc_<?php echo $shape['id']; ?>" class="shapedesc">
+								  	<?php echo $shape['description']; ?>
+								</div>
+							   <?php endforeach; ?>
+						</div>
+				    
+					</div>
+				</div>
+				<?php endif; ?>
+				
+				<?php if ($this->optionList): ?>
+				<div class="additional_spec value" style="display: none;">
+      				<div class="calculator_pane" id="monetary_offer_content">
+			  			<div class="monetary_offer">
+							<div class="offers clear" id="additional_spec">
+								<div class="offer_inner_content">
+									<h2>Additional Specification</h2>
+									<div class="submit_container">
+									<?php $groupName = ''; ?>
+									<?php foreach ($this->optionList as $option): ?>
+										<?php if ($groupName != $option['group_name']): ?>
+											<label><?php echo $groupName = $option['group_name']; ?></label>
+										<?php endif; ?>
+											<div class="shape_option shape_<?php echo $option['shape_id']; ?>_option" style="display:none">
+												<input type="checkbox" class="additional_option" name="option_id[]" value="<?php echo $option['group_id'].'_'.$option['option_id']; ?>" />
+												<span><?php echo $option['option_name']; ?></span>
+											</div>
+									<?php endforeach; ?>
+										<input type="button" onclick="showPrice()" value="Calculate" name="commit" class="add_to_box primary_action_button continue_button" />
+									</div>
+								</div>
+							</div>					   	
+					 	</div>
+				   	</div>
+				</div>
+				<?php endif; ?>
+				
+				<div class="offer_presentation value" style="display: none;">
+      				<div class="calculator_pane" id="monetary_offer_content">
+			  			<div class="monetary_offer">
+							<div class="offers clear">
+								<div class="offer_inner_content"></div>
+							</div>
+						</div>
+				   	</div>
+				</div>
+				
+			</form>
+		</div>
+		
+		<div id="offer_inner_content_tmp" style="display:none">
+			<h2>Your Offer Price</h2>
+			<div class="submit_container">
+			    <div class="activity_indicator">
+					<img src="<?php  echo $this->basePath('assets/design/frontend/default/images/activity_indicator.gif'); ?>" class="submit_activity_indicator" alt="Activity_indicator" />
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="page_clear"></div>
+	</div>
+		     	
+    </div>
+</div>

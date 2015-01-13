@@ -1,0 +1,32 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<div class="gallery">
+
+	<?php echo $this->render('include/navigation.phtml'); ?>
+
+	<div class="fright gallery_middle">
+		
+		<?php echo $this->render('include/add.phtml'); ?>
+		
+		<div class="list_of_gallery fleft">
+			<div class="page_title">
+				<h3><?php echo $this->title; ?></h3>
+			</div>
+			<?php if(!$this->userDetails[0]['is_subscribe']) : ?>
+				<div class="user_activate">
+					<div>
+						YOUR ACCOUNT HAS BEEN APPROVED <br />
+						PLEASE AKTIVATE YOUR ACCOUNT NOW. <br />
+						<a href="<?php echo $this->url('membership_charge'); ?>" class="activate_link">AKTIVATE</a>
+					</div>
+				</div>
+			<?php else: ?>
+				<div class="user_activate">
+					<div>
+						YOUR ACCOUNT HAS BEEN APPROVED <br />
+						You CAN SEARCH AND UPLOAD ITEMS NOW. 
+					</div>
+				</div>
+			<?php endif; ?>
+		</div>
+	</div>
+</div>

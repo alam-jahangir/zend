@@ -1,0 +1,204 @@
+
+
+<script type="text/javascript">
+//<!--
+var xhr = null;
+    
+function sendInvoice(tid, rowid){
+                      
+    //alert(passingData);
+	// if there is a previous ajax search, then we abort it and then set xhr to null
+	if( xhr != null ) {
+		xhr.abort();
+		xhr = null;
+	}
+	
+	xhr = jQuery.ajax({
+		type: "POST"
+		, url: "<?php echo $this->url('transactions', array('action'=>'send-invoice')); ?>"
+		, data: 'tid='+tid
+		, dataType: 'json'
+		, beforeSend: function(){
+            var ajaxloadimage    =    jQuery('#ajaxload').html();
+		     jQuery("#msgDiv"+rowid).html(ajaxloadimage).show();
+		}
+		, success: function(response)
+        {            
+		     jQuery("#msgDiv"+rowid).html('');
+             
+            if(response.error==0 )
+            {
+                jQuery("#msgDiv"+rowid).html(response.msg).css('color', 'green').show();
+            } else {
+                if(response.msg=='session_expired')
+                {
+                    window.location="<?php echo $this->url('login', array('action'=>'login')); ?>";
+                    return false;
+                }
+                else{
+                    //alert(response.msg);
+                    jQuery("#msgDiv"+rowid).html(response.msg).css('color', 'red').show();
+                    return false;
+                }
+            } 
+		}
+	});
+}
+
+    
+//-->
+</script>
+
+<div class="wrapper articlewrapper mybid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="span9 left">
+                    <div class="row-fluid">
+                        <div class="span12 top">
+                            <div class="span12">
+                                <div class="row-fluid">
+                                    <div class="span12 title">
+                                        My transactions
+                                    </div>
+                                    <div class="span12 desc">
+                                        Here you can lorem ipsum dolor sit amet velit sit amet est. Curabitur tempor posuere libero, eget adipiscing lacus.
+                                        Nunc sit amet urna ut leo sollicitudin interdum. In nibh quam, gravida in rhoncus non, placerat a lorem. 
+                                    </div>
+                                    <div class="span12 bidtable">
+                                        
+                                        <div class="title">Purchases</div>
+                                        
+                                        <div class="table-wrapper">
+                                        <div class="scrollable">
+                                            <table class="responsive table">
+                                                <thead>
+                                                  <tr>
+                                                    <th>Date</th>
+                                                    <th>Description</th>
+                                                    <th><center>Amount</center></th>
+                                                    <th>Remarks</th>
+                                                    <th><center>Status</center></th>
+                                                    <th class="last">Invoice Options</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                
+                                                    <?php 
+                                                    if(!empty($transactionsList)){ 
+                                                        $i = 1;
+                                                        $total_transaction = count($transactionsList);
+                                                        foreach($transactionsList as $transaction){
+                                                    ?>
+                                                    
+                                                    <tr>
+                                                        <td class="first"><?php echo date( 'M jS, Y H:i:s', strtotime($transaction->created_date)); ?></td>
+                                                        <td><?php echo $transaction->transaction_purpose; ?></td>
+                                                        <td class="first"><center>&pound; <?php echo number_format($transaction->amount , 2, ',', ' '); ?></center></td>
+                                                        <td><?php echo $transaction->remarks; ?></td>
+                                                        <td class="first"><center><?php echo $transaction->ack; ?></center></td>
+                                                        <td class="last">
+                                                              <center><button type="submit" class="btn btn-primary login" id="loginBtn" href="#myModal<?php echo $i; ?>" data-toggle="modal">View</button>
+                                                              
+                                                                <!-- Boostrap modal dialog -->
+                                                                <div id="myModal<?php echo $i; ?>" class="modal hide fade" style="display: none;text-align: left;">
+                                                                    <div class="modal-header">
+                                                                      <button type="button" class="close" data-dismiss="modal"><span class="icon12 minia-icon-close"></span></button>
+                                                                      <h3><?php echo $transaction->transaction_purpose; ?></h3>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                                                                                                                                         
+                                            								<div class="form-row row-fluid">
+                                            									<div class="span12">
+                                            										<div class="row-fluid">
+                                            											<label class="form-label" style="text-align: left;">Transaction Id</label>
+                                            											<?php echo $transaction->payment_method_trasaction_id; ?>
+                                            										</div>
+                                            									</div>
+                                            								</div>                                                                                                        
+                                            								<div class="form-row row-fluid">
+                                            									<div class="span12">
+                                            										<div class="row-fluid">
+                                            											<label class="form-label" style="text-align: left;">Amount</label>
+                                            											&pound; <?php echo number_format($transaction->amount , 2, ',', ' '); ?>
+                                            										</div>
+                                            									</div>
+                                            								</div>                                                                                                        
+                                            								<div class="form-row row-fluid">
+                                            									<div class="span12">
+                                            										<div class="row-fluid">
+                                            											<label class="form-label" style="text-align: left;">Status</label>
+                                            											<?php echo $transaction->ack; ?>
+                                            										</div>
+                                            									</div>
+                                            								</div>                                                                                                        
+                                            								<div class="form-row row-fluid">
+                                            									<div class="span12">
+                                            										<div class="row-fluid">
+                                            											<label class="form-label" style="text-align: left;">Transaction Purpose</label>
+                                            											<?php echo $transaction->transaction_purpose; ?>
+                                            										</div>
+                                            									</div>
+                                            								</div>                                                                                                        
+                                            								<div class="form-row row-fluid">
+                                            									<div class="span12">
+                                            										<div class="row-fluid">
+                                            											<label class="form-label" style="text-align: left;">Created Date</label>
+                                            											<?php echo date( 'M jS, Y H:i:s', strtotime($transaction->created_date)); ?>
+                                            										</div>
+                                            									</div>
+                                            								</div>                                                                                                       
+                                            								<div class="form-row row-fluid">
+                                            									<div class="span12">
+                                            										<div class="row-fluid">
+                                            											<label class="form-label" style="text-align: left;">Remarks</label>
+                                            											<?php echo $transaction->remarks; ?>
+                                            										</div>
+                                            									</div>
+                                            								</div>    
+                                                                
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                    
+                                                                        <div class="form-row row-fluid">  
+                                            								<div class="span12">
+                                            									<div class="row-fluid">
+                                            										<button data-dismiss="modal" class="btn btn-danger">Close</button>
+                                            									</div>
+                                            								</div>  
+                                            							</div> 
+                                                                     
+                                                                    </div>
+                                                                  </div>
+                                                                  <!-- Boostrap modal dialog -->
+                                                              
+                                                              
+                                                              <button type="submit" class="btn signup" id="logoutBtn" onclick="sendInvoice('<?php echo base64_encode($transaction->transaction_id); ?>', <?php echo $i; ?>)">Send</button></center>
+                                                              <div id="msgDiv<?php echo $i; ?>" style="display: none;color: #46A801;padding: 10px 0;text-align: center;font-size: 12px;"></div>
+                                                        </td>
+                                                    </tr>
+                                                    
+                                                    <?php $i++; }
+                                                    } else {
+                                                    ?>
+                                                    <tr>
+                                                        <td class="first">
+                                                            There are no transactions.
+                                                        </td>
+                                                    </tr>
+                                                    <?php } ?>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <?php echo $this->render("include_main/right_sidebar_home.phtml"); ?>
+        </div>
+    </div>   
+</div>

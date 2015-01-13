@@ -1,0 +1,483 @@
+<script type="text/javascript" src="<?php echo $this->basePath('assets/plugins/uniform/jquery.uniform.min.js'); ?>"></script>
+<?php echo $this->headLink()->appendStylesheet($this->basePath('assets/plugins/uniform/uniform.default.css')); ?>
+<script type="text/javascript" src="<?php echo $this->basePath('assets/ckeditor/ckeditor.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/ckfinder.js'); ?>"></script>
+<script type="text/javascript">
+    //<!--
+    var groupSelectList = '<select name="group_id[]" class="span7 text">';
+    <?php foreach($this->optionGroup as $option): ?>
+    	<?php if ($option['group_id'] != 1): ?>
+    		groupSelectList = groupSelectList+'<option value="<?php echo $option['group_id']; ?>"><?php echo $option['group_name']; ?></option>';
+    	<?php endif; ?>
+    <?php endforeach; ?>
+    groupSelectList = groupSelectList+'</select>';
+    
+    
+    var shapeSelectList = '<select name="shape_id[]" class="span7 text">';
+    <?php foreach($this->shapeList as $shape): ?>
+    		shapeSelectList = shapeSelectList+'<option value="<?php echo $shape['id']; ?>"><?php echo $shape['name']; ?></option>';
+    <?php endforeach; ?>
+    shapeSelectList = shapeSelectList+'</select>';
+    
+    $(document).ready(function() {
+        
+       //var $items = $('#vtab_menu>ul>li');
+       
+	   showHideGroupColumn();
+	    
+       $("input#file").not('.nostyle').uniform();
+       
+       $("#product").validate({
+            rules: {
+                name: {
+                   required: true,
+                   maxlength: 255
+                },
+                status: {
+                    required: true,
+                    digits:true
+                },
+                original_price: {
+					digits:true
+				},
+                /*model_id: {
+                    required: true,
+                    digits:true
+                },*/
+                category_id: {
+					required: true,
+                    digits:true
+				}
+                 
+            },
+            messages: {
+                name: {
+                    required: "Fill me please",
+                    maxlength: "First name is bigger"
+                },
+                status: {
+                    required: "Fill me please",
+                    digits: "Please enter digits"
+                },
+                original_price: {
+                    digits: "Please enter digits only"
+                },
+                /*
+                model_id: {
+                    required: "Fill me please",
+                    digits: "Please enter digits"
+                },*/
+                category_id: {
+					required: "Fill me please",
+                    digits: "Please enter digits"
+				}
+                
+                
+            }   
+        });
+   		
+		   /*
+        $items.click(function() {
+            $items.removeClass('selected');
+            $(this).addClass('selected');
+            //var index = $items.index($(this));
+            //$('#vtab>div').hide().eq(index).show();
+            $('#vtab>div').hide();
+            $('#vtab>div#'+this.id+'_content').show()
+        });
+		*/
+       
+    })
+    
+    function deleteRow(tableId, row)
+    {
+        var i = row.parentNode.parentNode.rowIndex;
+        document.getElementById(tableId).deleteRow(i);
+    }
+
+    
+    function insRow(tableId)
+    {
+        var totalRow = document.getElementById(tableId).rows.length;
+        var x=document.getElementById(tableId).insertRow(totalRow);
+        
+        var c1 = x.insertCell(0);
+        c1.className = "group_column";
+        if ($('#type').val() == '1') {
+			c1.style.display = "none";
+		}
+        
+        var c2 = x.insertCell(1);
+        c2.className = "group_column";
+        if ($('#type').val() == '1') {
+			c2.style.display = "none";
+		}
+		
+        var c3 = x.insertCell(2);
+        var c4 = x.insertCell(3);
+        var c5 = x.insertCell(4);
+        
+		c1.innerHTML = groupSelectList; 
+		c2.innerHTML = '<input type="text" name="option_name[]" class="span7 text" />';
+        c3.innerHTML = shapeSelectList;
+        c4.innerHTML = '<input type="text" name="price[]" class="span7 text" />';
+        c5.innerHTML = '<a href="javascript:void(0)" onclick="deleteRow(\''+tableId+'\', this)">Remove</a>' ;
+
+    }  
+    
+    function showHideGroupColumn() {
+    	if ($('#type').val() == '1') {
+			$('.group_column').hide();
+		} else {
+			$('.group_column').show();
+		}
+	}     
+    
+    //-->
+
+</script>
+
+<div class="row-fluid">
+
+    <div class="span10">
+    
+        <div class="heading">
+              <h3><?php echo $this->title; ?></h3>
+        </div><!-- End .heading-->
+        
+        <div id="messageAjaxBox" style="padding: 10px; color:red;display:none;"></div>
+        
+        <div class="backlink">
+            <a href="<?php echo $this->url('product', array('action' => 'list')); ?>">Back to Product List</a>
+         </div>
+
+
+    </div>
+
+</div>
+               
+<div class="row-fluid">
+
+    <div class="span10 tableBox">
+        
+        <div class="row-fluid">
+                 
+            <div class="span12">
+            
+                <div class="usertitle">
+                    Product details
+                </div>
+                
+                <!-- Tab-->
+                <form class="form-horizontal" id="product" method="post" action="<?php echo $this->url('product', array('action' => 'new-product', 'id' => $this->productid)); ?>" enctype="multipart/form-data">
+                     
+                  <div class="rowfluidWrap">
+                      <div class="row-fluid">  
+						  
+						  <div class="span12">	    
+		                    
+							<!-- Left Side Tab Menu -->
+		                    <!--div class="span2">
+			                    <div id="vtab_menu">
+				                    <ul>
+			                            <li id="tab_general" class="selected">General</li>
+			                            <li id="tab_custom_options">Price</li>
+				                    </ul>
+				                </div>
+			                </div -->
+							<!-- EndLeft Side Tab Menu -->
+                        
+                    <!-- Right Side Tab Menu Content -->
+                    <div class="span12">
+                    	<div class="row-fluid"> 
+                    	
+		                    <div id="vtab" class="span12">
+		                        <!-- General -->
+		                        <div id="tab_general_content" style="display: block;">
+		                            <!--div class="rowfluidWrap" -->
+                        			   <div class="row-fluid"> 
+                        			
+										<div class="span3">
+				                            <div class="form-row row-fluid">
+				                                <div class="span12">
+				                                    <div class="row-fluid">
+				                                        <div class="profileimage">
+				                                            <?php if(isset($this->editProductInfo[0]['image']) && $this->editProductInfo[0]['image']): ?>
+				                                                <img width="35" height="35" src="<?php echo $this->basePath('media/product/35x35/'.$this->editProductInfo[0]['image']); ?>" alt="<?php echo $this->editProductInfo[0]['name']; ?>" class="image" />
+				                                            <?php else: ?>
+				                                                <img src="<?php echo $this->basePath('assets/design/admin/images/avatar.png'); ?>" alt="" class="image"/>
+				                                            <?php endif; ?>
+				                                        </div>
+				                                        <div class="profiletext">                                                                        
+				                                            <div class="form-row row-fluid">
+				                                                <div class="span12">
+				                                                    <div class="row-fluid">
+				                                                        <label class="form-label" for="file" style="text-align: left;">Image</label>
+				                                                        <input type="file" name="image" id="file" />
+				                                                    </div>
+				                                                </div>  
+				                                            </div>  
+				                                        </div>  
+				                                    </div>
+				                                </div>
+				                            </div>
+				                        </div>
+											                                                                       
+				                        <div class="span9">     
+										                                                                
+		                                    <div class="form-row row-fluid">
+		                                        <div class="span12">
+		                                            <div class="row-fluid">
+		                                                <label class="form-label span5" for="name" style="text-align: left;">Name:*</em></label>
+		                                                <input class="span7" id="name" name="name" class="required" type="text" value="<?php echo isset($this->editProductInfo[0]['name']) ? $this->editProductInfo[0]['name']:''; ?>" />
+		                                            </div>
+		                                        </div>
+		                                    </div>
+		                                    
+		         
+		                                    
+		                                    <div class="form-row row-fluid">
+		                                        <div class="span12">
+		                                            <div class="row-fluid">
+		                                                  <label class="form-label span5" for="status" style="text-align: left;">Status:*</label>
+		                                                  <div class="role">
+		                                                        <select name="status" id="status" style="width: 170px !important;">
+		                                                            <option value="1" <?php echo (isset($this->editProductInfo[0]['status'])&& $this->editProductInfo[0]['status']==1) ? 'selected':''; ?>>Yes</option>
+		                                                            <option value="2" <?php echo (isset($this->editProductInfo[0]['status'])&& $this->editProductInfo[0]['status']==2) ? 'selected':''; ?>>No</option>
+		                                                        </select>
+		 												  </div>
+		                                            </div>
+		                                        </div>
+		                                    </div>
+		                                    
+		                                    <div class="form-row row-fluid">
+		                                        <div class="span12">
+		                                            <div class="row-fluid">
+		                                            	  	
+		                                                  <label class="form-label span5" for="type" style="text-align: left;">Product Type:*</label>
+		                                                  <div class="role">
+		                                                        <select name="type" id="type" style="width: 170px !important;" onchange="showHideGroupColumn();">
+		                                                            <option value="1" <?php echo (isset($this->editProductInfo[0]['type'])&& $this->editProductInfo[0]['type']==1) ? 'selected':''; ?>>Simple</option>
+		                                                            <option value="2" <?php echo (isset($this->editProductInfo[0]['type'])&& $this->editProductInfo[0]['type']==2) ? 'selected':''; ?>>Grouped</option>
+		                                                        </select>
+		                                                  </div>
+		                                                  
+		                                                  <div style="clear:both;color:red;font-weight:bold;">
+																Note: Please do not change Product type after add any Price Option value. 
+																Otherwise you will loose custom options data.
+														  </div>
+														  
+		                                            </div>
+		                                        </div>
+		                                    </div>
+		                                    
+		                                    <div class="form-row row-fluid">
+		                                        <div class="span12">
+		                                            <div class="row-fluid">
+		                                                  <label class="form-label span5" for="category_id" style="text-align: left;">
+														  	Category:*
+														  </label>
+		                                                  <div class="role">
+		                                                        <select name="category_id" id="category_id" style="width: 170px !important;">
+		                                                        	<option value="">--Select Category--</option>
+		                                                        	<?php foreach ($this->category as $category): ?>
+		                                                        		<?php if (isset($this->editProductInfo[0]['category_id'])&& $this->editProductInfo[0]['category_id']== $category->category_id): ?>
+		                                                        		<option value="<?php echo $category->category_id; ?>" selected="selected">
+																			<?php echo $category->category_name; ?>
+																		</option>
+		                                                        		<?php else: ?>
+		                                                        		<option value="<?php echo $category->category_id; ?>">
+																			<?php echo $category->category_name; ?>
+																		</option>
+		                                                        		<?php endif; ?>
+		                                                        	<?php endforeach; ?>
+		                                                        </select>
+		 												  </div>
+		                                            </div>
+		                                        </div>
+		                                    </div>
+		                                    
+		                                    <div class="form-row row-fluid">
+		                                        <div class="span12">
+		                                            <div class="row-fluid">
+		                                                  <label class="form-label span5" for="model_id" style="text-align: left;">Model:</label>
+		                                                  <div class="role">
+		                                                        <select name="model_id" id="model_id" style="width: 170px !important;">
+		                                                        	<option value="">--Select Model--</option>
+		                                                        	<?php foreach ($this->model as $model): ?>
+		                                                        		<?php if (isset($this->editProductInfo[0]['model_id'])&& $this->editProductInfo[0]['model_id']== $model->id): ?>
+		                                                        			<option value="<?php echo $model->id; ?>" selected="selected">
+																				<?php echo $model->name; ?>
+																			</option>
+		                                                        		<?php else: ?>
+		                                                        			<option value="<?php echo $model->id; ?>">
+																				<?php echo $model->name; ?>
+																			</option>
+		                                                        		<?php endif; ?>
+		                                                        	<?php endforeach; ?>
+		                                                        </select>
+		 												  </div>
+		                                            </div>
+		                                        </div>
+		                                    </div>
+		                                    
+		                                    
+		                                    
+		                                    <div class="form-row row-fluid"> 
+		                                        <div class="span12">
+		                                            <div class="row-fluid">
+		                                                  <label class="form-label span5" for="brand_id" style="text-align: left;">Carrier:</label>
+		                                                  <div class="role">
+		                                                        <select name="brand_id" id="brand_id" style="width: 170px !important;">
+		                                                        	<option value="">--Select Carrier--</option>
+		                                                        	<?php foreach ($this->brand as $brand): ?>
+		                                                        		<?php if (isset($this->editProductInfo[0]['brand_id'])&& $this->editProductInfo[0]['brand_id']== $brand->id): ?>
+		                                                        			<option value="<?php echo $brand->id; ?>" selected="selected">
+																				<?php echo $brand->name; ?>
+																			</option>
+		                                                        		<?php else: ?>
+		                                                        			<option value="<?php echo $brand->id; ?>">
+																				<?php echo $brand->name; ?>
+																			</option>
+		                                                        		<?php endif; ?>
+		                                                        	<?php endforeach; ?>
+		                                                        </select>
+		 												  </div>
+		                                            </div>
+		                                        </div>
+		                                    </div>
+		                                    
+		                                    <div class="form-row row-fluid">
+		                                        <div class="span12">
+		                                            <div class="row-fluid">
+		                                                <label class="form-label span5" for="description" style="text-align: left;margin:0;margin-bottom:10px;">Description:</label>
+		                                                <br />
+		                                                <br />
+		                                                <textarea class="span7" id="description" class="required" name="description" ><?php echo isset($this->editProductInfo[0]['description']) ? $this->editProductInfo[0]['description']:''; ?></textarea>
+		                                            
+		                                                <script type="text/javascript">
+		                                    			//<![CDATA[
+		                                    				var editor = CKEDITOR.replace( 'description',
+		                                    					{
+		                                    						fullPage : false,
+		                                    						extraPlugins : 'docprops',
+		                                                            toolbar: [
+		                                                            	{ name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+		                                                            	{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+		                                                            	{ name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ] },
+		                                                            	{ name: 'tools', items: [ 'Maximize' ] },
+		                                                            	{ name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source' ] },
+		                                                            	{ name: 'others', items: [ '-' ] },
+		                                                            	'/',
+		                                                            	{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
+		                                                            	{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] },
+		                                                            	{ name: 'styles', items: [ 'Styles', 'Format' ] },
+		                                                            	{ name: 'about', items: [ 'About' ] }
+		                                                            ],
+		                                                            filebrowserBrowseUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/ckfinder.html'); ?>',
+		                                                         	filebrowserImageBrowseUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/ckfinder.html?type=Images'); ?>',
+		                                                         	filebrowserFlashBrowseUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/ckfinder.html?type=Flash'); ?>',
+		                                                         	filebrowserUploadUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'); ?>',
+		                                                         	filebrowserImageUploadUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'); ?>',
+		                                                         	filebrowserFlashUploadUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'); ?>',
+		                                                         	filebrowserWindowWidth : '700',
+		                                                         	filebrowserWindowHeight : '700'
+		                                    					});
+		                                                    CKFinder.setupCKEditor( editor, '<?php echo $this->basePath('media'); ?>' ) ;
+		                                    
+		                                    			//]]>
+		                                    			</script>
+		            
+		                                            </div>
+		                                        </div>
+		                                    </div> 
+		                                 </div>
+		                               <!--/div -->
+		                            </div>
+			                    </div>
+			                    
+		                        
+		                        <!-- Custom Options -->
+		                        <div id="tab_custom_options_content" style="display:block">
+		                        	<!--div class="rowfluidWrap" -->
+		                        	
+		                        		<div class="form-row row-fluid" style="display:none">
+	                                        <div class="span12">
+	                                            <div class="row-fluid">
+	                                                <label class="form-label span5" for="original_price" style="text-align: left;">Price:*</em></label>
+	                                                <input class="span7" id="original_price" name="original_price" class="required" type="text" value="<?php echo isset($this->editProductInfo[0]['original_price']) ? $this->editProductInfo[0]['original_price']:'0.00'; ?>" />
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    
+		                                    
+                        				<div class="row-fluid"> 
+                        			
+	                                     <table width="100%" id="custom_options">
+	                                        <tr style="background-color: #E5E8E9; padding:4px;width:100%">
+	                                        	<th class="group_column">Group</th>
+	                                            <th class="group_column">Option Name</th>
+	                                            <th>Shape</th>
+	                                            <th>Price</th>
+	                                            <th>
+	                                                <button id="successR" type="button" class="btn marginR10 btn-success pull-right" onclick="insRow('custom_options')">
+	                                                    Add Option
+	                                                </button>
+	                                            </th>
+	                                        </tr>
+	                                        <?php if(isset($this->productPrice)): ?>
+	                                            <?php foreach($this->productPrice as $key => $value): ?>
+	                                                <tr> 
+	                                                
+	                                					<th class="group_column">
+															<input type="text" value="<?php echo $value['group_name']; ?>" class="span7 text" disabled="true" />		
+															<input type="hidden" value="<?php echo $value['group_id']; ?>" name="group_id[]" />	
+														</th>
+									                    <th class="group_column">
+															<input type="text" value="<?php echo $value['option_name']; ?>" name="option_name[]" class="span7 text" />
+														</th>
+														
+														<th>
+															<input type="text" value="<?php echo $value['shape_name']; ?>" class="span7 text" disabled="true" />		
+															<input type="hidden" value="<?php echo $value['shape_id']; ?>" name="shape_id[]" />	
+														</th>
+														
+	                                                    <th>
+															<input type="text" value="<?php echo $value['price']; ?>" name="price[]" class="span7 text" />
+														</th>
+														
+	                                                    <th>
+															<a href="javascript:void(0)" onclick="deleteRow('custom_options', this)">Remove</a>
+														</th>
+	                                                </tr>
+	                                            <?php endforeach; ?>
+	                                        <?php endif; ?>
+	                                     </table>
+	                                    </div>
+		                            </div>
+		                        <!--/div -->
+		                    </div>
+		                </div>
+		            </div>
+		            </div>
+                     <!-- End Tab-->
+                     
+                     <div class="form-row row-fluid" style="clear:both;padding-top:5px">
+                        <div class="span12">
+                            <div class="row-fluid">
+                                <div class="form-actions">
+                                    <div class="controls">
+                                        <button class="btn btn-primary pull-right marginL10 btn-danger" style="margin-left:20px" type="button" onclick="window.location = '<?php echo $this->url('product', array('action' => 'list')); ?>';">Cancel</button>
+                                        <button id="successR" type="submit" class="btn marginR10 btn-success pull-right">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </form>
+                
+             </div>                         
+        </div>
+    </div>
+</div>

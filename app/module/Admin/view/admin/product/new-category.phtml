@@ -1,0 +1,346 @@
+<script type="text/javascript" src="<?php echo $this->basePath('assets/ckeditor/ckeditor.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/ckfinder.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath('assets/plugins/uniform/jquery.uniform.min.js'); ?>"></script>
+<?php echo $this->headLink()->appendStylesheet($this->basePath('assets/plugins/uniform/uniform.default.css')); ?>
+<script type="text/javascript">
+    //<!--
+    $(document).ready(function() {
+    	$("input#file").not('.nostyle').uniform();
+    	
+        $("#category").validate({
+            rules: {
+                category_name: {
+                   required: true,
+                   maxlength: 255
+                },
+                category_description: {
+                   required: true
+                },
+                short_description: {
+                   required: true
+                },
+                //"submenu_item[]": {
+				//	required: true
+				//},
+                is_active: {
+                    required: true,
+                    digits:true
+                },
+            },
+            messages: {
+                category_name: {
+                    required: "Category name is required",
+                    maxlength: "Category name is bigger"
+                },
+                category_description: {
+                    required: "Category description is required"
+                },
+                short_description: {
+					required: "Short description is required"
+				},
+                is_active: {
+                    required: "Status is required",
+                    digits: "Please enter digits"
+                },
+                //"submenu_item[]": {
+                //    required: "Submenu item is required"
+                //}
+            }   
+        });
+    });
+    //-->
+</script>
+<div class="row-fluid">
+
+    <div class="span10">
+    
+        <div class="heading">
+            <?php if ($this->editCategoryInfo): ?>
+                <h3>Edit Category</h3>
+            <?php else: ?>
+                <h3>Add New Category</h3>
+            <?php endif; ?>
+        </div>
+        
+        <div class="backlink">
+            <a href="<?php echo $this->url('product', array('action' => 'category')); ?>">Back to Category List</a>
+        </div>
+
+
+    </div>
+
+</div>
+               
+<div class="row-fluid">
+
+    <div class="span10 tableBox">
+        
+        <div class="row-fluid">
+                 
+            <div class="span12">
+            
+                <div class="usertitle">
+                    Category details
+                </div>
+                    
+                    <form class="form-horizontal" id="category" method="post" action="" enctype="multipart/form-data">
+                        <div class="rowfluidWrap">
+                        <div class="row-fluid">                                                                        
+                        	
+                        	<div class="span4">
+                                <div class="form-row row-fluid">
+                                  <div class="span12">
+                                    <div class="row-fluid">
+                                        <div class="profileimage">
+                                            <?php if(isset($this->editCategoryInfo[0]['image']) && $this->editCategoryInfo[0]['image']): ?>
+                                                <img width="35" height="35" src="<?php echo $this->basePath('media/category/35x35/'.$this->editCategoryInfo[0]['image']); ?>" alt="<?php echo $this->editCategoryInfo[0]['category_name']; ?>" class="image" />
+                                            <?php else: ?>
+                                                <img src="<?php echo $this->basePath('assets/design/admin/images/avatar.png'); ?>" alt="" class="image"/>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="profiletext">                                                                        
+                                            <div class="form-row row-fluid">
+                                                <div class="span12">
+                                                    <div class="row-fluid">
+                                                        <label class="form-label" for="file" style="text-align: left;">Brand Image</label>
+                                                        <input type="file" name="image" id="file" />
+                                                    </div>
+                                                </div>  
+                                            </div>  
+                                        </div>  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="span8">
+                        	
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span5" for="category_name" style="text-align: left;">Name:*</em></label>
+                                        <input class="span7" id="category_name" name="category_name" type="text" value="<?php echo isset($this->editCategoryInfo[0]['category_name']) ? $this->editCategoryInfo[0]['category_name']:''; ?>" />
+                                    </div>
+                                </div>
+                            </div>
+	                            
+                             <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span5" for="parent_id" style="text-align: left;">Parent Category:</label>
+                                        <div class="role">
+                                            <select name="parent_id" id="parent_id" style="width: 170px !important;">
+                                            	<option value="">--Select Category--</option>
+                                            	<?php foreach ($this->prentCategories as $category): ?>
+                                            		<?php if($this->id != $category['category_id']): ?>
+                                            		<?php if (isset($this->editCategoryInfo[0]['parent_id'])&& $this->editCategoryInfo[0]['parent_id'] == $category['category_id']): ?>		
+                                            			 <option value="<?php echo $category['category_id']; ?>" selected><?php echo $category['category_name']; ?></option>
+                                            		<?php else: ?>
+                                            			  <option value="<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
+                                            		<?php endif; ?>
+                                            		<?php endif; ?>
+                                            	<?php endforeach; ?>
+                                               </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+	                            
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span5" for="is_active" style="text-align: left;">Status:*</label>
+                                        
+                                        <select name="is_active" id="is_active" style="width: 170px !important;">
+                                            <option value="1" <?php echo (isset($this->editCategoryInfo[0]['is_active'])&& $this->editCategoryInfo[0]['is_active'] == 1) ? 'selected':''; ?>>Active</option>
+                                            <option value="0" <?php echo (isset($this->editCategoryInfo[0]['is_active'])&& $this->editCategoryInfo[0]['is_active'] == 0) ? 'selected':''; ?>>In Active</option>
+                                        </select>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span5" for="is_group_product_category" style="text-align: left;">Group Product Category:*</label>
+                                        
+                                        <select name="is_group_product_category" id="is_group_product_category" style="width: 170px !important;">
+                                        	<option value="0" <?php echo (isset($this->editCategoryInfo[0]['is_group_product_category'])&& $this->editCategoryInfo[0]['is_group_product_category'] == 0) ? 'selected':''; ?>>No</option>
+										    <option value="1" <?php echo (isset($this->editCategoryInfo[0]['is_group_product_category'])&& $this->editCategoryInfo[0]['is_group_product_category'] == 1) ? 'selected':''; ?>>Yes</option>
+                                        </select>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+	                            
+	                            
+                            <div class="form-row row-fluid" style="display:none">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span5" for="submenu_item" style="text-align: left;">
+											Select Model:
+										</label>
+                                        <?php 
+                                        $submenuItem = array();
+                                        if (isset($this->editCategoryInfo[0]['submenu_item'])) {
+											$submenuItem = explode(',', $this->editCategoryInfo[0]['submenu_item']);
+										}
+										//echo '<pre />'; print_r($submenuItem); exit;
+                                        ?>
+                                        <select name="submenu_item[]" id="submenu_item" multiple="true" style="width: 170px !important; height:200px;">
+                                        	<?php foreach ($this->model as $model): ?>
+                                        		<?php if(in_array($model['id'], $submenuItem)): ?>
+                                        			<option value="<?php echo $model['id']; ?>" selected><?php echo $model['name']; ?></option>
+                                        		<?php else: ?>
+                                        			<option value="<?php echo $model['id']; ?>"><?php echo $model['name']; ?></option>
+                                        		<?php endif; ?>
+                                        	<?php endforeach; ?>
+                                        </select>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+	                            
+	                        <div class="form-row row-fluid">
+	                                <div class="span12">
+	                                    <div class="row-fluid">
+	                                        <label class="form-label span5" for="include_navigation" style="text-align: left;">Include Navigation:*</label>
+	                                        
+	                                        <select name="include_navigation" id="include_navigation" style="width: 170px !important;">
+	                                            <option value="1" <?php echo (isset($this->editCategoryInfo[0]['include_navigation'])&& $this->editCategoryInfo[0]['include_navigation'] == 1) ? 'selected':''; ?>>Yes</option>
+	                                            <option value="0" <?php echo (isset($this->editCategoryInfo[0]['include_navigation'])&& $this->editCategoryInfo[0]['include_navigation'] == 0) ? 'selected':''; ?>>No</option>
+	                                        </select>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            
+                         </div> 
+					  </div>	   
+                      
+					  <div class="row-fluid">                                                                        
+                          <div class="span12">
+                          
+                            <div class="form-row row-fluid">
+	                            <div class="span12">
+	                                <div class="row-fluid">
+	                                    <label class="form-label span5" for="short_description" style="text-align: left;">Short Description:*</label>
+	                                    <br />
+	                                    <br />
+	                                    <textarea class="span7" id="short_description" name="short_description" rows="10" cols="40"><?php echo isset($this->editCategoryInfo[0]['short_description']) ? $this->editCategoryInfo[0]['short_description']:''; ?></textarea>
+	                                        
+	                                        
+	                                    <script type="text/javascript">
+                                			//<![CDATA[
+                                				var editor = CKEDITOR.replace( 'short_description',
+                                					{
+                                						fullPage : false,
+                                						extraPlugins : 'docprops',
+                                                        toolbar: [
+                                                        	{ name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+                                                        	{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+                                                        	{ name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ] },
+                                                        	{ name: 'tools', items: [ 'Maximize' ] },
+                                                        	{ name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source' ] },
+                                                        	{ name: 'others', items: [ '-' ] },
+                                                        	'/',
+                                                        	{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
+                                                        	{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] },
+                                                        	{ name: 'styles', items: [ 'Styles', 'Format' ] },
+                                                        	{ name: 'about', items: [ 'About' ] }
+                                                        ],
+                                                        filebrowserBrowseUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/ckfinder.html'); ?>',
+                                                     	filebrowserImageBrowseUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/ckfinder.html?type=Images'); ?>',
+                                                     	filebrowserFlashBrowseUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/ckfinder.html?type=Flash'); ?>',
+                                                     	filebrowserUploadUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'); ?>',
+                                                     	filebrowserImageUploadUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'); ?>',
+                                                     	filebrowserFlashUploadUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'); ?>',
+                                                     	filebrowserWindowWidth : '700',
+                                                     	filebrowserWindowHeight : '500'
+                                					});
+                                                CKFinder.setupCKEditor( editor, '<?php echo $this->basePath('media'); ?>' ) ;
+                                
+                                			//]]>
+	                             		</script>
+	                             			
+	                                </div>
+	                            </div>
+	                        </div>
+	                            
+	                    	<div class="form-row row-fluid">
+	                            <div class="span12">
+	                                <div class="row-fluid">
+	                                    <label class="form-label span5" for="category_description" style="text-align: left;">Description:*</label>
+	                                    <br />
+	                                    <br />
+	                                    <textarea class="span7" id="category_description" name="category_description" rows="10" cols="40"><?php echo isset($this->editCategoryInfo[0]['category_description']) ? $this->editCategoryInfo[0]['category_description']:''; ?></textarea>
+	                                        
+	                                        
+	                                    <script type="text/javascript">
+	                                			//<![CDATA[
+	                                				var editor = CKEDITOR.replace( 'category_description',
+	                                					{
+	                                						fullPage : false,
+	                                						extraPlugins : 'docprops',
+	                                                        toolbar: [
+	                                                        	{ name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+	                                                        	{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+	                                                        	{ name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ] },
+	                                                        	{ name: 'tools', items: [ 'Maximize' ] },
+	                                                        	{ name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source' ] },
+	                                                        	{ name: 'others', items: [ '-' ] },
+	                                                        	'/',
+	                                                        	{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
+	                                                        	{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] },
+	                                                        	{ name: 'styles', items: [ 'Styles', 'Format' ] },
+	                                                        	{ name: 'about', items: [ 'About' ] }
+	                                                        ],
+	                                                        filebrowserBrowseUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/ckfinder.html'); ?>',
+	                                                     	filebrowserImageBrowseUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/ckfinder.html?type=Images'); ?>',
+	                                                     	filebrowserFlashBrowseUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/ckfinder.html?type=Flash'); ?>',
+	                                                     	filebrowserUploadUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'); ?>',
+	                                                     	filebrowserImageUploadUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'); ?>',
+	                                                     	filebrowserFlashUploadUrl : '<?php echo $this->basePath('assets/ckeditor/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'); ?>',
+	                                                     	filebrowserWindowWidth : '700',
+	                                                     	filebrowserWindowHeight : '500'
+	                                					});
+	                                                CKFinder.setupCKEditor( editor, '<?php echo $this->basePath('media'); ?>' ) ;
+	                                
+	                                			//]]>
+	                             			</script>
+	                             			
+	                                    </div>
+	                                </div>
+	                            </div> 
+	                            
+                            </div>
+                        
+                        </div>
+                        
+                        <div class="form-row row-fluid">
+                            
+                            <div class="span12">
+                                <div class="row-fluid">
+                                    <div class="form-actions">
+                                        <div class="controls">
+                                            <button class="btn btn-primary pull-right marginL10 btn-danger" style="margin-left:20px" type="button" onclick="window.location = '<?php echo $this->url('product', array('action' => 'category')); ?>';">Cancel</button>
+                                            <button id="successR" type="submit" class="btn marginR10 btn-success pull-right">Save</button>
+                                            <!--button id="errorR" type="submit" class="btn marginR10">Save</button-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </form>
+                    
+                </div>                         
+            
+        	</div>
+        
+    	</div>
+    
+	</div>
+</div>

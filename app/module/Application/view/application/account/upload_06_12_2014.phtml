@@ -1,0 +1,360 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/plugins/validate/jquery.validate.min.js'); ?>"></script>
+
+
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/design/frontend/default/js/jquery.js'); ?>"></script>
+<script type="text/javascript">
+//<!--
+	var j = jQuery.noConflict();
+//-->
+</script>
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/design/frontend/default/js/ajaxfileupload.js'); ?>"></script>
+
+<script type="text/javascript">
+//<!--
+	var recomPrice = 0;
+	
+    $(document).ready(function() {
+    	
+    	/*
+    	$(".d_image_btn").click(function(e) {
+    		e.preventDefault();
+    		$("#d_image").trigger("click");
+    		$("#d_image").trigger("touchstart");
+		    return false;
+		});
+		*/
+		
+		$('.d_image_btn').bind('touchstart click', function(e){
+			e.preventDefault();
+			$("#d_image").trigger("click");
+    		$("#d_image").trigger("touchstart");
+    		return false;
+		});
+		
+		$('#buttonUpload').bind('touchstart click', function(e){
+			e.preventDefault();
+            return ajaxFileUpload('d_image');
+        });
+        $('#buttonVideoUpload').bind('touchstart click', function(e){
+			e.preventDefault();
+            upload(e);
+        });
+        
+        
+        $( ".uploaded_image .image_list input" ).live( "touchstart click", function(e) {
+        	e.preventDefault();
+        	removeImage($(this).val());
+        });
+        
+        $('#recommanded_price').live( "change", function(e) {
+        	e.preventDefault();
+        	generateCost();
+        	return false;
+        });
+        
+        $('#currency').live( "change", function(e) {
+        	e.preventDefault();
+        	generateCost();
+        	return false;
+        });
+       <?php if (isset($this->uploadInfo[0]['id']) && $this->uploadInfo[0]['id']): ?>
+       loadImage();
+       loadGroupInitial();
+       <?php endif; ?>
+	});
+	
+	function generateCost()
+	{
+		if (j('#recommanded_price').val() == 'undefined')
+			return;
+			
+		var recomPrice = j('#recommanded_price').val();
+		j('.calculate_cost span').html(j('.calculate_cost span').html()+'<span class="loading">Loading...</span>');
+		j.ajax({
+		  		url:"<?php echo $this->url('cost_calculation', array('action' => 'cost-calculation', 'id' => $this->id)); ?>?isAjax=1",
+		  		type: "POST",
+		  		dataType: 'json',
+				data:{rprice:recomPrice},
+		  		success: function (result) {
+		  			//j('#recommanded_price').val(result.rprice);
+		  			
+		  			var currencySymbol = '&euro;';
+		  			if (j('#currency').val() == 'euro') {
+						currencySymbol = '&euro; ';
+					} else if (j('#currency').val() == 'dollar') {
+						currencySymbol = '$ ';
+					} else if (j('#currency').val() == 'fr') {
+						currencySymbol = 'fr. ';
+					}
+					j('.calculate_cost').show();
+					if (result.cost != 'no_change') {
+		            	j('.calculate_cost span').html(currencySymbol+result.cost);
+		            }
+		            j('.calculate_cost span.loading').remove();
+						
+					j('#image_count').val(result.image_total);
+					//if (result.image_total == 10)
+					//	j('#upload_video_region').show();
+					//else
+					//	j('#upload_video_region').hide();
+						
+		        },
+		        error: function (data, status, e) {
+					alert(e);
+				}
+		});
+		return false;
+	}
+	
+	function loadGroupInitial() {
+		$.ajax({
+	  		url:"<?php echo $this->url('group_option', array('action' => 'group-option', 'id' => $this->id)); ?>?isAjax=1",
+			success:function(html){
+		    	jQuery("#option_region").html(html);
+		    }
+		});
+	}
+	
+    function loadGroup(value, type) {
+		$.ajax({
+	  		url:"<?php echo $this->url('group_option', array('action' => 'group-option')); ?>?isAjax=1&cid="+value+'&type='+type,
+			success:function(html){
+				if (type=='a') {
+					jQuery("#attribute_region").html(html);
+				} else {
+		    		jQuery("#option_region").html(html);
+		    	}
+		    }
+		});
+	}
+	
+	function removeImage(val)
+	{
+		j.ajax({
+		  		url:"<?php echo $this->url('image_upload'); ?>?isAjax=1",
+		  		type: "POST",
+		  		dataType: 'json',
+				data:{val:val, remove:1},
+		  		success: function (result) {
+		            j('.uploaded_image').html(result.html);
+					j('#image_count').val(result.count);
+					
+					//if (result.count == 10)
+					//	j('#upload_video_region').show();
+					//else
+					//	j('#upload_video_region').hide();
+					
+					generateCost();
+						
+		        },
+		        error: function (data, status, e) {
+					alert(e);
+				}
+		});
+		return false;
+	}
+	
+	function showSubItem(value, id) {
+		
+		if (jQuery(".subitem_"+id).length>=1) {
+			jQuery(".subitem_"+id).hide();
+		}
+		
+		if (jQuery("#subitem_"+value).length>=1) {
+			jQuery("#subitem_"+value).show();
+		}
+	}
+    //-->
+</script>
+
+<script type="text/javascript">
+	function ajaxFileUpload(id)
+	{
+		j(".loading").ajaxStart(function(){
+			j(this).show();
+		})
+		.ajaxComplete(function(){
+			j(this).hide();
+		});
+
+		j.ajaxFileUpload
+		(
+			{
+				url:'<?php echo $this->url('image_upload'); ?>?isAjax=1',
+				secureuri:false,
+				fileElementId:id,
+				dataType: 'json',
+				data:{id:id},
+				success: function (data, status)
+				{
+					if(typeof(data.error) != 'undefined')
+					{
+						if(data.error != '')
+						{
+							alert(data.error);
+							//j('#image_count').val(data.count);
+						} else
+						{
+							j('.uploaded_image').html(data.html);
+							j('#image_count').val(data.count);
+							//if (data.count == 10)
+							//	j('#upload_video_region').show();
+							//else
+							//	j('#upload_video_region').hide();
+							
+							generateCost();
+							
+						}
+					}
+				},
+				error: function (data, status, e) {
+					alert(e);
+				}
+			}
+		)
+		
+		return false;
+	}
+	
+	
+	function loadImage() {
+		j.ajax({
+		  		url:"<?php echo $this->url('image_upload'); ?>?isAjax=1",
+		  		type: "POST",
+		  		dataType: 'json',
+				data:{show:1},
+		  		success: function (result) {
+		            j('.uploaded_image').html(result.html);
+					j('#image_count').val(result.count);
+					
+					//if (result.count == 10)
+					//	j('#upload_video_region').show();
+					//else
+					//	j('#upload_video_region').hide();
+					
+					generateCost();
+						
+		        },
+		        error: function (data, status, e) {
+					alert(e);
+				}
+		});
+	}
+	
+	/*** Video upload */
+	var ajax = new XMLHttpRequest();
+	
+	function loadId(id){
+		return document.getElementById(id);
+	}
+	
+	function upload(e){
+		e.preventDefault();
+		var file = loadId("upload_video").files[0];
+		var formdata = new FormData();
+		formdata.append('upload_video', file);
+
+		ajax.upload.addEventListener('progress', progressHandler, false);
+		ajax.addEventListener('load', completeHandler, false);
+		ajax.addEventListener('abort', abortHandler, false);
+		ajax.addEventListener('error', errorHandler, false);
+		ajax.open('POST', '<?php echo $this->url('upload_video'); ?>?isAjax=1');
+		ajax.send(formdata);
+	}
+
+	function progressHandler(e){
+		var percent = (e.loaded / e.total) * 100;
+		percent = Math.round(percent);
+		loadId('progress').style.width = Math.round(percent)+'%';
+		loadId('status').innerHTML = percent + '% uploaded please wait.....';
+	}
+	
+	function completeHandler(){
+	 	loadId('status').innerHTML = ajax.responseText;
+	 	//loadId('progress').style.width = '0%';
+	}
+
+	 function abortHandler(){
+	 	alert('file upload aborted');
+	 }
+
+	 function errorHandler(){
+	 	alert('file upload has an error');
+	 }
+	 ///loadId('videoUploadform').addEventListener('buttonVideoUpload', upload, false);
+	</script>
+
+		
+<div class="gallery">
+
+	<?php echo $this->render('include/navigation.phtml'); ?>
+
+	<div class="fright gallery_middle">
+		
+		<?php echo $this->render('include/add.phtml'); ?>
+		
+		<div class="list_of_gallery fleft">
+				
+			<div class="upload_image">
+				<div class="upload_form">
+					<div class="image_icon">
+					   <a class="d_image_btn" href="javascript:void(0);">
+					   	  <img src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/1407433089_image_add.png'); ?>" alt="Select file" />
+					   </a>
+					   <input type="file" id="d_image" name="d_image" style="display: none;" />
+					   <input type="hidden" id="image_count" value="0" />
+				    </div>
+				    <button class="button" type="button" id="buttonUpload">Upload Image</button>
+				    <div class="loading"style="display:none;">
+				   		<img id="loading" src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/loading.gif'); ?>">
+						<span>Please wait...</span>
+				   </div>
+			    </div>
+			    <div class="uploaded_image"></div>
+			</div>
+			
+				
+			<div class="row" id="upload_video_region">
+				<form action="<?php echo $this->url('upload_video'); ?>" method="post" enctype="multipart/form-data" id="videoUploadform">
+					<label style="text-align: left;" class="form-label" for="upload_video">
+						Upload Video ( Valid Extension:MP4 ):
+					</label>
+					<?php if (isset($this->uploadInfo[0]['video_filename']) && $this->uploadInfo[0]['video_filename']): ?>
+						<p><?php echo $this->uploadInfo[0]['video_filename']; ?></p>
+					<?php endif; ?>
+					<input name="upload_video" id="upload_video" class="inputbox" type="file" />
+					<button class="button" type="button" id="buttonVideoUpload">Upload Video</button>
+					<div class="progressbar_region">
+						<div id="progressbar">
+							<div id="progress" style="width:0px;"></div>
+						</div>
+					</div>
+					<div id="status"></div>
+				</form>
+			</div>
+			
+					
+			<form class="submitForm" action="" method="post" id="dealer_upload" enctype="multipart/form-data">
+				<div class="upload_attribute">
+				
+					<div class="row">
+						<label style="text-align: left;" class="form-label" for="category">Select Item *:</label>
+						<select name="category_id" id="category_id" class="inputArea inputbox required" onchange="loadGroup(this.value, 'c')">
+							<option value="">Select Item</option>
+							<?php foreach ($this->category as $category): ?>
+								<?php if (isset($this->uploadInfo[0]['category_id']) && $this->uploadInfo[0]['category_id'] == $category['id']): ?>
+								<option value="<?php echo $category['id'] ?>" selected="selected"><?php echo $category['name'] ?></option>
+								<?php else: ?>
+								<option value="<?php echo $category['id'] ?>"><?php echo $category['name'] ?></option>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						</select>
+					</div>
+					<div id="option_region"></div>
+				</div>
+			</form>
+			
+		</div>
+	</div>
+</div>

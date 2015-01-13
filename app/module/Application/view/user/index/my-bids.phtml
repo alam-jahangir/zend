@@ -1,0 +1,106 @@
+<div class="wrapper articlewrapper mybid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="span9 left">
+                    <div class="row-fluid">
+                        <div class="span12 top">
+                            <div class="span12">
+                                <div class="row-fluid">
+                                    <div class="span12 title">
+                                        My bids
+                                    </div>
+                                    <div class="span12 desc">
+                                        Here you can lorem ipsum dolor sit amet velit sit amet est. Curabitur tempor posuere libero, eget adipiscing lacus.
+                                        Nunc sit amet urna ut leo sollicitudin interdum. In nibh quam, gravida in rhoncus non, placerat a lorem. </p>
+                                    </div>
+                                    <div class="span12 bidtable">
+                                    
+                                        <div class="title">Bid log</div>
+                                        
+                                        <div class="table-wrapper">
+                                        <div class="scrollable">
+                                            <table class="responsive table">
+                                                <thead>
+                                                  <tr>
+                                                    <th>Date</th>
+                                                    <th width="50%" class="last">Description</th>
+                                                    <th>Debit</th>
+                                                    <th class="last">Credit</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                
+                                                <tr>
+                                                    <td class="first color">Current Balance</td>
+                                                    <td class="last color">&nbsp;</td>
+                                                    <td class="color">&nbsp;<?php //echo $this->userBalanceInfo[0]['available_bid']-$this->userBalanceInfo[0]['total_left_bid']; ?></td>
+                                                    <td class="last color"><?php echo isset($this->userBalanceInfo[0]['bid_left']) ? $this->userBalanceInfo[0]['bid_left'] : 0; ?></td>
+                                                  </tr>
+                                               
+                                                <?php 
+                                                $prevPackageId = 0;
+                                                $prevPackageName = '';
+                                                $prevPackageBid = 0;
+                                                $bidCreditedDate = '';
+                                                $prevPackageBidLeft = 0;
+                                                foreach ($this->paginator as $bid): 
+                                                    
+                                                ?> 
+                                                  <?php if ($prevPackageId && $prevPackageId != $bid->package_id): ?>
+                                                        <tr>
+                                                            <td class="first colorbid"><?php echo date('d/m/Y h:i:s', strtotime($bidCreditedDate)); ?></td>
+                                                            <td class="last colorbid"><?php echo $prevPackageBid; ?> Bid Package</td>
+                                                            <td class="colorbid"><?php echo $prevPackageBid-$prevPackageBidLeft; ?></td>
+                                                            <td class="colorbid"><?php echo $prevPackageBid; ?> </td>
+                                                        </tr>
+                                                  <?php 
+                                                    endif;
+                                                    $prevPackageId = $bid->package_id;
+                                                    $prevPackageBid = $bid->available_bid; 
+                                                    $prevPackageName = $bid->package_name;
+                                                    $bidCreditedDate = $bid->created_date;
+                                                    $prevPackageBidLeft = $bid->bid_left;
+                                                  ?>
+                                                  <tr>
+                                                    <td class="first"><?php echo date('d/m/Y h:i:s', strtotime($bid->bid_date)); ?></td>
+                                                    <td class="last">Single Bid placed on auction titled: <?php echo $bid->name; ?></td>
+                                                    <td>1</td>
+                                                    <td class="last">0</td>
+                                                  </tr>
+                                                 <?php endforeach; ?>
+                                                  
+                                                  <?php if ($prevPackageId): ?>
+                                                        <tr>
+                                                            <td class="first colorbid"><?php echo date('d/m/Y h:i:s', strtotime($bidCreditedDate)); ?></td>
+                                                            <td class="last colorbid"><?php echo $prevPackageBid; ?> Bid Package</td>
+                                                            <td class="colorbid"><?php echo $prevPackageBid-$prevPackageBidLeft; ?></td>
+                                                            <td class="colorbid"><?php echo $prevPackageBid; ?> </td>
+                                                        </tr>
+                                                  <?php endif; ?>
+                                                  
+                                                </tbody>
+                                            </table>
+                                            
+                                            <?php echo $this->paginationControl(
+                                                        $this->paginator,
+                                                        'Sliding',
+                                                        'include_main/pagination_control.phtml',
+                                                        array('route' => 'my_bids')
+                                                ); 
+                                            ?>
+                    
+                                        </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            
+            <?php echo $this->render("include_main/right_sidebar_home.phtml"); ?>
+            
+        </div>
+    </div>   
+</div>

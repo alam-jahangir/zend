@@ -1,0 +1,56 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/plugins/validate/jquery.validate.min.js'); ?>"></script>
+<script type="text/javascript">
+//<!--
+    $(document).ready(function() {
+        
+        $("#loginForm").validate({
+            rules: {
+                username: {
+                    required: true
+                },
+                password: {
+                    required: true
+                }  
+            },
+            messages: {
+                email: {
+                    required: "Username is required"
+                },
+                password: {
+                    required: "Password is required"
+                }
+            }   
+        });
+    });
+    //-->
+</script>
+
+<div class="log_in">
+	<div class="page_title">
+		
+	</div>
+	<div class="content">
+		<form class="form-horizontal" method="post" action="" id="loginForm">
+			
+			<div class="row">
+				<input tabindex="1" id="username" type="text" name="username" value="" placeholder="username" />
+			</div>
+			
+			<div class="row">
+				<input tabindex="2" id="password" type="password" name="password" value="" placeholder="password" />
+			</div>
+			
+			<div class="row">
+				<a href="<?php echo $this->url('forgot_password'); ?>">Forgot password</a>
+				<br />
+            	<a href="<?php echo $this->url('create_account'); ?>">Create an Account</a>
+				
+				<button type="submit" tabindex="4" class="btn btn-info fright" id="loginBtn" style="display: inline;"><span class="icon16 icomoon-icon-enter white"></span> Login</button>
+				
+            </div>
+            
+		</form>
+	</div>
+</div>
+

@@ -1,0 +1,116 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<?php $noImage = $url.$this->basePath('assets/design/frontend/default/images/no-image.png'); ?>
+		
+<div class="gallery">
+
+	<?php echo $this->render('include/navigation.phtml'); ?>
+
+	<div class="fright gallery_middle">
+		
+		<?php echo $this->render('include/add.phtml'); ?>
+		
+		<div class="list_of_gallery fleft">
+			
+			<div class="page_title">
+				<h3><?php echo $this->title; ?></h3>
+			</div>
+			
+			<div class="search_categories" style="text-align:left">
+				<form method="get" action="">
+					<span>Sorted By:</span>
+					<?php $sortKey = isset($_GET['sort']) ? intval($_GET['sort']) : ''; ?>
+					<select name="sort" onchange="this.form.submit()">
+						<option value="1" <?php echo $sortKey == 1 ? 'selected' : ''; ?>>price high</option>
+						<option value="2" <?php echo $sortKey == 2 ? 'selected' : ''; ?>>price low</option>
+						<option value="3" <?php echo $sortKey == 3 ? 'selected' : ''; ?>>lastest</option>
+						<option value="4" <?php echo $sortKey == 4 ? 'selected' : ''; ?>>oldest</option>
+						<option value="5" <?php echo $sortKey == 5 ? 'selected' : ''; ?>>running out</option>
+					</select>
+				</form>
+			</div>
+			
+			<div class="grid_panel my_uploads">
+				<?php if (count($this->paginator)): ?>
+				<ul class="itme_grid">
+					<?php $i = 1; foreach ($this->paginator as $item): ?>
+					<li class="list__item <?php echo $i==2 ? '': ($i == 1 ? 'first': 'last'); ?>">
+						<div class="product_name">
+							<a href="<?php echo $this->url('details', array('id' => $item['id'])) ?>">
+								<h3><?php echo substr($item['name'], 0, 42).(strlen($item['name']) > 42 ? '...' : ''); ?></h3>
+							</a>
+						</div>
+						<?php 
+						$image = '';
+						if ($item['image']) { 
+							$image = $item['image']; 
+						}
+						?>
+						<div class="product_image">
+							<a href="<?php echo $this->url('details', array('id' => $item['id'])) ?>">
+								<img src="<?php echo $image != '' ? $url.$this->basePath('media/product/'.$image) : $noImage; ?>" />
+							</a>
+						</div>
+						<?php 
+						$currency = '';
+						if ($item['currency'] == 'euro') { 
+							$currency = '&euro; '; 
+						} elseif ($item['currency'] == 'dollar') { 
+							$currency = '$ '; 
+						}  elseif ($item['currency'] == 'fr') { 
+							$currency = 'fr. '; 
+						}
+						if ($i == 3)
+							$i = 1;
+						else
+							$i++;
+						?>
+						<div class="product_price">
+							<?php echo $currency; ?> 
+							<?php echo number_format($item['recommanded_price'], 2); ?>
+						</div>
+						
+						<div class="product_expire_time">
+						<?php 
+						$renewDate = date('Y-m-d H:i:s', strtotime($item['renew_date']. ' + 30 days')); 
+						$renewDateTime = new DateTime($renewDate);
+						$today = new DateTime();
+						$diff = $renewDateTime->diff($today); 
+						//echo '<pre />'; print_r($diff); exit;
+						//if ($diff->invert):
+						if ($renewDateTime > $today):
+							if ($diff->d):
+						?>
+								<p>
+									<span>
+										Time Left: <?php echo $diff->d.' D '.$diff->h.' h '.$diff->i.' min'; ?>
+									</span>
+								</p>
+							<?php else: ?>
+								<p style="color:red">Time Left: <?php echo $diff->d.' D '.$diff->h.' h '.$diff->i.' min'; ?></p>
+							<?php endif; ?>
+						<?php else: ?>
+							<p style="color:red">Running Out <?php //echo '0 D 0 h 0 min'; ?></p>
+						<?php endif; ?>
+						</div>
+					</li>
+					<?php endforeach; ?>
+				</ul>
+				<div class="pagination">
+				<?php echo $this->paginationControl(
+                                    $this->paginator,
+                                    'Sliding',
+                                    'include/pagination_control.phtml',
+                                    array('route' => 'my_uploads', 'action' => 'myUploads')
+                            ); 
+                    ?>
+                </div>
+				<?php else: ?>
+	                <div>
+	                    <p>--No data found--</p>
+	                </div>
+				<?php endif; ?>
+			</div>
+			
+		</div>
+	</div>
+</div>

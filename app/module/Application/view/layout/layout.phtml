@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <!-- Start Head -->
+    <?php echo $this->partial("include/head.phtml"); ?>
+    <!-- End Head -->
+    
+    <body>
+		<div class="container">
+			
+			<?php echo $this->partial("include/header.phtml"); ?>
+	    	
+			<div class="main">
+				<div class="about_us">
+					<div class="content" style="margin-top: 75px;">
+					
+						<?php echo $this->partial("include/global_message.phtml"); ?>
+						
+		                <?php echo $this->content; ?>
+		                
+		            </div>
+            	</div>
+            </div>
+			
+		    <?php echo $this->partial('include/footer.phtml'); ?>
+		    
+		</div>
+		
+    </body>
+</html>

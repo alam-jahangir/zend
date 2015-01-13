@@ -1,0 +1,165 @@
+<?php if ($this->type == 'c'): ?>
+<?php if ($this->option): ?>
+<div class="row">
+	<label class="form-label span5" for="option_id">
+		<?php echo isset($this->option[0]['name']) ? $this->option[0]['name'] : ''; ?> *:
+	</label>
+	<div class="role">
+	    <select name="option_id" id="option_id" class="inputArea inputbox required" onchange="loadGroup(this.value, 'a')">
+	    	<option value=""> -- Select Option -- </option>
+	        <?php foreach($this->option as $option): ?>
+	        	<option value="<?php echo $option['id'].'_'.$option['option_index']; ?>">
+					<?php echo $option['option_name']; ?>
+				</option>
+	        <?php endforeach; ?>
+		</select>
+	</div>
+</div>
+<div id="attribute_region"></div>
+<?php endif; ?>
+<?php else: ?>
+<?php foreach($this->option as $key => $option): ?>
+<?php $subitem = array(); ?>
+<div class="row">
+	<label class="form-label span5" for="attribute_<?php echo $key; ?>">
+		<?php echo isset($option[0]['name']) ? $option[0]['name'] : ''; ?>:
+	</label>
+	<div class="role">
+		<?php if ($option[0]['input_type'] == 2): ?>
+			<input name="txtattribute[<?php echo $key; ?>]" id="attribute_<?php echo $key; ?>" class="inputArea inputbox" value="" />
+		<?php else: ?>
+		    <select name="attribute[]" id="attribute_<?php echo $key; ?>" class="inputArea inputbox" onchange="showSubItem(this.value, <?php echo $key; ?>)">
+		    	<option value=""> -- Select Option -- </option>
+		    	<?php foreach($option as $item): ?>
+		    	
+		    		<?php if ($item['subitem']): ?>
+		    			<?php $subitem[$item['option_index']] = $item['subitem']; ?>
+		    		<?php endif; ?>
+		    		
+		        	<option value="<?php echo $item['id'].'_'.$item['option_index']; ?>">
+		        		<?php echo $item['option_name']; ?>
+					</option>
+					
+		        <?php endforeach; ?>
+			</select>
+			
+			<?php if ($subitem): ?>
+				<?php foreach($subitem as $key1 => $item): ?>
+					<?php $itemList = explode(',', $item); ?>
+					<select name="subitem[<?php echo $key; ?>][<?php echo $key1; ?>]" id="subitem_<?php echo $key.'_'.$key1; ?>" class="inputArea inputbox subitem_<?php echo $key; ?>" style="display:none">
+						<?php foreach($itemList as $item): ?>
+			    		<option value="<?php echo $item; ?>">
+			        		<?php echo $item; ?>
+						</option>
+						<?php endforeach; ?>
+					</select>
+				<?php endforeach; ?>
+			<?php endif; ?>
+		<?php endif; ?>
+	</div>
+</div>
+<?php endforeach; ?>
+
+<div class="row">
+	<label class="form-label span5" for="item_year">Year *:</label>
+	<div class="role">
+	    <input type="text" name="item_year" id="item_year" class="inputArea inputbox" />
+	</div>
+</div>
+
+<div class="row">
+	<label class="form-label span5" for="price_option">Price *:</label>
+	<div class="role">
+	    <select name="price_option" class="inputArea inputbox" id="price_option">
+	    	<option value="negotiation">Negotiation</option>
+	    	<option value="fixed">Fixed</option>
+	    </select>
+	</div>
+</div>
+
+<div class="row">
+	<label class="form-label span5" for="currency">Choose Currency *:</label>
+	<div class="role">
+	    <select name="currency" id="currency" class="inputArea inputbox">
+	    	<option value="euro">EURO</option>
+	    	<option value="dollar">DOLLAR</option>
+	    	<option value="fr">FR</option>
+	    </select>
+	</div>
+</div>
+
+<div class="row">
+	<label class="form-label span5" for="recommanded_price">Recommanded Price for Guest User *:</label>
+	<div class="role">
+	    <input type="text" name="recommanded_price" id="recommanded_price" class="inputArea inputbox" />
+	</div>
+</div>
+
+<div class="row">
+	<label class="form-label span5" for="dealer_price">Dealer Price *:</label>
+	<div class="role">
+	    <input type="text" name="dealer_price" id="dealer_price" class="inputArea inputbox" />
+	</div>
+</div>
+
+<div class="row">
+	<label class="form-label span5" for="dealer_price">Description*:</label>
+	<div class="role">
+	    <textarea name="description" id="description" class="inputArea inputbox" cols="10" rows="4"></textarea>
+	</div>
+</div>
+
+<div class="details dealer_upload">
+	<div class="calculate_cost" style="display:none">Cost for this upload:<span>0:00</span></div>
+	<button type="submit" class="btn_lightblue upload_btn"><span>UPLOAD</span></button>
+</div>
+<script type="text/javascript">
+//<!--
+    $(document).ready(function() {
+    	
+    	$.validator.addMethod("lessThan", function(value, element, params) {
+			return isNaN(value) && isNaN($(params).val()) 
+			        || (Number(value) < Number($(params).val())); 
+		}, 'Must be less than recommanded price.');
+
+    	$("#dealer_upload").validate({
+	        rules: {
+	            category_id: "required",
+	            option_id: 'required',
+	            price_option:'required',
+	            currency:'required',
+	            //description:'required',
+	            item_year: {
+                   required: true,
+                   digits:true,
+                   minlength: 4,
+                   maxlength: 4 
+                },
+                recommanded_price: {
+                	required: true,
+					digits:true
+				},
+				dealer_price: {
+					digits:true,
+					lessThan: "#recommanded_price"
+				}
+	        },
+	        messages: {
+	            category_id: {
+					required: "This is required.",
+				},
+	            option_id: {
+					required: "This is required.",
+				},
+	            item_year: {
+					required: "This is required.",
+				}
+	        }
+	    });
+	    
+    	$('.upload_btn').bind('touchstart click', function(){
+            $("#dealer_upload").valid(); 
+       });
+    });
+</script>
+<?php endif; ?>

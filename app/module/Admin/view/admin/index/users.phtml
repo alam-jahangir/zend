@@ -1,0 +1,146 @@
+<script type="text/javascript">
+    //<!--
+    var id = [];
+    
+    $(document).ready(function() {
+       $('.id_checkbox').click(function() {
+            if (this.checked) {
+                 id.push(this.value);
+            } else {
+                var index = id.indexOf(this.value); 
+                if (index != -1)
+                    id.splice(index,1);
+            }
+            $('input[name=ids]').val(id);
+       }); 
+    });
+    
+    function showStatus(value) {
+        if (value == 'status')
+            $('#status').css('display', 'inline-block');
+        else
+            $('#status').hide();
+    }
+    
+    function checkIds() {
+        if ($('input[name=ids]').val() != '') {
+            return true;
+        }
+        alert('Please select brands');
+        return false;
+    }
+    
+    function toggleChecked(status) {
+        $(".id_checkbox").each( function() {
+            $(this).attr("checked",status);
+            if(status){
+              $(this).parent().addClass('checked');  
+              id.push(this.value);
+            } else {
+              $(this).parent().removeClass('checked');
+              var index = id.indexOf(this.value); 
+                if (index != -1)
+                    id.splice(index,1);
+            }
+        })
+        $('input[name=ids]').val(id);
+    }
+    //-->
+</script>
+
+
+<div class="main">
+
+	<div class="page_title">
+		<h3><?php echo $this->title; ?></h3> 
+	</div>
+	<div class="content">
+                    
+        <div class="selectbox">   
+            <form method="post" action="<?php echo $this->url('admin', array('action' => 'mass-user-modification')); ?>">
+                <select name="action" onchange="showStatus(this.value)">
+                    <option selected="selected">Choose action</option>
+                    <option value="delete">Delete</option>
+                </select>
+                <input type="hidden" name="ids" />
+                <button type="submit" onclick="return checkIds();" class="btn btn-inverse">Submit</button>
+                
+                <a href="<?php echo $this->url('admin', array('action' => 'new-user')); ?>" class="btn btn-success">Add user</a>
+                
+                <a href="<?php echo $this->url('admin', array('action' => 'users')); ?>?s=1" class="btn btn-success">Accepted</a>
+                <a href="<?php echo $this->url('admin', array('action' => 'users')); ?>?s=3" class="btn btn-success">Pending</a>
+                <a href="<?php echo $this->url('admin', array('action' => 'users')); ?>?s=2" class="btn btn-success">Rejected</a>
+            </form>
+        </div>
+   
+        <div class="content noPad clearfix">
+           <div class="scrollable">
+              <table cellpadding="0" cellspacing="0" border="0" class="responsive display table table-bordered" width="100%">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" name="optionsCheckboxList1" value="option1" class="styled" onclick="toggleChecked(this.checked)" />
+                        </th>
+                        <th>First Name</th>
+                        <th>Email Address</th>
+                        <th>Status</th>
+                        <th>Passport/ID</th>
+                        <th>Mobile</th>
+                        <th>Tax</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php 
+                    if (count($this->paginator)): 
+                        $iterator = 1;
+                        foreach ($this->paginator as $item): 
+                ?>
+                    <tr class="<?php if ($iterator++%2 == 0) echo 'even'; else echo 'odd'; ?>">
+                    
+                        <td>
+                            <input type="checkbox" class="id_checkbox" name="id[]" value="<?php echo $item['id']; ?>" class="styled" />
+                        </td>
+                        
+                        <td><?php echo $item['username']; ?></td>
+                        <td><?php echo $item['email']; ?></td>
+                        <td>
+							<?php if ($item['is_active'] == 1) {
+								echo 'Accepted';
+							} elseif($item['is_active'] == 2) {
+								echo 'Rejected';
+							} else {
+								echo 'Pending';
+							} ?>
+						</td>
+                        <td><?php echo $item['passport_no']; ?></td>
+                        <td><?php echo $item['mobile_no']; ?></td>
+                        <td><?php echo $item['tax_number']; ?></td>
+                        <td>
+                            <a href="<?php echo $this->url('admin', array('action' => 'edit-user', 'id' => $item['id'])); ?>" class="btn btn-success">Edit user</a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="6">--No data found--</td>
+                    </tr>
+                <?php endif; ?>
+            
+                </tbody>
+            </table>
+            
+            <?php echo $this->paginationControl(
+                                                $this->paginator,
+                                                'Sliding',
+                                                'include/pagination_control.phtml',
+                                                array('route' => 'admin', 'action' => 'users')
+                    ); 
+            ?>
+            
+            </div>
+        </div>
+
+    </div>
+    
+</div>  

@@ -1,0 +1,36 @@
+<div class="wrapper articlewrapper">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="span9 left">
+                    <div class="row-fluid">
+                        <div class="span12 top">
+                            <div class="span12">
+                                <div class="row-fluid">
+                                    <div class="span12 title">
+                                        My Account
+                                    </div>
+                                    <div class="span12 desc">
+										<div class="account_text">Here you can lorem ipsum dolor sit amet velit sit amet est. Curabitur tempor posuere libero, eget adipiscing lacus.Nunc sit amet urna ut leo sollicitudin interdum. In nibh quam, gravida in rhoncus non, placerat a lorem. </div>
+										<ul class="account">
+											<li class="item1"><a href="<?php echo $this->url('user', array('action'=>'account')); ?>">My Account</a></li>
+											<li class="item2"><a href="<?php echo $this->url('user', array('action'=>'my-bids')); ?>">My Bids</a></li>
+											<li class="item3"><a href="<?php echo $this->url('user', array('action'=>'won-auctions')); ?>">Won Auctions</a></li>
+											<li class="item4"><a href="<?php echo $this->url('transactions', array('action'=>'index')); ?>">My Transactions</a></li>
+											<li class="item5"><a href="<?php echo $this->url('user', array('action'=>'my-bid-agents')); ?>">My Bid Agents</a></li>
+											<li class="item6"><a href="<?php echo $this->url('packages', array('action'=>'index')); ?>">Buy credits</a></li>
+											<li class="item6"><a href="<?php echo $this->url('user', array('action'=>'promotion')); ?>">Promotion</a></li>
+										</ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            
+            
+            <?php echo $this->render("include_main/right_sidebar_home.phtml"); ?>
+            
+            
+        </div>
+    </div>   
+</div>

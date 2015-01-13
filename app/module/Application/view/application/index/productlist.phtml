@@ -1,0 +1,275 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<?php $paypal = $this->getSettings('paypal_business_email_address'); ?>
+<?php $paypalPayment = $this->getSettings('paypal_payment'); ?>
+<?php $paypalUrl = $paypalPayment == 'sandbox' ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr'; ?>
+<div class="products">
+	<div class="page_title">
+		<h3><?php echo $this->title; ?></h3>
+	</div>
+	<div class="content">
+		
+
+<?php if (!in_array(1, $this->userProducts)): ?>		
+<!-- panel -->
+<div class="accordion" id="section1">Blacklist<span></span></div>
+<div class="accordion_container">
+    <div class="accordion_content">
+        <p>
+            The Blacklist was created to prevent your business deals with non-serious dealers. It always updated so you can have all the available
+            information on time. Also you can see which dealers in your area are on the Blacklist a must have tool.
+        </p>
+        <p>
+        	<div style="text-align:center">
+	            <strong>Value:&nbsp;&nbsp;59.&euro; p.m.</strong> 
+				<font style="color:red">&nbsp;&nbsp;&nbsp;&nbsp;special offer now for </font>
+				<span style="color:red">&nbsp;&nbsp;&nbsp;&nbsp;only 29._&euro; a month</span>
+			</div>	
+            <form name="_xclick" action="<?php echo $paypalUrl; ?>" method="post" style="margin:0;padding:0">
+				<input type="hidden" name="cmd" value="_xclick" />
+				<input type="hidden" name="business" value="<?php echo $paypal; ?>">
+				<input type="hidden" name="currency_code" value="EURO" />
+				<input type="hidden" name="item_name" value="Blacklist Product" />
+				<input type="hidden" name="item_number" value="1" />
+				<input type="hidden" name="amount" value="29.00" />
+				<input type="hidden" name="return" value="<?php echo trim($url, '/').$this->url('product_list'); ?>">
+				<input type="hidden" name="cancel_return" value="<?php echo trim($url, '/').$this->url('product_list'); ?>">
+				<input type="hidden" name="notify_url" value="<?php echo trim($url, '/').$this->url('paypal_success'); ?>">
+				
+				<input type="hidden" name="custom" value="type=p1&uid=<?php echo $this->uid; ?>" />
+				<input type='hidden' name="rm" value="2" />
+				<button type="submit" class="btn_lightblue" style="position: relative;left:90%"><span>Buy</span></button>
+			</form>
+            
+        </p>
+    </div>
+</div>
+<?php endif; ?>
+<!-- end panel -->
+
+<!-- panel -->
+<?php if (!in_array(2, $this->userProducts)): ?>
+<div class="accordion" id="section2">Website<span></span></div>
+<div class="accordion_container">
+    <div class="accordion_content">
+        <p>
+            The Blacklist was created to prevent your business deals with non-serious dealers. It always updated so you can have all the available
+            information on time. Also you can see which dealers in your area are on the Blacklist a must have tool.
+        </p>
+        <p>
+        	<div style="text-align:center">
+	            <strong>Value:&nbsp;&nbsp;69.&euro; p.m.</strong>
+				<font style="color:red">&nbsp;&nbsp;&nbsp;&nbsp;special offer now for </font>
+				<span style="color:red">&nbsp;&nbsp;&nbsp;&nbsp;only 39._&euro; a month</span>
+            </div>
+            
+			<form name="_xclick" action="<?php echo $paypalUrl; ?>" method="post" style="margin:0;padding:0">
+				<input type="hidden" name="cmd" value="_xclick" />
+				<input type="hidden" name="business" value="<?php echo $paypal; ?>">
+				<input type="hidden" name="currency_code" value="EURO" />
+				<input type="hidden" name="item_name" value="Website Product" />
+				<input type="hidden" name="item_number" value="2" />
+				<input type="hidden" name="amount" value="39.00" />
+				<input type="hidden" name="return" value="<?php echo $url.$this->url('product_list'); ?>">
+				<input type="hidden" name="cancel_return" value="<?php echo $url.$this->url('product_list'); ?>">
+				<input type="hidden" name="notify_url" value="<?php echo trim($url, '/').$this->url('paypal_success'); ?>">
+				<input type="hidden" name="custom" value="type=p2&uid=<?php echo $this->uid; ?>" />
+				<input type='hidden' name="rm" value="2" />
+				<button type="submit" class="btn_lightblue" style="position: relative;left:90%"><span>Buy</span></button>
+			</form>
+        </p>
+    </div>
+</div>
+<?php endif; ?>
+<!-- end panel -->
+
+
+<!-- panel -->
+<?php if (!in_array(3, $this->userProducts)): ?>
+<div class="accordion" id="section3">Professional<span></span></div>
+<div class="accordion_container">
+    <div class="accordion_content">
+        <table width="100%" align="left">
+			<tr>
+				<td colspan="3">
+					Choose your Professional Package to have your Business setup perfectly including:
+				</td>
+			</tr>
+			<tr>
+				<td width="50%" valign="top">- The <strong>Blacklist</strong></td>
+				<td colspan="2" valign="top"><strong>VALUE: &nbsp;59 &euro; p.m.</strong></td>
+			</tr>
+			<tr>
+				<td valign="top">- your own automatically updated <strong>Website</strong></td>
+				<td colspan="2" valign="top"><strong>VALUE: &nbsp;99 &euro; p.m.</strong></td>
+			</tr>
+			<tr>
+				<td valign="top">- Monthly <strong>newsletter</strong> with most valuable information from professional delears that share their 25 year experience in dealing with hardware</td>
+				<td colspan="2" valign="top"><strong>VALUE: &nbsp;19 &euro; p.m.</strong></td>
+			</tr>
+			<tr>
+				<td valign="top">- 2 times a year free <strong>Analysis of Gold</strong></td>
+				<td colspan="2" valign="top"><strong>VALUE: &nbsp;1.290 &euro; p.m.</strong></td>
+			</tr>
+			<tr>
+				<td valign="top">- <strong>Professional tools </strong> as Rapaport Lists to download and always updated</td>
+				<td valign="top"><strong>VALUE: &nbsp;39 &euro; p.m.</strong></td>
+				<td align="center"><span style="color:red;">SPECIAL OFFER</span></td>
+			</tr>
+			<tr>
+				<td width="50%" valign="top">- latest How to do instructions and videos </td>
+				<td valign="top"><strong>VALUE: &nbsp;49 &euro; p.m.</strong></td>
+				<td align="center"><span style="color:red;text-align:center;">NOW FOR</span></td>
+			</tr>
+			<tr>
+				<td width="50%" align="right" valign="top" style="vertical-align:top"><strong>TOTAL</strong></td>
+				<td width="20%" align="left" valign="top" style="vertical-align:top"><strong>VALUE: &nbsp;372 &euro; p.m.</strong></td>
+				<td align="center">
+					<span style="color:red;text-align:center;">ONLY</span>
+					<br />
+					<span>149 &euro; p.m.</span>
+					<br />
+					<form name="_xclick" action="<?php echo $paypalUrl; ?>" method="post" style="margin:0;padding:0">
+						<input type="hidden" name="cmd" value="_xclick" />
+						<input type="hidden" name="business" value="<?php echo $paypal; ?>">
+						<input type="hidden" name="currency_code" value="EURO" />
+						<input type="hidden" name="item_name" value="Professional Product" />
+						<input type="hidden" name="item_number" value="3" />
+						<input type="hidden" name="amount" value="149.00" />
+						<input type="hidden" name="return" value="<?php echo $url.$this->url('product_list'); ?>">
+						<input type="hidden" name="cancel_return" value="<?php echo $url.$this->url('product_list'); ?>">
+						<input type="hidden" name="notify_url" value="<?php echo trim($url, '/').$this->url('paypal_success'); ?>">
+						<input type="hidden" name="custom" value="type=p3&uid=<?php echo $this->uid; ?>" />
+						<input type='hidden' name="rm" value="2" />
+						<button type="submit" class="btn_lightblue"><span>Buy</span></button>
+					</form>
+					
+				</td>
+			</tr>
+		</table>
+		<p>&nbsp;</p>
+    </div>
+</div>
+<?php endif; ?>
+<!-- end panel -->
+
+
+
+<!-- panel -->
+<?php if (!in_array(4, $this->userProducts)): ?>
+<div class="accordion" id="section4">Exclusive<span></span></div>
+<div class="accordion_container">
+    <div class="accordion_content">
+        <table width="100%" align="left">
+			<tr>
+				<td colspan="3">
+					Most Exclusive business Package on the Market for Gold hardware delears including:
+				</td>
+			</tr>
+			<tr>
+				<td width="50%" valign="top">- The <strong>Blacklist</strong></td>
+				<td colspan="2" valign="top"><strong>VALUE: &nbsp;59 &euro; p.m.</strong></td>
+			</tr>
+			<tr>
+				<td valign="top">- your own automatically updated <strong>Website</strong></td>
+				<td colspan="2" valign="top"><strong>VALUE: &nbsp;99 &euro; p.m.</strong></td>
+			</tr>
+			<tr>
+				<td valign="top">- Monthly <strong>newsletter</strong> with most valuable information from professional delears that share their 25 year experience in dealing with hardware</td>
+				<td colspan="2" valign="top"><strong>VALUE: &nbsp;19 &euro; p.m.</strong></td>
+			</tr>
+			<tr>
+				<td valign="top">- 2 times a year free <strong>Analysis of Gold</strong></td>
+				<td colspan="2" valign="top"><strong>VALUE: &nbsp;1.290 &euro; p.m.</strong></td>
+			</tr>
+			<tr>
+				<td valign="top">- <strong>Professional tools </strong> as Rapaport Lists to download and always updated</td>
+				<td colspan="2" valign="top"><strong>VALUE: &nbsp;39 &euro; p.m.</strong></td>
+			</tr>
+			<tr>
+				<td width="50%" valign="top">- latest How to do instructions and videos </td>
+				<td colspan="2" valign="top"><strong>VALUE: &nbsp;49 &euro; p.m.</strong></td>
+			</tr>
+			<tr>
+				<td width="50%" valign="top">- <strong>Diamond instruction set</strong> </td>
+				<td colspan="2" valign="top"><strong>VALUE: &nbsp;149 &euro; p.m.</strong></td>
+			</tr>
+			<tr>
+				<td width="50%" valign="top">- 2 times <strong>free lawyer consulting</strong> </td>
+				<td colspan="2" valign="top"><strong>VALUE: &nbsp;399 &euro; p.m.</strong></td>
+			</tr>
+			<tr>
+				<td width="50%" valign="top">- Access to our <strong>Special Blog</strong> were the most successful delears share daily their experience and give answers to questions </td>
+				<td valign="top"><strong>VALUE: &nbsp;59 &euro; p.m.</strong></td>
+				<td align="center"><span style="color:red;">SPECIAL OFFER <br />NOW FOR</span></td>
+			</tr>
+			<!--tr>
+				<td width="50%">&nbsp;</td>
+				<td><strong>VALUE: &nbsp;299 $ p.m.</strong></td>
+				<td align="center"><span style="color:red;text-align:center;">NOW FOR</span></td>
+			</tr -->
+			<tr>
+				<td width="50%" align="right" valign="top" style="vertical-align:top"><strong>TOTAL</strong></td>
+				<td width="20%" align="left" valign="top" style="vertical-align:top"><strong>VALUE: &nbsp;613 &euro; p.m.</strong></td>
+				<td align="center">
+					<span style="color:red;text-align:center;">ONLY</span>
+					<br />
+					<span>299 &euro; p.m.</span>
+					<br />
+					<form name="_xclick" action="<?php echo $paypalUrl; ?>" method="post" style="margin:0;padding:0">
+						<input type="hidden" name="cmd" value="_xclick" />
+						<input type="hidden" name="business" value="<?php echo $paypal; ?>">
+						<input type="hidden" name="currency_code" value="EURO" />
+						<input type="hidden" name="item_name" value="Exclusive Product" />
+						<input type="hidden" name="item_number" value="4" />
+						<input type="hidden" name="amount" value="299.00" />
+						<input type="hidden" name="return" value="<?php echo $url.$this->url('product_list'); ?>">
+						<input type="hidden" name="cancel_return" value="<?php echo $url.$this->url('product_list'); ?>">
+						<input type="hidden" name="notify_url" value="<?php echo trim($url, '/').$this->url('paypal_success'); ?>">
+						<input type="hidden" name="custom" value="type=p4&uid=<?php echo $this->uid; ?>" />
+						<input type='hidden' name="rm" value="2" />
+						<button type="submit" class="btn_lightblue"><span>Buy</span></button>
+					</form>
+				</td>
+			</tr>
+		</table>
+		<p>&nbsp;</p>
+    </div>
+</div>
+
+<?php endif; ?>
+<!-- end panel -->
+
+
+		
+		<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/js/highlight.pack.js'); ?>"></script>
+		<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/js/jquery.cookie1.js'); ?>"></script>
+		<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/js/jquery.accordion.js') ?>"></script>
+		<script type="text/javascript">
+		    $(document).ready(function() {
+		
+		        //syntax highlighter
+		        hljs.tabReplace = '    ';
+		        hljs.initHighlightingOnLoad();
+		
+		        $.fn.slideFadeToggle = function(speed, easing, callback) {
+		            return this.animate({opacity: 'toggle', height: 'toggle'}, speed, easing, callback);
+		        };
+		
+		        //accordion
+		        $('.accordion').accordion({
+		            defaultOpen: 'section1',
+		            cookieName: 'accordion_nav',
+		            speed: 'slow',
+		            animateOpen: function (elem, opts) { //replace the standard slideUp with custom function
+		                elem.next().stop(true, true).slideFadeToggle(opts.speed);
+		            },
+		            animateClose: function (elem, opts) { //replace the standard slideDown with custom function
+		                elem.next().stop(true, true).slideFadeToggle(opts.speed);
+		            }
+		        });
+		
+		    });
+		</script>
+		
+	</div>
+</div>

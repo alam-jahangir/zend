@@ -1,0 +1,201 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<?php $noImage = $url.$this->basePath('assets/design/frontend/default/images/no-image.png'); ?>
+<link rel="stylesheet" media="screen" href="<?php echo $url.$this->basePath('assets/design/frontend/default/css/magnific-popup.css'); ?>" />
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/design/frontend/default/js/jquery.magnific-popup.min.js'); ?>"></script>
+<script type="text/javascript">
+//<!--
+$(document).ready(function() {
+	<?php if ($this->uid): ?>
+	$('.itme_grid .list__item').bind('touchstart touchenter mouseover', function(e){
+		//e.preventDefault();
+        $(this).addClass("hover");;
+    });
+    
+    $('.itme_grid .list__item').bind('touchend touchleave mouseout', function(e){
+		//e.preventDefault();
+        $(this).removeClass("hover");
+    });
+    
+    /*
+    $('.favourite_region a').bind('touchstart click', function(){
+    	var url = $(this).attr('href');
+    	$.ajax({
+		  		url:url+'?isAjax=1',
+				success:function(html){
+					$("#ajax_message").show();
+			    	$("#ajax_message").html('<ul class="flashMessages"><li class="success-msg">'+html+'</li></ul>');
+			    }
+		});
+		
+		return false;
+    });
+    */
+    
+    <?php else: ?>
+    
+    $('.popup-with-form').magnificPopup({
+          type: 'inline',
+          preloader: false,
+          focus: '#name',
+
+          // When elemened is focused, some mobile browsers in some cases zoom in
+          // It looks not nice, so we disable it:
+          callbacks: {
+            beforeOpen: function() {
+              if($(window).width() < 700) {
+                this.st.focus = false;
+              } else {
+                this.st.focus = '#name';
+              }
+            }
+          }
+        });
+        
+        <?php endif; ?>
+    
+});
+    //-->
+</script>
+<div id="ajax_message" style="display:none"></div>		
+<div class="gallery">
+
+      <!-- form itself -->
+      <form id="dealer-form" class="white-popup-block mfp-hide" method="get" action="<?php echo $this->url('locator'); ?>">
+        
+          <p>For more information please contact a local delear.</p>
+          <p>Find the next dealer near your local area.</p>
+          <input type="text" id="addressInput" name="address" style="width:50%;padding:5px" placeholder="Enter address..." />
+			<select id="radiusSelect" name="distance" class="inputArea inputbox">
+				<option value="10">10mi</option>
+				<option value="15">15mi</option>
+				<option value="20">20mi</option>
+				<option value="25">25mi</option>
+				<option value="50">50mi</option>
+				<option value="75">75mi</option>
+			  	<option value="100">100mi</option>
+			  	<option value="200">200mi</option>
+			</select>
+			<button class="btn_lightblue upload_btn" type="submit" style="padding:4px 10px;border:0;">
+				<span style="background:none">GO</span>
+			</button>
+        <p>If you are local dealer with a registered business <br /> you can sign up for free and create an account.</p>
+        <p>
+			CREATE NEW ACCOUNT&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo $this->url('create_account'); ?>" class="btn_lightblue" style="padding:0 10px;border:0;">GO</a>
+		</p>
+      </form>
+	
+	<?php if ($this->uid): ?>
+		<?php echo $this->render('include/navigation.phtml'); ?>
+	<?php else: ?>
+		<?php echo $this->render('include/left_add.phtml'); ?>
+	<?php endif; ?>
+
+	<div class="fright gallery_middle">
+		
+		<?php echo $this->render('include/add.phtml'); ?>
+		
+		<div class="list_of_gallery fleft">
+			<div class="search_categories">
+				<form method="get" action="">
+					<span>KATEGORIES</span>
+					<input type="text" name="s" id="search" value="<?php echo isset($_GET['s']) ? trim(strip_tags($_GET['s'])) : ''; ?>" />
+					<button type="submit" class="search_btn"><span>SEARCH</span></button>
+				</form>
+			</div>
+			
+			<div class="page_title">
+				<h3><?php echo $this->title; ?></h3>
+			</div>
+			
+			<div class="grid_panel">
+				<?php if (count($this->paginator)): ?>
+				<ul class="itme_grid">
+					<?php $i = 1; foreach ($this->paginator as $item): ?>
+					<li class="list__item <?php echo $i==3 ? 'last': ($i == 1 ? 'first': ''); ?>">
+						<div class="product_name">
+							<a href="<?php echo $this->uid ? $this->url('details', array('id' => $item['id'])) : '#dealer-form'; ?>" class="popup-with-form">
+								<?php if ($item['name']): ?>
+									<h3><?php echo substr($item['name'], 0, 42).(strlen($item['name']) > 42 ? '...' : ''); ?></h3>
+								<?php else: ?>
+									<h3>&nbsp;</h3>
+								<?php endif; ?>
+							</a>
+						</div>
+						<?php
+						$image = '';
+						if ($item['image']) { 
+							$image = $item['image']; 
+						}
+						?>
+						<div class="product_image">
+							<a href="<?php echo $this->uid ? $this->url('details', array('id' => $item['id'])) : '#dealer-form'; ?>" class="popup-with-form">
+								<img src="<?php echo $image != '' ? $url.$this->basePath('media/product/'.$image) : $noImage; ?>" />
+							</a>
+						</div>
+						<?php 
+						$currency = '';
+						if ($item['currency'] == 'euro') { 
+							$currency = '&euro; '; 
+						} elseif ($item['currency'] == 'dollar') { 
+							$currency = '$ '; 
+						}  elseif ($item['currency'] == 'fr') { 
+							$currency = 'fr. '; 
+						}
+						if ($i == 3)
+							$i = 1;
+						else
+							$i++;
+						?>
+						<div class="product_price">
+							<?php echo $currency; ?> 
+							<?php echo number_format($item['recommanded_price'], 2); ?>
+						</div>
+						
+						<div class="details_region">
+							<div class="details_content">
+								<div class="product_desc">
+									<?php if ($item['description']): ?>
+										<?php echo substr($item['description'], 0, 150).(strlen($item['description']) > 150 ? '...' : ''); ?>
+									<?php else: ?>
+										&nbsp;
+									<?php endif; ?>
+								</div>
+								<?php if ($this->uid): ?>
+								<div class="product_price">
+									Dealer Price:&nbsp;
+									<?php echo $currency; ?> 
+									<?php echo number_format($item['dealer_price'], 2); ?>
+								</div>
+								<?php endif; ?>
+							</div>
+						</div>
+						
+						<div class="favourite_region">
+							<a href="<?php echo $this->url('add_to_favourite', array('id' => $item['id'])); ?>">
+							<img src="<?php echo $url.$this->basePath('assets/design/frontend/default/images/favourite1.png'); ?>" alt="Add to favourite" title="Add to favourite">
+							</a>
+						</div>
+			
+					</li>
+					<?php endforeach; ?>
+				</ul>
+				
+				<div class="pagination">
+					<?php echo $this->paginationControl(
+                                    $this->paginator,
+                                    'Sliding',
+                                    'include/pagination_control.phtml',
+                                    array('route' => 'search', 'action' => 'search')
+                            ); 
+                    ?>
+                </div>
+				<?php else: ?>
+	                <div>
+	                    <p>--No data found--</p>
+	                </div>
+				<?php endif; ?>
+			</div>
+			
+		</div>
+	</div>
+</div>

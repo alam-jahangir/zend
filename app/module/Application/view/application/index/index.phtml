@@ -1,0 +1,82 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/plugins/validate/jquery.validate.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/design/frontend/default/js/password.strength.js'); ?>"></script>
+<script type="text/javascript">
+//<!--
+    $(document).ready(function() {
+    	
+		$("#password").bind("keyup", checkVal);
+    	
+        $("#create_account").validate({
+        	
+            rules: {
+            	
+                email: {
+                    required: true,
+                    email: true
+                },
+                
+				username: {
+                    required: true
+                },
+                
+				password: {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 255 
+                }
+				   
+            },
+            
+            messages: {
+            	
+                email: {
+                    required: "Email address is required",
+                    email: 'Invalid email address'
+                },
+                
+                username: {
+                    required: "Username is required"
+                },
+                
+                password: {
+                    required: "Password is required",
+                    maxlength: "Password should be at least 6-7 digit to be secure",
+                    minlength: "Password should be at least 6-7 digit to be secure"
+                }
+                
+            }   
+            
+        });
+        
+    });
+    //-->
+</script>
+
+<div class="about_us">
+	<div class="content" style="margin-top: 75px;">
+		<div class="home_search">	
+	        <form class="search_form" action="<?php echo $this->url('search'); ?>" method="get">
+	        
+	      		<div class="search_categories">
+	      			<div>
+						<input type="text" name="s" value="<?php echo isset($_GET['s']) ? trim(strip_tags($_GET['s'])) : ''; ?>" />
+						<button type="submit" class="search_btn"><span>SEARCH</span></button>
+					</div>
+					<div class="search_item">
+						<span>watch</span>
+						<span>rings</span>
+						<span>chains</span>
+						<span>coins</span>
+						<!--span>bullions</span-->
+						<span>gemstones</span>
+						<span>silverware</span>
+						<span>other</span>
+					</div>
+				</div>
+	              
+	       	</form>
+	       	
+		</div>
+	</div>
+</div>

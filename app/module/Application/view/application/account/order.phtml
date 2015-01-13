@@ -1,0 +1,34 @@
+<?php $theme = $this->getSettings('theme'); ?>
+
+<div class="span12 gallery-single">
+
+    <div class="row stacks_content">
+        <div class="span2">
+            <div class="side_link">
+	          <a href="<?php echo $this->url('account_order'); ?>">Your Trades</a> 
+	        </div>
+	        <div class="side_link">
+	          <a href="<?php echo $this->url('account'); ?>">Password &amp; Email</a> 
+	        </div>
+	    </div>
+        <div class="span9">
+            
+            <div class="form_content">
+        		
+        		<h1>Account Summary</h1>
+				<h2 class="account_title">
+					Welcome Back <?php echo $this->userinfo->firstname ?>!
+				</h2>
+        		
+        		<table style="width:100%" class="data-grid">
+        			<tr>
+						<th colspan="2" class="header">Order Information</th>
+					</tr>
+				</table>
+				
+			</div>
+            
+        </div>
+    </div>
+
+</div><!-- End gallery-single-->

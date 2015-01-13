@@ -1,0 +1,47 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/plugins/validate/jquery.validate.min.js'); ?>"></script>
+<script type="text/javascript">
+//<!--
+    $(document).ready(function() {
+        $("#forgot_password").validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: true,
+                    minlength: 4
+                }  
+            },
+            messages: {
+                email: {
+                    required: "Email address is required",
+                    minlength: "Email address is required",
+                    email: 'Invalid email address'
+                }
+            }   
+        });
+    });
+    //-->
+</script>
+
+<div class="page_title">
+	<h3><?php echo $this->title; ?></h3>
+</div>
+<div class="content">
+	<form class="form-horizontal" action="" method="post" id="forgot_password">
+		<p>Please tell us your email address so we can send you a new account activation link.</p>
+		<div class="row">
+			<label class="form-label span12" for="email">
+                Email address:
+            </label>
+			<input class="inputArea" id="email" type="text" name="email" value="" />
+		</div>
+		
+		<div class="row">
+			<a href="<?php echo $this->url('login'); ?>">&laquo; Back to login</a><br />
+        	<br />
+			<button type="submit" class="btn btn-info right" id="loginBtn"><span class="icon16 icomoon-icon-enter white"></span> Send Request</button>
+        </div>
+        
+	</form>
+</div>
+    

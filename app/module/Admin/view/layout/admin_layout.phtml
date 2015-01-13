@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+    <?php echo $this->partial("admin_include/head.phtml"); ?>
+   
+    <body>
+    
+        <div class="container">
+        
+			<?php echo $this->partial("admin_include/header.phtml"); ?>
+            
+			<div class="main">
+				<div class="back_office">
+					<div class="content" style="margin-top: 10px;">  
+				     	<?php echo $this->partial("admin_include/global_message.phtml"); ?>
+				        <?php echo $this->content; ?>
+				    </div>
+     			</div>
+     		</div>
+     		
+     		<?php echo $this->partial('admin_include/footer.phtml'); ?>
+			
+     	</div>
+        
+    </body>
+    
+</html>

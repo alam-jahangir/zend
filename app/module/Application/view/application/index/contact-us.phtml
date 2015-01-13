@@ -1,0 +1,91 @@
+<?php $url = $this->getSettings('website_url'); ?>
+<script type="text/javascript" src="<?php echo $url.$this->basePath('assets/plugins/validate/jquery.validate.min.js'); ?>"></script>
+<script type="text/javascript">
+//<!--
+    $(document).ready(function() {
+    
+        $("#contact_support").validate({
+            rules: {
+                name: {
+                   required: true,
+                    minlength: 1,
+                    maxlength: 255 
+                },
+                message: {
+                   required: true,
+                    minlength: 1,
+                    maxlength: 1000 
+                },
+                email_address: {
+                   required: true,
+                   minlength: 5,
+                   email:true,
+                   maxlength: 255 
+                }
+            },
+            messages: {
+                name: {
+                    required: "Name field is required",
+                    minlength: "Please enter Subject between 1 to 255 character!",
+                    maxlength: "Please enter Subject between 1 to 255 character!"
+                },
+                message: {
+                    required: "Message field is required",
+                    minlength: "Please enter Message between 1 to 1000 character!",
+                    maxlength: "Please enter Message between 1 to 1000 character!"
+                },
+                email_address: {
+                    required: "Email Address is required",
+                    email: "Email address format is invalid",
+                    minlength: "Please enter Email Address between 5 to 255 character!",
+                    maxlength: "Please enter Email Address between 5 to 255 character!"
+                }
+            }   
+        });
+    });
+    //-->
+</script>
+
+
+
+<div class="content">
+	<div class="gallery">
+	
+		<?php echo $this->render('include/left_add.phtml'); ?>
+		
+		<div class="fright gallery_middle">
+		
+			<div class="page_title">
+				<h3>Contact Us</h3>
+			</div>
+			
+		    <form class="form-signup" action="" method="post" id="contact_support">  
+		    
+		    	<div class="row">
+		            <label style="text-align: left;" class="form-label" for="title">Name <em>*</em></label>
+		            <input class="inputArea inputbox" id="name" name="name" type="text" />
+		        </div>
+		        
+		        
+		       <div class="row">
+		            <label style="text-align: left;" class="form-label" for="email_address">Email Address <em>*</em></label>                                            <input class="inputArea inputbox" id="email_address" value="" name="email_address" type="text" />
+		       </div>
+		        
+		       <div class="row">
+		            <label style="text-align: left;" class="form-label" for="message">Message <em>*</em></label>
+		            <textarea class="inputArea inputbox" id="message" name="message" rows="4"></textarea>
+		       </div>
+		
+		
+		        <div class="row">
+		            <label class="none">&nbsp;</label>
+		            <button type="submit" class="btn btn-primary">Send</button>
+		        </div>
+		        
+		    </form>
+		</div>
+    </div>
+</div>
+   
+              
+              
